@@ -11,3 +11,6 @@ Juegos en Red, 3º GDDV 2021-22 URJC Madrid-Quintana
   
   
 *Elena Lopez-Negrete Burón (correo: e.lopeznegrete.2019@alumnos.urjc.es) // GitHub @Elenalopezz)*
+
+
+*Laura Fouz García (correo: l.fouz.2019@alumnos.urjc.es // GitHub: fouzgar)*
