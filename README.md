@@ -14,3 +14,6 @@ Juegos en Red, 3º GDDV 2021-22 URJC Madrid-Quintana
 
 
 *Laura Fouz García (correo: l.fouz.2019@alumnos.urjc.es // GitHub: fouzgar)*
+
+
+*Isabel Escudero Orden (correo: i.escudero.2019@alumnos.urjc.es // GitHub: Isaeo22)*
