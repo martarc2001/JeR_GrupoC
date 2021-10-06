@@ -1,5 +1,5 @@
 import Menu from './scenes/Menu.js';
-import Background from './scenes/Background.js';
+//import Background from './scenes/Background.js';
 import FiltroColor from './scenes/FiltroColor.js';
 
 var configuracion = {
@@ -7,7 +7,7 @@ var configuracion = {
     height: window.innerHeight - 20,
     width: ((window.innerHeight - 20) / 9) * 16, //Formato 16:9
     parent: "contenedor",
-    scene: [Background, Menu]//Escenas que cargará desde el principio
+    scene: [Menu]//Escenas que cargará desde el principio
 };
 
 var game = new Phaser.Game(configuracion);

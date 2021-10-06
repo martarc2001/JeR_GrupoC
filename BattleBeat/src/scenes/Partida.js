@@ -19,9 +19,13 @@ class Partida extends Phaser.Scene {
   
     preload() {
         this.load.image("flecha", "/src/images/Flecha.png")
+        this.load.image('Fondo2', '/src/images/Fondo2.png');
     }
 
     create() {
+      this.fondo2 = this.add.image(0, 0, 'Fondo2');
+            this.fondo2.setOrigin(0, 0);
+            this.fondo2.setScale(anchoJuego / this.fondo2.width, altoJuego / this.fondo2.height);
 
  //flechas jugador 1
 

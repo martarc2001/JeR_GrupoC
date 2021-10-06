@@ -2,20 +2,29 @@ import { anchoJuego, altoJuego } from "../init.js";
 //import FiltroColor from "./FiltroColor.js";
 import Partida from "./Partida.js";
 
+
 export default class Menu extends Phaser.Scene {
     constructor() {
         super({
             key: "Menu",
             active: true
         });
+        
     }
 
     preload() {
         this.load.image('boton', '/src/images/Menu/BOTÓN.png');
+        this.load.image('Fondo2', '/src/images/Fondo2.png');
+        this.load.image('Fondo1', '/src/images/Fondo1.png');
 
     }
 
     create() {
+
+        this.fondo1 = this.add.image(0, 0, 'Fondo1');
+        this.fondo1.setOrigin(0, 0);
+        this.fondo1.setScale(anchoJuego / this.fondo1.width, altoJuego / this.fondo1.height); //Imagen se escalará con el resto del juego 
+
         //Creamos el filtro que estará bajo los botones y la animación:        
         let graficos = this.add.graphics();
         this.color = graficos.fillStyle(0xFFC0CB, 0.5);
@@ -43,9 +52,11 @@ export default class Menu extends Phaser.Scene {
 
         //Función para clic del botón y cambio de escena
         this.botonJugar.on('pointerdown', function (event) {
+            
             //Menu.scene.remove("miFiltro");
             this.scene.add("estaPartida", new Partida);
             this.scene.start("estaPartida"); //Inicializa partida creada al hacer clic, elimina esta escena de menú
+         
         }, this);
     }
 
