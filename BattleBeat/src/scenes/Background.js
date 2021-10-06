@@ -9,7 +9,7 @@ class Background extends Phaser.Scene {
         });
     }
     preload() {
-        this.load.image('miBG', '/src/images/BG.jpg');
+        this.load.image('miBG', '/src/images/Fondo2.png');
     }
 
     create() {
