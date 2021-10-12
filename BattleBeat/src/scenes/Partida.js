@@ -24,13 +24,15 @@ export default class Partida extends Phaser.Scene {
     this.load.image("flecha", "/src/images/Flecha.png")
     this.load.image('Fondo2', '/src/images/Fondo2.png');
 
+   this.load.path = './assets/';
+    this.load.atlas('boviino', 'boviino.png', 'boviino_atlas.json');
     //Para crear animaciones de Lexi (J1)
-    this.load.json('animLexi', '/src/images/Sprites/lexi_atlas/lexi_atlas_anim.json');
-    this.load.atlas('lexi_atlas', '/src/images/Sprites/lexi_atlas/lexi_atlas.png', '/src/images/Sprites/lexi_atlas/lexi_atlas_atlas.json');
+    this.load.json('animLexi', 'lexi_atlas_anim.json');
+    this.load.atlas('lexi_atlas', 'lexi_atlas.png', 'lexi_atlas_atlas.json');
 
     //Para crear animaciones de Mat (J2)
-    this.load.json('animMat', '/src/images/Sprites/mat_atlas/mat_atlas_anim.json');
-    this.load.atlas('mat_atlas', '/src/images/Sprites/mat_atlas/mat_atlas.png', '/src/images/Sprites/mat_atlas/mat_atlas_atlas.json');
+    this.load.json('animMat', 'mat_atlas_anim.json');
+    this.load.atlas('mat_atlas', 'mat_atlas.png', 'mat_atlas_atlas.json');
 
   }
 
@@ -39,14 +41,39 @@ export default class Partida extends Phaser.Scene {
     this.fondo2.setOrigin(0, 0);
     this.fondo2.setScale(anchoJuego / this.fondo2.width, altoJuego / this.fondo2.height);
 
-    //flechas jugador 1
+    //Animación Boviino
+    
+    const djplay ={
+      key: 'djplay',
+      frames: this.anims.generateFrameNames('boviino', {prefix: 'boviinofinal_', start: 1, end: 7}),
+      frameRate: 9,
+      repeat: -1
+    };
+    this.anims.create(djplay);
 
+    var djboviino;
+    djboviino= this.add.sprite(anchoJuego/2,altoJuego/2, 'boviino');
+    djboviino.setScale(altoJuego * 0.45 / djboviino.height);
+    djboviino.play('djplay');
+    
+    //flechas jugador 1
+    //objetivo flechas
+   this.flecha1_f= this.add.image(anchoJuego/10, 130, "flecha");
+   this.flecha1_f.angle = -90;
+   this.flecha2_f= this.add.image(anchoJuego/6.2, 130, "flecha");
+   this.flecha2_f.angle = -180;
+   this.flecha3_f= this.add.image(anchoJuego/4.5, 130, "flecha");
+   this.flecha4_f= this.add.image(anchoJuego/3.53, 130, "flecha");
+   this.flecha4_f.angle = 90;
     //las añade a la escena siendo invisibles
 
-    this.flecha2 = this.add.image(anchoJuego / 10.5, altoJuego / 3, "flecha").setScale(-1.4, 1.4);
-    this.flecha3 = this.add.image(anchoJuego / 7.1, altoJuego / 3, "flecha").setScale(1.4, -1.4);
-    this.flecha4 = this.add.image(anchoJuego / 5.35, altoJuego / 3, "flecha").setScale(-1.4, -1.4);
-    this.flecha1 = this.add.image(anchoJuego / 20, altoJuego / 3, "flecha").setScale(1.4);
+     this.flecha1= this.add.image(anchoJuego/10, altoJuego/3, "flecha");
+      this.flecha1.angle = -90;
+      this.flecha2= this.add.image(anchoJuego/6.2, altoJuego/3, "flecha");
+      this.flecha2.angle = -180;
+      this.flecha3= this.add.image(anchoJuego/4.5, altoJuego/3, "flecha");
+      this.flecha4= this.add.image(anchoJuego/3.53, altoJuego/3, "flecha");
+      this.flecha4.angle = 90;
 
     this.flecha1.visible = false;
     this.flecha2.visible = false;
@@ -54,12 +81,23 @@ export default class Partida extends Phaser.Scene {
     this.flecha4.visible = false;
 
     //flechas j2
+      //objetivo flechas
+     this.flecha5_f= this.add.image((anchoJuego/10)+990, 130, "flecha");
+      this.flecha5_f.angle = -90;
+      this.flecha6_f= this.add.image((anchoJuego/6.2)+990, 130, "flecha");
+      this.flecha6_f.angle = -180;
+      this.flecha7_f= this.add.image((anchoJuego/4.5)+990, 130, "flecha");
+      this.flecha8_f= this.add.image((anchoJuego/3.53)+990, 130, "flecha");
+      this.flecha8_f.angle = 90;
 
-    this.flecha5 = this.add.image((anchoJuego / 20) + 995, altoJuego / 3, "flecha").setScale(1.4);
-    this.flecha6 = this.add.image((anchoJuego / 10.5) + 995, altoJuego / 3, "flecha").setScale(-1.4, 1.4);
-    this.flecha7 = this.add.image((anchoJuego / 7.1) + 995, altoJuego / 3, "flecha").setScale(1.4, -1.4);
-    this.flecha8 = this.add.image((anchoJuego / 5.35) + 995, altoJuego / 3, "flecha").setScale(-1.4, -1.4);
 
+      this.flecha5= this.add.image((anchoJuego/10)+990, altoJuego/3, "flecha");
+      this.flecha5.angle = -90;
+      this.flecha6= this.add.image((anchoJuego/6.2)+990, altoJuego/3, "flecha");
+      this.flecha6.angle = -180;
+      this.flecha7= this.add.image((anchoJuego/4.5)+990, altoJuego/3, "flecha");
+      this.flecha8= this.add.image((anchoJuego/3.53)+990, altoJuego/3, "flecha");
+      this.flecha8.angle = 90;
 
     this.flecha5.visible = false;
     this.flecha6.visible = false;
@@ -180,7 +218,7 @@ if (this.arribaMat.isDown) {
 
     f.y -= v;
     f2.y -= v;
-    if (f.y < 80) {
+    if (f.y < 5) {
       this.resetFlecha(f, f2);
     }
   }
