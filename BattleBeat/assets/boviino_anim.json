@@ -1,0 +1,40 @@
+{
+    "anims": [
+        {
+            "key": "boviino",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 9,
+            "frames": [
+                {
+                    "key": "boviino",
+                    "frame": "boviinofinal_1"
+                },
+                {
+                    "key": "boviino",
+                    "frame": "boviinofinal_2"
+                },
+                {
+                    "key": "boviino",
+                    "frame": "boviinofinal_3"
+                },
+                {
+                    "key": "boviino",
+                    "frame": "boviinofinal_4"
+                },
+                {
+                    "key": "boviino",
+                    "frame": "boviinofinal_5"
+                },
+                {
+                    "key": "boviino",
+                    "frame": "boviinofinal_6"
+                },
+                {
+                    "key": "boviino",
+                    "frame": "boviinofinal_7"
+                }
+            ]
+        }
+    ]
+}

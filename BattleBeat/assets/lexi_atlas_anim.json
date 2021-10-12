@@ -1,0 +1,40 @@
+{
+    "anims": [
+        {
+            "key": "juego",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 3,
+            "frames": [
+                {
+                    "key": "lexi_atlas",
+                    "frame": "lexi3"
+                },
+                {
+                    "key": "lexi_atlas",
+                    "frame": "lexi4"
+                },
+                {
+                    "key": "lexi_atlas",
+                    "frame": "lexi5"
+                }
+            ]
+        },
+        {
+            "key": "inicio",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 2,
+            "frames": [
+                {
+                    "key": "lexi_atlas",
+                    "frame": "lexi1"
+                },
+                {
+                    "key": "lexi_atlas",
+                    "frame": "lexi2"
+                }
+            ]
+        }
+    ]
+}
