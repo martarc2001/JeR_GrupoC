@@ -16,6 +16,9 @@ export default class Menu extends Phaser.Scene {
         this.load.image('boton', '/src/images/Menu/BOTÓN.png');
         this.load.image('Fondo2', '/src/images/Fondo2.png');
         this.load.image('Fondo1', '/src/images/Fondo1.png');
+        
+        this.load.path = './assets/';
+        this.load.atlas('boviino', 'boviino.png', 'boviino_atlas.json');
 
     }
 
@@ -31,7 +34,19 @@ export default class Menu extends Phaser.Scene {
         this.fondoColor = graficos.fillRect(0, 0, anchoJuego, altoJuego);
         //this.scene.add("miFiltro", new FiltroColor);
         //this.scene.bringToTop("Menu");
-
+        
+        //Boviino
+        const djplay ={
+            key: 'djplay',
+            frames: this.anims.generateFrameNames('boviino', {prefix: 'boviinofinal_', start: 1, end: 7}),
+            frameRate: 9,
+            repeat: -1
+          };
+          this.anims.create(djplay);
+        
+          var djboviino;
+          djboviino= this.add.sprite(anchoJuego/2+200,altoJuego/2, 'boviino');
+          djboviino.play('djplay');
         //Creamos los botones para el juego:
         var escalaBotones = 4.5;
 
