@@ -24,7 +24,7 @@ export default class Partida extends Phaser.Scene {
     this.load.image("flecha", "/src/images/Flecha.png")
     this.load.image('Fondo2', '/src/images/Fondo2.png');
 
-   this.load.path = './assets/';
+    this.load.path = './assets/';
     this.load.atlas('boviino', 'boviino.png', 'boviino_atlas.json');
     //Para crear animaciones de Lexi (J1)
     this.load.json('animLexi', 'lexi_atlas_anim.json');
@@ -42,67 +42,91 @@ export default class Partida extends Phaser.Scene {
     this.fondo2.setScale(anchoJuego / this.fondo2.width, altoJuego / this.fondo2.height);
 
     //Animación Boviino
-    
-    const djplay ={
+
+    const djplay = {
       key: 'djplay',
-      frames: this.anims.generateFrameNames('boviino', {prefix: 'boviinofinal_', start: 1, end: 7}),
+      frames: this.anims.generateFrameNames('boviino', { prefix: 'boviinofinal_', start: 1, end: 7 }),
       frameRate: 9,
       repeat: -1
     };
     this.anims.create(djplay);
 
     var djboviino;
-    djboviino= this.add.sprite(anchoJuego/2,altoJuego/2, 'boviino');
+    djboviino = this.add.sprite(anchoJuego / 2, altoJuego / 2, 'boviino');
     djboviino.setScale(altoJuego * 0.45 / djboviino.height);
     djboviino.play('djplay');
-    
+
+
+    var escalaFlechas = altoJuego / 1000;
     //flechas jugador 1
     //objetivo flechas
-   this.flecha1_f= this.add.image(anchoJuego/10, 130, "flecha");
-   this.flecha1_f.angle = -90;
-   this.flecha2_f= this.add.image(anchoJuego/6.2, 130, "flecha");
-   this.flecha2_f.angle = -180;
-   this.flecha3_f= this.add.image(anchoJuego/4.5, 130, "flecha");
-   this.flecha4_f= this.add.image(anchoJuego/3.53, 130, "flecha");
-   this.flecha4_f.angle = 90;
+    this.flecha1_f = this.add.image(anchoJuego / 15, 130, "flecha");
+    this.flecha1_f.angle = -90;
+    this.flecha2_f = this.add.image(anchoJuego * 2 / 15, 130, "flecha");
+    this.flecha2_f.angle = -180;
+    this.flecha3_f = this.add.image(anchoJuego * 3 / 15, 130, "flecha");
+    this.flecha4_f = this.add.image(anchoJuego * 4 / 15, 130, "flecha");
+    this.flecha4_f.angle = 90;
     //las añade a la escena siendo invisibles
 
-     this.flecha1= this.add.image(anchoJuego/10, altoJuego/3, "flecha");
-      this.flecha1.angle = -90;
-      this.flecha2= this.add.image(anchoJuego/6.2, altoJuego/3, "flecha");
-      this.flecha2.angle = -180;
-      this.flecha3= this.add.image(anchoJuego/4.5, altoJuego/3, "flecha");
-      this.flecha4= this.add.image(anchoJuego/3.53, altoJuego/3, "flecha");
-      this.flecha4.angle = 90;
+    this.flecha1 = this.add.image(anchoJuego / 15, altoJuego / 3, "flecha");
+    this.flecha1.angle = -90;
+    this.flecha2 = this.add.image(anchoJuego * 2 / 15, altoJuego / 3, "flecha");
+    this.flecha2.angle = -180;
+    this.flecha3 = this.add.image(anchoJuego * 3 / 15, altoJuego / 3, "flecha");
+    this.flecha4 = this.add.image(anchoJuego * 4 / 15, altoJuego / 3, "flecha");
+    this.flecha4.angle = 90;
 
     this.flecha1.visible = false;
     this.flecha2.visible = false;
     this.flecha3.visible = false;
     this.flecha4.visible = false;
 
+
+    this.flecha1_f.setScale(escalaFlechas);
+    this.flecha2_f.setScale(escalaFlechas);
+    this.flecha3_f.setScale(escalaFlechas);
+    this.flecha4_f.setScale(escalaFlechas);
+
+    this.flecha1.setScale(escalaFlechas);
+    this.flecha2.setScale(escalaFlechas);
+    this.flecha3.setScale(escalaFlechas);
+    this.flecha4.setScale(escalaFlechas);
+
     //flechas j2
-      //objetivo flechas
-     this.flecha5_f= this.add.image((anchoJuego/10)+990, 130, "flecha");
-      this.flecha5_f.angle = -90;
-      this.flecha6_f= this.add.image((anchoJuego/6.2)+990, 130, "flecha");
-      this.flecha6_f.angle = -180;
-      this.flecha7_f= this.add.image((anchoJuego/4.5)+990, 130, "flecha");
-      this.flecha8_f= this.add.image((anchoJuego/3.53)+990, 130, "flecha");
-      this.flecha8_f.angle = 90;
+    //objetivo flechas
+    this.flecha5_f = this.add.image(anchoJuego - (anchoJuego * 4 / 15), 130, "flecha");
+    this.flecha5_f.angle = -90;
+    this.flecha6_f = this.add.image(anchoJuego - (anchoJuego * 3 / 15), 130, "flecha");
+    this.flecha6_f.angle = -180;
+    this.flecha7_f = this.add.image(anchoJuego - (anchoJuego * 2 / 15), 130, "flecha");
+    this.flecha8_f = this.add.image(anchoJuego - (anchoJuego / 15), 130, "flecha");
+    this.flecha8_f.angle = 90;
 
 
-      this.flecha5= this.add.image((anchoJuego/10)+990, altoJuego/3, "flecha");
-      this.flecha5.angle = -90;
-      this.flecha6= this.add.image((anchoJuego/6.2)+990, altoJuego/3, "flecha");
-      this.flecha6.angle = -180;
-      this.flecha7= this.add.image((anchoJuego/4.5)+990, altoJuego/3, "flecha");
-      this.flecha8= this.add.image((anchoJuego/3.53)+990, altoJuego/3, "flecha");
-      this.flecha8.angle = 90;
+    this.flecha5 = this.add.image(anchoJuego - (anchoJuego * 4 / 15), altoJuego / 3, "flecha");
+    this.flecha5.angle = -90;
+    this.flecha6 = this.add.image(anchoJuego - (anchoJuego * 3 / 15), altoJuego / 3, "flecha");
+    this.flecha6.angle = -180;
+    this.flecha7 = this.add.image(anchoJuego - (anchoJuego * 2 / 15), altoJuego / 3, "flecha");
+    this.flecha8 = this.add.image(anchoJuego - (anchoJuego / 15), altoJuego / 3, "flecha");
+    this.flecha8.angle = 90;
 
     this.flecha5.visible = false;
     this.flecha6.visible = false;
     this.flecha7.visible = false;
     this.flecha8.visible = false;
+
+
+    this.flecha5_f.setScale(escalaFlechas);
+    this.flecha6_f.setScale(escalaFlechas);
+    this.flecha7_f.setScale(escalaFlechas);
+    this.flecha8_f.setScale(escalaFlechas);
+
+    this.flecha5.setScale(escalaFlechas);
+    this.flecha6.setScale(escalaFlechas);
+    this.flecha7.setScale(escalaFlechas);
+    this.flecha8.setScale(escalaFlechas);
 
     //Controles jugadores
     this.cursor = this.input.keyboard.createCursorKeys();
@@ -142,52 +166,52 @@ export default class Partida extends Phaser.Scene {
 
   update(time) {
 
-//Comandos juego Lexi (J1)
-if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
-  Lexi.play('inicioLexi');
-  LexiActivarIdle = false;
-}
+    //Comandos juego Lexi (J1)
+    if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
+      Lexi.play('inicioLexi');
+      LexiActivarIdle = false;
+    }
 
-if (this.arriba.isDown) {
-  Lexi.play('juegoArribaLexi');
-  LexiActivarIdle = true; //Activamos el booleano que nos pondrá la animación en bucle al terminar este paso de baile
-} else if (this.abajo.isDown) {
-  Lexi.play('juegoAbajoLexi');
-  LexiActivarIdle = true;
-} else if (this.derecha.isDown) {
-  Lexi.play('juegoDchaLexi');
-  LexiActivarIdle = true;
-} else if (this.izquierda.isDown) {
-  Lexi.play('juegoIzqLexi');
-  LexiActivarIdle = true;
-}
+    if (this.arriba.isDown) {
+      Lexi.play('juegoArribaLexi');
+      LexiActivarIdle = true; //Activamos el booleano que nos pondrá la animación en bucle al terminar este paso de baile
+    } else if (this.abajo.isDown) {
+      Lexi.play('juegoAbajoLexi');
+      LexiActivarIdle = true;
+    } else if (this.derecha.isDown) {
+      Lexi.play('juegoDchaLexi');
+      LexiActivarIdle = true;
+    } else if (this.izquierda.isDown) {
+      Lexi.play('juegoIzqLexi');
+      LexiActivarIdle = true;
+    }
 
-//Comandos juego Mat  (J2)
-if (MatActivarIdle) {
-  Mat.play('inicioMat');
-  MatActivarIdle = false;
-}
+    //Comandos juego Mat  (J2)
+    if (MatActivarIdle) {
+      Mat.play('inicioMat');
+      MatActivarIdle = false;
+    }
 
-if (this.arribaMat.isDown) {
-  Mat.play('juegoArribaMat');
-  MatActivarIdle = true;
-} else if (this.abajoMat.isDown) {
-  Mat.play('juegoAbajoMat');
-  MatActivarIdle = true;
-} else if (this.derechaMat.isDown) {
-  Mat.play('juegoDchaMat');
-  MatActivarIdle = true;
-} else if (this.izquierdaMat.isDown) {
-  Mat.play('juegoIzqMat');
-  MatActivarIdle = true;
-}
-
-
+    if (this.arribaMat.isDown) {
+      Mat.play('juegoArribaMat');
+      MatActivarIdle = true;
+    } else if (this.abajoMat.isDown) {
+      Mat.play('juegoAbajoMat');
+      MatActivarIdle = true;
+    } else if (this.derechaMat.isDown) {
+      Mat.play('juegoDchaMat');
+      MatActivarIdle = true;
+    } else if (this.izquierdaMat.isDown) {
+      Mat.play('juegoIzqMat');
+      MatActivarIdle = true;
+    }
 
 
 
 
-    var vel = 1.2;
+
+
+    var vel = altoJuego / 1000;
 
 
     this.apareceflecha(this.flecha1, this.flecha5, time, vel);
