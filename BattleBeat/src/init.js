@@ -1,6 +1,4 @@
 import Menu from './scenes/Menu.js';
-//import Background from './scenes/Background.js';
-import FiltroColor from './scenes/FiltroColor.js';
 
 var configuracion = {
     type: Phaser.AUTO,

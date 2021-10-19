@@ -26,31 +26,18 @@ export default class Partida extends Phaser.Scene {
 
     this.load.path = './assets/';
     this.load.atlas('boviino', 'boviino.png', 'boviino_atlas.json');
-    //Para crear animaciones de Lexi (J1)
-    this.load.json('animLexi', 'lexi_atlas_anim.json');
-    this.load.atlas('lexi_atlas', 'lexi_atlas.png', 'lexi_atlas_atlas.json');
-
-    //Para crear animaciones de Mat (J2)
-    this.load.json('animMat', 'mat_atlas_anim.json');
-    this.load.atlas('mat_atlas', 'mat_atlas.png', 'mat_atlas_atlas.json');
 
   }
 
   create() {
+    this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
+
+    //Fondo de la escena
     this.fondo2 = this.add.image(0, 0, 'Fondo2');
     this.fondo2.setOrigin(0, 0);
     this.fondo2.setScale(anchoJuego / this.fondo2.width, altoJuego / this.fondo2.height);
 
-    //Animación Boviino
-
-    const djplay = {
-      key: 'djplay',
-      frames: this.anims.generateFrameNames('boviino', { prefix: 'boviinofinal_', start: 1, end: 7 }),
-      frameRate: 9,
-      repeat: -1
-    };
-    this.anims.create(djplay);
-
+    //DJ BoViiNo
     var djboviino;
     djboviino = this.add.sprite(anchoJuego / 2, altoJuego / 2, 'boviino');
     djboviino.setScale(altoJuego * 0.45 / djboviino.height);
@@ -147,22 +134,16 @@ export default class Partida extends Phaser.Scene {
     var escalaPersonajes = 0.5; //Usar esta variable para que sean del mismo tamaño
 
     //Animación Lexi (J1)
-    crearAnimacionesLexi(this.anims); //Crea todos los movimientos posibles del personaje
     Lexi = this.add.sprite(anchoJuego / 4, altoJuego * 2 / 3, 'lexi_atlas');
     Lexi.setScale(altoJuego * escalaPersonajes / Lexi.height);
     Lexi.play('inicioLexi');
 
     //Animación Mat (J2)
-    crearAnimacionesMat(this.anims);
     Mat = this.add.sprite(anchoJuego * 3 / 4, altoJuego * 2 / 3, 'mat_atlas');
     Mat.setScale(altoJuego * escalaPersonajes / Mat.height);
     Mat.play('inicioMat');
 
-
-
-
   }
-  //funcion update (la velocidad se puede cambiar luego)
 
   update(time) {
 
@@ -257,91 +238,5 @@ export default class Partida extends Phaser.Scene {
     f2.visible = false;
   }
 
-}
-
-
-//Funciones para crear las animaciones de los personajes
-function crearAnimacionesLexi(handleAnimacion) {
-  const inicioLexi = {
-    key: 'inicioLexi',
-    frames: handleAnimacion.generateFrameNames('lexi_atlas', { prefix: 'frame', start: 1, end: 2 }),
-    frameRate: 2,
-    repeat: -1
-  };
-  handleAnimacion.create(inicioLexi);
-
-  const juegoArribaLexi = {
-    key: 'juegoArribaLexi',
-    frames: handleAnimacion.generateFrameNames('lexi_atlas', { prefix: 'frame', frames: [4] }),
-    frameRate: 12,
-    repeat: 0
-  };
-  handleAnimacion.create(juegoArribaLexi);
-
-  const juegoAbajoLexi = {
-    key: 'juegoAbajoLexi',
-    frames: handleAnimacion.generateFrameNames('lexi_atlas', { prefix: 'frame', frames: [2] }),
-    frameRate: 12,
-    repeat: 0
-  };
-  handleAnimacion.create(juegoAbajoLexi);
-
-  const juegoDchaLexi = {
-    key: 'juegoDchaLexi',
-    frames: handleAnimacion.generateFrameNames('lexi_atlas', { prefix: 'frame', frames: [5] }),
-    frameRate: 12,
-    repeat: 0
-  };
-  handleAnimacion.create(juegoDchaLexi);
-
-  const juegoIzqLexi = {
-    key: 'juegoIzqLexi',
-    frames: handleAnimacion.generateFrameNames('lexi_atlas', { prefix: 'frame', frames: [3] }),
-    frameRate: 12,
-    repeat: 0
-  };
-  handleAnimacion.create(juegoIzqLexi);
-}
-
-function crearAnimacionesMat(handleAnimacion) {
-  const inicioMat = {
-    key: 'inicioMat',
-    frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', start: 1, end: 2 }),
-    frameRate: 2,
-    repeat: -1
-  };
-  handleAnimacion.create(inicioMat);
-
-  const juegoArribaMat = {
-    key: 'juegoArribaMat',
-    frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', frames: [4] }),
-    frameRate: 12,
-    repeat: 0
-  };
-  handleAnimacion.create(juegoArribaMat);
-
-  const juegoAbajoMat = {
-    key: 'juegoAbajoMat',
-    frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', frames: [2] }),
-    frameRate: 12,
-    repeat: 0
-  };
-  handleAnimacion.create(juegoAbajoMat);
-
-  const juegoDchaMat = {
-    key: 'juegoDchaMat',
-    frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', frames: [5] }),
-    frameRate: 12,
-    repeat: 0
-  };
-  handleAnimacion.create(juegoDchaMat);
-
-  const juegoIzqMat = {
-    key: 'juegoIzqMat',
-    frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', frames: [3] }),
-    frameRate: 12,
-    repeat: 0
-  };
-  handleAnimacion.create(juegoIzqMat);
 }
 

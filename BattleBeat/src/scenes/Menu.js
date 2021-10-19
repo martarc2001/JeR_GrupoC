@@ -1,6 +1,6 @@
 import { anchoJuego, altoJuego } from "../init.js";
-//import FiltroColor from "./FiltroColor.js";
-import Partida from "./Partida.js";
+import Tutorial from "./Tutorial.js";
+import Creditos from "./Creditos.js";
 
 
 export default class Menu extends Phaser.Scene {
@@ -9,54 +9,65 @@ export default class Menu extends Phaser.Scene {
             key: "Menu",
             active: true
         });
-        
+
     }
 
     preload() {
         this.load.image('boton', '/src/images/Menu/BOTÓN.png');
+        this.load.image('botonCreditos', '/src/images/Menu/BOTÓN CRÉDITOS.png');
         this.load.image('Fondo2', '/src/images/Fondo2.png');
         this.load.image('Fondo1', '/src/images/Fondo1.png');
-        
+        this.load.image('BattleBeatLogo', '/src/images/Menu/BattleBeatLogo.png');
+        this.load.image('eslogan', '/src/images/Menu/eslogan.png');
+        this.load.image('filtroColor', '/src/images/Menu/Filtro Color.png')
+
         this.load.path = './assets/';
         this.load.atlas('boviino', 'boviino.png', 'boviino_atlas.json');
 
     }
 
     create() {
+        this.cameras.main.fadeFrom(1000, 57, 47, 236);
 
         this.fondo1 = this.add.image(0, 0, 'Fondo1');
         this.fondo1.setOrigin(0, 0);
         this.fondo1.setScale(anchoJuego / this.fondo1.width, altoJuego / this.fondo1.height); //Imagen se escalará con el resto del juego 
 
         //Creamos el filtro que estará bajo los botones y la animación:        
-        let graficos = this.add.graphics();
-        this.color = graficos.fillStyle(0xFFC0CB, 0.5);
-        this.fondoColor = graficos.fillRect(0, 0, anchoJuego, altoJuego);
-        //this.scene.add("miFiltro", new FiltroColor);
-        //this.scene.bringToTop("Menu");
-        
+        this.filtro = this.add.image(0, 0, 'filtroColor');
+        this.filtro.setOrigin(0, 0);
+        this.filtro.setScale(anchoJuego / this.filtro.width, altoJuego / this.filtro.height); //Imagen se escalará con el resto del juego 
+        this.filtro.alpha = 0.8;
+
+        //Logo Juego:
+        this.BattleBeatLogo = this.add.image(anchoJuego / 4, altoJuego / 5, 'BattleBeatLogo');
+        this.BattleBeatLogo.setScale(altoJuego / (this.BattleBeatLogo.height * 2));
+
+        //Eslogan 
+        this.eslogan = this.add.image(anchoJuego * 2 / 3, altoJuego / 5, 'eslogan');
+        this.eslogan.setScale(altoJuego / (this.eslogan.height * 5));
+
         //Boviino
-        const djplay ={
+        const djplay = {
             key: 'djplay',
-            frames: this.anims.generateFrameNames('boviino', {prefix: 'boviinofinal_', start: 1, end: 7}),
+            frames: this.anims.generateFrameNames('boviino', { prefix: 'boviinofinal_', start: 1, end: 7 }),
             frameRate: 9,
             repeat: -1
-          };
-          this.anims.create(djplay);
-        
-          var djboviino;
-          djboviino= this.add.sprite(anchoJuego/2+200,altoJuego/2, 'boviino');
-          djboviino.play('djplay');
+        };
+        this.anims.create(djplay);
+
+        var djboviino;
+        djboviino = this.add.sprite(anchoJuego / 2 + 200, altoJuego / 2, 'boviino');
+        djboviino.play('djplay');
         //Creamos los botones para el juego:
         var escalaBotones = 4.5;
 
         //Botón para comenzar la partida (Versión offline juego--fase 2)        
-        var posBotonJugar = [(anchoJuego / 4), (altoJuego / 2)];
-        this.botonJugar = this.add.image(posBotonJugar[0], posBotonJugar[1], 'boton');
+        this.botonJugar = this.add.image(anchoJuego / 4, altoJuego / 2, 'boton');
         this.botonJugar.setScale(anchoJuego / (this.botonJugar.width * escalaBotones), altoJuego / (this.botonJugar.height * escalaBotones));
         this.botonJugar.setInteractive();//Para que funcionen los eventos
 
-        //Funciones para crear efecto hover del botón
+        //Funciones para crear efecto hover del botón de partida
         this.botonJugar.on('pointerover', function () {
             this.setTint(0x518DE3);//Se refiere solo al botón, este this se refiere al evento on del botón, no a la escena
         });
@@ -67,12 +78,35 @@ export default class Menu extends Phaser.Scene {
 
         //Función para clic del botón y cambio de escena
         this.botonJugar.on('pointerdown', function (event) {
-            
-            //Menu.scene.remove("miFiltro");
-            this.scene.add("estaPartida", new Partida);
-            this.scene.start("estaPartida"); //Inicializa partida creada al hacer clic, elimina esta escena de menú
-         
+
+            this.scene.add("miTutorial", new Tutorial);
+            this.scene.start("miTutorial"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+
         }, this);
+
+        //Botón para mostrar los créditos del juego
+        this.botonCreditos = this.add.image(anchoJuego / 4, altoJuego * 1.5 / 2, 'botonCreditos');
+        this.botonCreditos.setScale(anchoJuego / (this.botonCreditos.width * escalaBotones), altoJuego / (this.botonCreditos.height * escalaBotones));
+        this.botonCreditos.setInteractive();//Para que funcionen los eventos
+
+        //Funciones para crear efecto hover del botón de créditos
+        this.botonCreditos.on('pointerover', function () {
+            this.setTint(0x518DE3);//Se refiere solo al botón, este this se refiere al evento on del botón, no a la escena
+        });
+
+        this.botonCreditos.on('pointerout', function () {
+            this.clearTint();
+        });
+
+        //Función para clic del botón y cambio de escena
+        this.botonCreditos.on('pointerdown', function (event) {
+
+            this.scene.add("misCreditos", new Creditos);
+            this.scene.launch("misCreditos"); //Inicializa créditos
+            this.scene.remove(); //Borra la escena de menú
+
+        }, this);
+
     }
 
 
