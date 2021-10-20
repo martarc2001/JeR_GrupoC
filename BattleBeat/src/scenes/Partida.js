@@ -45,75 +45,13 @@ export default class Partida extends Phaser.Scene {
 
 
     var escalaFlechas = altoJuego / 1000;
-    //flechas jugador 1
-    //objetivo flechas
-    this.flecha1_f = this.add.image(anchoJuego / 15, 130, "flecha");
-    this.flecha1_f.angle = -90;
-    this.flecha2_f = this.add.image(anchoJuego * 2 / 15, 130, "flecha");
-    this.flecha2_f.angle = -180;
-    this.flecha3_f = this.add.image(anchoJuego * 3 / 15, 130, "flecha");
-    this.flecha4_f = this.add.image(anchoJuego * 4 / 15, 130, "flecha");
-    this.flecha4_f.angle = 90;
-    //las añade a la escena siendo invisibles
-
-    this.flecha1 = this.add.image(anchoJuego / 15, altoJuego / 3, "flecha");
-    this.flecha1.angle = -90;
-    this.flecha2 = this.add.image(anchoJuego * 2 / 15, altoJuego / 3, "flecha");
-    this.flecha2.angle = -180;
-    this.flecha3 = this.add.image(anchoJuego * 3 / 15, altoJuego / 3, "flecha");
-    this.flecha4 = this.add.image(anchoJuego * 4 / 15, altoJuego / 3, "flecha");
-    this.flecha4.angle = 90;
-
-    this.flecha1.visible = false;
-    this.flecha2.visible = false;
-    this.flecha3.visible = false;
-    this.flecha4.visible = false;
+    
 
 
-    this.flecha1_f.setScale(escalaFlechas);
-    this.flecha2_f.setScale(escalaFlechas);
-    this.flecha3_f.setScale(escalaFlechas);
-    this.flecha4_f.setScale(escalaFlechas);
+    
+    
 
-    this.flecha1.setScale(escalaFlechas);
-    this.flecha2.setScale(escalaFlechas);
-    this.flecha3.setScale(escalaFlechas);
-    this.flecha4.setScale(escalaFlechas);
-
-    //flechas j2
-    //objetivo flechas
-    this.flecha5_f = this.add.image(anchoJuego - (anchoJuego * 4 / 15), 130, "flecha");
-    this.flecha5_f.angle = -90;
-    this.flecha6_f = this.add.image(anchoJuego - (anchoJuego * 3 / 15), 130, "flecha");
-    this.flecha6_f.angle = -180;
-    this.flecha7_f = this.add.image(anchoJuego - (anchoJuego * 2 / 15), 130, "flecha");
-    this.flecha8_f = this.add.image(anchoJuego - (anchoJuego / 15), 130, "flecha");
-    this.flecha8_f.angle = 90;
-
-
-    this.flecha5 = this.add.image(anchoJuego - (anchoJuego * 4 / 15), altoJuego / 3, "flecha");
-    this.flecha5.angle = -90;
-    this.flecha6 = this.add.image(anchoJuego - (anchoJuego * 3 / 15), altoJuego / 3, "flecha");
-    this.flecha6.angle = -180;
-    this.flecha7 = this.add.image(anchoJuego - (anchoJuego * 2 / 15), altoJuego / 3, "flecha");
-    this.flecha8 = this.add.image(anchoJuego - (anchoJuego / 15), altoJuego / 3, "flecha");
-    this.flecha8.angle = 90;
-
-    this.flecha5.visible = false;
-    this.flecha6.visible = false;
-    this.flecha7.visible = false;
-    this.flecha8.visible = false;
-
-
-    this.flecha5_f.setScale(escalaFlechas);
-    this.flecha6_f.setScale(escalaFlechas);
-    this.flecha7_f.setScale(escalaFlechas);
-    this.flecha8_f.setScale(escalaFlechas);
-
-    this.flecha5.setScale(escalaFlechas);
-    this.flecha6.setScale(escalaFlechas);
-    this.flecha7.setScale(escalaFlechas);
-    this.flecha8.setScale(escalaFlechas);
+    
 
     //Controles jugadores
     this.cursor = this.input.keyboard.createCursorKeys();
@@ -192,51 +130,10 @@ export default class Partida extends Phaser.Scene {
 
 
 
-    var vel = altoJuego / 1000;
-
-
-    this.apareceflecha(this.flecha1, this.flecha5, time, vel);
-    this.apareceflecha(this.flecha2, this.flecha6, time, vel);
-    this.apareceflecha(this.flecha3, this.flecha7, time, vel);
-    this.apareceflecha(this.flecha4, this.flecha8, time, vel);
-
+  
   }
 
-  //aparece flecha llama a dos flechas con el mismo movimiento
-  //aparecen de forma aleatoria con maximo 6 segundos de espera
-  //despues de que aparezcan se llama a la funcion mueve flecha
 
-  apareceflecha(f, f2, t, v) {
-    if (t % Math.floor(Math.random() * 60) == 0) {
-      f.visible = true;
-      f2.visible = true;
-    }
-    if (f.visible == true) {
-      this.mueveFlecha(f, f2, v);
-    }
-  }
-
-  //mueve flecha hace que se muevan hacia arriba las dos flechas con 
-  //la velocidad. Cuando suben a un punto determinado se llama a reset
-
-  mueveFlecha(f, f2, v) {
-
-    f.y -= v;
-    f2.y -= v;
-    if (f.y < 5) {
-      this.resetFlecha(f, f2);
-    }
-  }
-
-  //resetFlecha hace que vuelvan al lugar inicial y las hace invisibles.
-  //al hacerse invisibles se dejan de mover
-
-  resetFlecha(f, f2) {
-    f.y = altoJuego / 3;
-    f2.y = altoJuego / 3;
-    f.visible = false;
-    f2.visible = false;
-  }
 
 }
 

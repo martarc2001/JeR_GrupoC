@@ -1,5 +1,6 @@
 import { anchoJuego, altoJuego } from "../init.js";
-import Partida from './Partida.js'
+import Partida from './Partida.js';
+import Flechas from './Flechas.js';
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
@@ -55,6 +56,8 @@ export default class Tutorial extends Phaser.Scene {
 
             this.scene.add('miPartida', new Partida);//crea una nueva partida
             this.scene.launch('miPartida');
+            this.scene.add('misFlechas', new Flechas);
+            this.scene.launch('misFlechas');
             this.scene.remove();//Borra la escena de tutorial
 
         }, this);
