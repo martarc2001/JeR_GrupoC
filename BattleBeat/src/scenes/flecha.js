@@ -1,4 +1,4 @@
-
+import { anchoJuego, altoJuego } from "../init.js";
 
 export class Flecha extends Phaser.GameObjects.Sprite {
     
@@ -6,10 +6,11 @@ export class Flecha extends Phaser.GameObjects.Sprite {
     constructor(config) {
         super(config.scene, config.x, config.y, "flecha");
         config.scene.add.existing(this);
+        this.queFlecha=0;//(para indicar si 1-izquierda, 2-abajo, 3-arriba, 4-derecha)
     }
 
     mueveFlecha(){
-        this.y--;
+        this.y-=altoJuego/500;
     }
 
     
