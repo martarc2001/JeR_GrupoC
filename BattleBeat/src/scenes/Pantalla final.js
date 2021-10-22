@@ -40,6 +40,12 @@ export default class PFinal extends Phaser.Scene {
 
             this.texto = this.add.text(anchoJuego * 1.25 / 4, altoJuego / 5, "Ganador: Jugador 2", { font: "40px Impact", fill: "#ffffff", align: "center" });
             
+        }else if (opcion == "Empate") {
+            this.gana = this.add.image(anchoJuego * 3 / 4, altoJuego / 2, 'MGana');
+            this.pierde = this.add.image(anchoJuego / 4, altoJuego * 2 / 3, 'LGana');
+
+            this.texto = this.add.text(anchoJuego/ 2, altoJuego / 5, "Empate", { font: "40px Impact", fill: "#ffffff", align: "center" });
+            
         }
 
         var escalaPersonajes = altoJuego / 1200;
@@ -116,6 +122,11 @@ this.scene.remove(); //Borra la escena de menú
 
 Si gana J2 Mat:
 this.game.scene.add('PFinal1',PFin, true, "Mat");
+this.scene.launch('PFinal1');
+this.scene.remove(); //Borra la escena de menú
+
+Empate:
+this.game.scene.add('PFinal1',PFin, true, "Empate");
 this.scene.launch('PFinal1');
 this.scene.remove(); //Borra la escena de menú
 
