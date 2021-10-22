@@ -57,8 +57,9 @@ export default class Menu extends Phaser.Scene {
         this.anims.create(djplay);
 
         var djboviino;
-        djboviino = this.add.sprite(anchoJuego / 2 + 200, altoJuego / 2, 'boviino');
+        djboviino = this.add.sprite(anchoJuego*2 / 3 , altoJuego*1.75 / 3, 'boviino');
         djboviino.play('djplay');
+        djboviino.setScale(altoJuego/750);
         //Creamos los botones para el juego:
         var escalaBotones = 4.5;
 

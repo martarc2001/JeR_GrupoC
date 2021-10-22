@@ -40,6 +40,7 @@ export default class Tutorial extends Phaser.Scene {
         //Texto de cambio de pantalla al juego
         this.textoCambioPantalla = this.add.text(anchoJuego / 2, altoJuego * 9 / 10, "Clica aquí para finalizar el tutorial", { font: "40px Impact", fill: "#ffffff", align: "center" });
         this.textoCambioPantalla.setOrigin(0.5, 1);
+        this.textoCambioPantalla.setFontSize(altoJuego / 20);
         this.textoCambioPantalla.setInteractive();//Para que funcionen los eventos
 
         this.textoCambioPantalla.on('pointerover', function () {

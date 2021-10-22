@@ -31,12 +31,15 @@ export default class Creditos extends Phaser.Scene {
 
         //Texto créditos
         this.creditos = this.add.text(anchoJuego / 10, altoJuego / 10, 'Juego desarrollado por Cuadra Crew:\n-Isabel Escudero Orden\n-Laura Fouz García\n-Elena López-Negrete Burón\n-Marta Rodríguez Castillo\n\nJUEGOS EN RED 3º GDDV URJC', { font: "40px Impact", fill: "#FFFFFF" })
+        this.creditos.setFontSize(altoJuego / 20);
+
         this.CuadraCrewLogo = this.add.image(anchoJuego * 8 / 10, altoJuego * 3 / 10, 'CuadraCrewLogo');
         this.CuadraCrewLogo.setScale(altoJuego / (this.CuadraCrewLogo.height * 2));
 
         //Botón de volver al menú principal
         this.textoVolver = this.add.text(anchoJuego / 2, altoJuego * 4.75 / 5, "Clica aquí para volver al menú principal", { font: "40px Impact", fill: "#FFFFFF", align: "center" });
         this.textoVolver.setOrigin(0.5, 1);
+        this.textoVolver.setFontSize(altoJuego / 20);
         this.textoVolver.setInteractive();//Para que funcionen los eventos
 
         //Hover para el texto de volver al menú
