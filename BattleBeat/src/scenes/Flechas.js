@@ -1,6 +1,6 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import { Flecha } from "./flecha.js";
-
+import PFin from './Pantalla Final.js'
 
 
 export default class Flechas extends Phaser.Scene {
@@ -440,7 +440,7 @@ function contadorJ2(array, miEscena, i) {
 
 function onEvent() {
 
-    console.log("a");
+  
     if (this.scoreJ1 > this.scoreJ2) {
         console.log("hh");
         this.game.scene.add('PFinal1', PFin, true, "Lexi");
