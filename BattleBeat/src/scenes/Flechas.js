@@ -13,6 +13,8 @@ export default class Flechas extends Phaser.Scene {
         this.cualFlecha = 0;
         this.sacaFlecha = 0;
 
+
+        //Vectores que almacenan las flechas
         this.vectorFlechasJ1 = [];
         this.vectorFlechasJ2 = [];
 
@@ -41,6 +43,7 @@ export default class Flechas extends Phaser.Scene {
 
     preload() {
         this.load.image("flecha", "/src/images/Flecha.png");
+        this.load.image("flecha3", "/src/images/flecha3.png");
 
     }
 
@@ -82,9 +85,9 @@ export default class Flechas extends Phaser.Scene {
         this.flecha8_f.setScale(this.escalaFlechas);
 
         //Scores de los jugadores
-        this.scoreTextJ1 = this.add.text(anchoJuego / 20, 16, 'Score: 0', { fontSize: '60px', fill: '#000', fontFamily: 'Impact' });
+        this.scoreTextJ1 = this.add.text(anchoJuego / 20, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact'});
         this.scoreTextJ1.setFontSize(altoJuego / 20);
-        this.scoreTextJ2 = this.add.text(anchoJuego - anchoJuego / 6, 16, 'Score: 0', { fontSize: '60px', fill: '#000', fontFamily: 'Impact' });
+        this.scoreTextJ2 = this.add.text(anchoJuego - anchoJuego / 6, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
         this.scoreTextJ2.setFontSize(altoJuego / 20);
 
 
@@ -115,11 +118,11 @@ export default class Flechas extends Phaser.Scene {
 
     update(time, delta) {
 
-        this.tiempo += delta;
+        this.tiempo++;
 
         //Crea las flechas de manera aleatoria cada cierto tiempo
 
-        if (this.tiempo > 2000) {
+        if (this.tiempo%30==0) {
             this.cualFlecha = this.random(1, 5);
             this.vectorFlechasJ1.push(creaFlechaJ1(this));
             this.vectorFlechasJ2.push(creaFlechaJ2(this));
@@ -228,7 +231,7 @@ function creaFlechaJ1(miEscena) {
     if (miEscena.cualFlecha == 1) {
 
         //Flechas j1
-        var f1 = new Flecha({ scene: miEscena, x: anchoJuego / 15, y: altoJuego / 3 });
+        var f1 = new Flecha({ scene: miEscena, x: anchoJuego / 15, y: altoJuego  });
         f1.angle = -90;
         f1.queFlecha = 1;
 
@@ -245,7 +248,7 @@ function creaFlechaJ1(miEscena) {
         //Flechas j1
 
 
-        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 2 / 15, y: altoJuego / 3 });
+        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 2 / 15, y: altoJuego });
         f1.angle = -180;
         f1.queFlecha = 2;
 
@@ -256,7 +259,7 @@ function creaFlechaJ1(miEscena) {
 
 
 
-        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 3 / 15, y: altoJuego / 3 });
+        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 3 / 15, y: altoJuego});
         f1.queFlecha = 3;
 
 
@@ -264,7 +267,7 @@ function creaFlechaJ1(miEscena) {
 
 
 
-        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 4 / 15, y: altoJuego / 3 });
+        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 4 / 15, y: altoJuego  });
         f1.angle = 90;
         f1.queFlecha = 4;
 
@@ -287,7 +290,7 @@ function creaFlechaJ2(miEscena) {
     if (miEscena.cualFlecha == 1) {
 
         //Flechas j2
-        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego * 4 / 15), y: altoJuego / 3 });
+        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego * 4 / 15), y: altoJuego });
         f2.angle = -90;
         f2.queFlecha = 1;
 
@@ -297,7 +300,7 @@ function creaFlechaJ2(miEscena) {
         //Flechas j2
 
 
-        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego * 3 / 15), y: altoJuego / 3 });
+        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego * 3 / 15), y: altoJuego  });
         f2.angle = -180;
         f2.queFlecha = 2;
 
@@ -308,14 +311,14 @@ function creaFlechaJ2(miEscena) {
         //Flechas j2
 
 
-        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego * 2 / 15), y: altoJuego / 3 });
+        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego * 2 / 15), y: altoJuego });
         f2.queFlecha = 3;
 
     } else if (miEscena.cualFlecha == 4) {
 
         //Flechas j2
 
-        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego / 15), y: altoJuego / 3 });
+        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego / 15), y: altoJuego  });
         f2.angle = 90;
         f2.queFlecha = 4;
 
@@ -407,7 +410,7 @@ function contadorJ1(array, miEscena, i) {
 }
 function contadorJ2(array, miEscena, i) {
 
-    if ((array[i].y > altoJuego / 7 + 20 && array[i].y < altoJuego / 7 + 30) || (array[i].y < altoJuego / 7 - 20 && array[i].y > altoJuego / 7 - 30)) {
+    if ((array[i].y > altoJuego / 7 + altoJuego/46 && array[i].y < altoJuego / 7 + altoJuego/70) || (array[i].y < altoJuego / 7 - altoJuego/46 && array[i].y > altoJuego / 7 - altoJuego/70)) {
 
         miEscena.scoreJ2 += 25;
         miEscena.scoreTextJ2.setText('Score: ' + miEscena.scoreJ2);
@@ -415,7 +418,7 @@ function contadorJ2(array, miEscena, i) {
         
 
 
-    } else if ((array[i].y > altoJuego / 7 + 10 && array[i].y < altoJuego / 7 + 20) || (array[i].y < altoJuego / 7 - 10 && array[i].y > altoJuego / 7 - 20)) {
+    } else if ((array[i].y > altoJuego / 7 + altoJuego/150 && array[i].y < altoJuego / 7 + altoJuego/46) || (array[i].y < altoJuego / 7 - altoJuego/150 && array[i].y > altoJuego / 7 - altoJuego/46)) {
 
 
         miEscena.scoreJ2 += 50;
@@ -423,7 +426,7 @@ function contadorJ2(array, miEscena, i) {
         eliminaFlechaArrayPulsada(array,i);
 
 
-    } else if (array[i].y > altoJuego / 7 - 10 && array[i].y < altoJuego / 7 + 10) {
+    } else if (array[i].y > altoJuego / 7 - altoJuego/150 && array[i].y < altoJuego / 7 + altoJuego/150) {
         miEscena.scoreJ2 += 100;
         miEscena.scoreTextJ2.setText('Score: ' + miEscena.scoreJ2);
         eliminaFlechaArrayPulsada(array,i);
