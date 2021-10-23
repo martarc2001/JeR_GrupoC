@@ -82,7 +82,7 @@ export default class Menu extends Phaser.Scene {
 
             this.scene.add("miTutorial", new Tutorial);
             this.scene.start("miTutorial"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
-
+            this.scene.remove();
         }, this);
 
         //Botón para mostrar los créditos del juego
