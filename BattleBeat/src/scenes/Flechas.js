@@ -107,7 +107,7 @@ export default class Flechas extends Phaser.Scene {
         this.derechaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
 
-
+        this.timedEvent = this.time.delayedCall(180000, onEvent, [], this);
 
 
 
@@ -435,6 +435,41 @@ function contadorJ2(array, miEscena, i) {
 
 
 }
+
+
+
+function onEvent() {
+
+    console.log("a");
+    if (this.scoreJ1 > this.scoreJ2) {
+        console.log("hh");
+        this.game.scene.add('PFinal1', PFin, true, "Lexi");
+        this.scene.remove('miPartida');
+        this.scene.remove();
+        this.scene.launch('PFinal1');
+       
+
+    
+    }else if(this.scoreJ2>this.scoreJ1){
+
+     this.game.scene.add('PFinal1',PFin, true, "Mat");
+
+     this.scene.remove('miPartida');
+     this.scene.remove(); 
+     this.scene.launch('PFinal1');
+
+     }else if(this.scoreJ1==this.scoreJ2){
+  
+    this.game.scene.add('PFinal1',PFin, true, "Empate");
+   
+    this.scene.remove('miPartida');
+    this.scene.remove(); //Borra la escena de menú
+    this.scene.launch('PFinal1');
+     }
+
+}
+
+
 
 
 

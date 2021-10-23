@@ -114,20 +114,3 @@ export default class PFinal extends Phaser.Scene {
     }
 }
 
-/*CÓDIGO PARA REDIRECCIONAR A CADA FINAL:
-Si gana J1 Lexi:
-this.game.scene.add('PFinal1',PFin, true, "Lexi");
-this.scene.launch('PFinal1');
-this.scene.remove(); //Borra la escena de menú
-
-Si gana J2 Mat:
-this.game.scene.add('PFinal1',PFin, true, "Mat");
-this.scene.launch('PFinal1');
-this.scene.remove(); //Borra la escena de menú
-
-Empate:
-this.game.scene.add('PFinal1',PFin, true, "Empate");
-this.scene.launch('PFinal1');
-this.scene.remove(); //Borra la escena de menú
-
-*/
