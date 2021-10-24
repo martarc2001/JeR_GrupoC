@@ -58,8 +58,6 @@ export default class Tutorial extends Phaser.Scene {
             this.djsound.play()
             this.cameras.main.fade(1000, 57, 47, 236);
 
-            this.scene.add('miPartida', new Partida);//crea una nueva partida
-            this.scene.launch('miPartida');
             this.scene.add('misFlechas', new Flechas);
             this.scene.launch('misFlechas');
             this.scene.remove();//Borra la escena de tutorial

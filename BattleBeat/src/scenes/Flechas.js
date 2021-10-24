@@ -2,6 +2,9 @@ import { anchoJuego, altoJuego } from "../init.js";
 import { Flecha } from "./flecha.js";
 import PFin from './Pantalla Final.js'
 
+var Lexi, Mat;
+var LexiActivarIdle = false;
+var MatActivarIdle = false;
 var good1, great1, perfect1, miss1;
 var good2, great2, perfect2, miss2;
 export default class Flechas extends Phaser.Scene {
@@ -45,25 +48,51 @@ export default class Flechas extends Phaser.Scene {
         this.load.image("great", "/src/images/great1.png");
         this.load.image("perfect", "/src/images/perfect1.png");
         this.load.image("miss", "/src/images/miss.png");
-       
-         //Precarga del audio
-         this.load.path = './sounds/';
-         this.load.audio('musicota', 'musicota.mp3');
+
+        //Precarga del audio
+        this.load.path = './sounds/';
+        this.load.audio('musicota', 'musicota.mp3');
 
     }
 
 
     create() {
+        this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
+
+        //Fondo de la escena
+        this.fondo2 = this.add.image(0, 0, 'Fondo2');
+        this.fondo2.setOrigin(0, 0);
+        this.fondo2.setScale(anchoJuego / this.fondo2.width, altoJuego / this.fondo2.height);
+
+        //DJ BoViiNo
+        var djboviino;
+        djboviino = this.add.sprite(anchoJuego / 2, altoJuego / 2, 'boviino');
+        djboviino.setScale(altoJuego * 0.45 / djboviino.height);
+        djboviino.play('djplay');
+
+        //Animaciones personajes
+        var escalaPersonajes = 0.5; //Usar esta variable para que sean del mismo tamaño
+
+        //Animación Lexi (J1)
+        Lexi = this.add.sprite(anchoJuego / 4, altoJuego * 2 / 3, 'lexi_atlas');
+        Lexi.setScale(altoJuego * escalaPersonajes / Lexi.height);
+        Lexi.play('inicioLexi');
+
+        //Animación Mat (J2)
+        Mat = this.add.sprite(anchoJuego * 3 / 4, altoJuego * 2 / 3, 'mat_atlas');
+        Mat.setScale(altoJuego * escalaPersonajes / Mat.height);
+        Mat.play('inicioMat');
+
 
         //mensajes de feedback J1
         good1 = this.add.image(anchoJuego * 2.5 / 15, altoJuego / 2.8, "good");
         good1.setScale(altoJuego * 0.1 / good1.height);
         good1.visible = false;
-       
+
         great1 = this.add.image(anchoJuego * 2.5 / 15, altoJuego / 2.8, "great");
         great1.setScale(altoJuego * 0.1 / great1.height);
-        great1.visible= false;
-       
+        great1.visible = false;
+
         perfect1 = this.add.image(anchoJuego * 2.5 / 15, altoJuego / 2.8, "perfect");
         perfect1.setScale(altoJuego * 0.1 / perfect1.height);
         perfect1.visible = false;
@@ -73,19 +102,19 @@ export default class Flechas extends Phaser.Scene {
         miss1.visible = false;
 
         //mensajes de feedback J2
-        good2 = this.add.image(anchoJuego -(anchoJuego * 2.5 / 15), altoJuego / 2.8, "good");
+        good2 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 2.8, "good");
         good2.setScale(altoJuego * 0.1 / good2.height);
         good2.visible = false;
-        
-        great2 = this.add.image(anchoJuego -(anchoJuego * 2.5 / 15), altoJuego / 2.8, "great");
+
+        great2 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 2.8, "great");
         great2.setScale(altoJuego * 0.1 / great2.height);
-        great2.visible= false;
-        
-        perfect2 = this.add.image(anchoJuego -(anchoJuego * 2.5 / 15), altoJuego / 2.8, "perfect");
+        great2.visible = false;
+
+        perfect2 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 2.8, "perfect");
         perfect2.setScale(altoJuego * 0.1 / perfect2.height);
         perfect2.visible = false;
 
-        miss2 = this.add.image(anchoJuego -(anchoJuego * 2.5 / 15), altoJuego / 3.5, "miss");
+        miss2 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 3.5, "miss");
         miss2.setScale(altoJuego * 0.06 / miss2.height);
         miss2.visible = false;
 
@@ -124,7 +153,7 @@ export default class Flechas extends Phaser.Scene {
         this.flecha8_f.setScale(this.escalaFlechas);
 
         //Scores de los jugadores
-        this.scoreTextJ1 = this.add.text(anchoJuego / 20, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact'});
+        this.scoreTextJ1 = this.add.text(anchoJuego / 20, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
         this.scoreTextJ1.setFontSize(altoJuego / 20);
         this.scoreTextJ2 = this.add.text(anchoJuego - anchoJuego / 6, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
         this.scoreTextJ2.setFontSize(altoJuego / 20);
@@ -144,10 +173,10 @@ export default class Flechas extends Phaser.Scene {
         this.izquierdaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.abajoMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.derechaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        
+
         //musica partida
         this.musicota = this.sound.add('musicota');
-        this.musicota.play();      
+        this.musicota.play();
 
 
         this.timedEvent = this.time.delayedCall(180000, onEvent, [], this);
@@ -156,38 +185,80 @@ export default class Flechas extends Phaser.Scene {
 
     update(time, delta) {
 
+        //Comandos juego Lexi (J1)
+        if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
+            Lexi.play('inicioLexi');
+            LexiActivarIdle = false;
+        }
+
+        if (this.arriba.isDown) {
+            Lexi.play('juegoArribaLexi');
+            LexiActivarIdle = true; //Activamos el booleano que nos pondrá la animación en bucle al terminar este paso de baile
+        } else if (this.abajo.isDown) {
+            Lexi.play('juegoAbajoLexi');
+            LexiActivarIdle = true;
+        } else if (this.derecha.isDown) {
+            Lexi.play('juegoDchaLexi');
+            LexiActivarIdle = true;
+        } else if (this.izquierda.isDown) {
+            Lexi.play('juegoIzqLexi');
+            LexiActivarIdle = true;
+        }
+
+        //Comandos juego Mat  (J2)
+        if (MatActivarIdle) {
+            Mat.play('inicioMat');
+            MatActivarIdle = false;
+        }
+
+        if (this.arribaMat.isDown) {
+            Mat.play('juegoArribaMat');
+            MatActivarIdle = true;
+        } else if (this.abajoMat.isDown) {
+            Mat.play('juegoAbajoMat');
+            MatActivarIdle = true;
+        } else if (this.derechaMat.isDown) {
+            Mat.play('juegoDchaMat');
+            MatActivarIdle = true;
+        } else if (this.izquierdaMat.isDown) {
+            Mat.play('juegoIzqMat');
+            MatActivarIdle = true;
+        }
+
+
+
         this.tiempo++;
 
-        if(this.startJ1 == true){
-        this.borradorJ1 += delta;
+        if (this.startJ1 == true) {
+            this.borradorJ1 += delta;
         }
         if (this.borradorJ1 > 300) {
             good1.visible = false;
             great1.visible = false;
             perfect1.visible = false;
             miss1.visible = false;
-            
+
             this.startJ1 = false;
-           this.borradorJ1= 0;
+            this.borradorJ1 = 0;
         }
 
-        if(this.startJ2 == true){
+        if (this.startJ2 == true) {
             this.borradorJ2 += delta;
-            }
-            if (this.borradorJ2 > 300) {
-                good2.visible = false;
-                great2.visible = false;
-                perfect2.visible = false;
-                miss2.visible = false;
-                this.startJ2 = false;
-               this.borradorJ2= 0;
-            }
+        }
+        if (this.borradorJ2 > 300) {
+            good2.visible = false;
+            great2.visible = false;
+            perfect2.visible = false;
+            miss2.visible = false;
+            this.startJ2 = false;
+            this.borradorJ2 = 0;
+        }
 
-        
+
 
         //Crea las flechas de manera aleatoria cada cierto tiempo
 
-        if (this.tiempo%30==0) {
+        if (this.tiempo % 30 == 0) {
             this.cualFlecha = this.random(1, 5);
             this.vectorFlechasJ1.push(creaFlechaJ1(this));
             this.vectorFlechasJ2.push(creaFlechaJ2(this));
@@ -224,11 +295,11 @@ export default class Flechas extends Phaser.Scene {
         //Ganar puntuacion 
         for (var i = 0; i < this.vectorFlechasJ1.length; i++) {
             ganaPuntosJ1(i, this);
-            
+
         }
 
         for (var i = 0; i < this.vectorFlechasJ2.length; i++) {
-           
+
             ganaPuntosJ2(i, this);
 
         }
@@ -266,12 +337,12 @@ function eliminaFlechaArrayPantallaJ2(array, miEscena) {
 
 }
 
-function eliminaFlechaArrayPulsada(array,i){
+function eliminaFlechaArrayPulsada(array, i) {
 
-   
-  array[i].destroy();
- array.splice(i, 1);
-   
+
+    array[i].destroy();
+    array.splice(i, 1);
+
 
 }
 
@@ -282,7 +353,7 @@ function creaFlechaJ1(miEscena) {
     if (miEscena.cualFlecha == 1) {
 
         //Flechas j1
-        var f1 = new Flecha({ scene: miEscena, x: anchoJuego / 15, y: altoJuego  });
+        var f1 = new Flecha({ scene: miEscena, x: anchoJuego / 15, y: altoJuego });
         f1.angle = -90;
         f1.queFlecha = 1;
 
@@ -296,13 +367,13 @@ function creaFlechaJ1(miEscena) {
 
     } else if (miEscena.cualFlecha == 3) {
 
-        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 3 / 15, y: altoJuego});
+        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 3 / 15, y: altoJuego });
         f1.queFlecha = 3;
 
 
     } else if (miEscena.cualFlecha == 4) {
 
-        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 4 / 15, y: altoJuego  });
+        var f1 = new Flecha({ scene: miEscena, x: anchoJuego * 4 / 15, y: altoJuego });
         f1.angle = 90;
         f1.queFlecha = 4;
 
@@ -326,7 +397,7 @@ function creaFlechaJ2(miEscena) {
     } else if (miEscena.cualFlecha == 2) {
 
         //Flechas j2
-        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego * 3 / 15), y: altoJuego  });
+        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego * 3 / 15), y: altoJuego });
         f2.angle = -180;
         f2.queFlecha = 2;
 
@@ -339,7 +410,7 @@ function creaFlechaJ2(miEscena) {
     } else if (miEscena.cualFlecha == 4) {
 
         //Flechas j2
-        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego / 15), y: altoJuego  });
+        var f2 = new Flecha({ scene: miEscena, x: anchoJuego - (anchoJuego / 15), y: altoJuego });
         f2.angle = 90;
         f2.queFlecha = 4;
 
@@ -354,7 +425,7 @@ function creaFlechaJ2(miEscena) {
 function ganaPuntosJ1(i, miEscena) {
     if (miEscena.izquierda.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 1) {
 
-        contadorJ1(miEscena.vectorFlechasJ1, miEscena, i);        
+        contadorJ1(miEscena.vectorFlechasJ1, miEscena, i);
 
     } else if (miEscena.abajo.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 2) {
 
@@ -375,7 +446,7 @@ function ganaPuntosJ1(i, miEscena) {
 function ganaPuntosJ2(i, miEscena) {
     if (miEscena.izquierdaMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 1) {
 
-        contadorJ2(miEscena.vectorFlechasJ2, miEscena, i);       
+        contadorJ2(miEscena.vectorFlechasJ2, miEscena, i);
 
     } else if (miEscena.abajoMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 2) {
 
@@ -398,10 +469,10 @@ function contadorJ1(array, miEscena, i) {
 
         good1.visible = true;
         miEscena.startJ1 = true;
-        
+
         miEscena.scoreJ1 += 25;
         miEscena.scoreTextJ1.setText('Score: ' + miEscena.scoreJ1);
-        eliminaFlechaArrayPulsada(array,i);        
+        eliminaFlechaArrayPulsada(array, i);
 
     } else if ((array[i].y > altoJuego / 7 + 10 && array[i].y < altoJuego / 7 + 20) || (array[i].y < altoJuego / 7 - 10 && array[i].y > altoJuego / 7 - 20)) {
 
@@ -410,50 +481,50 @@ function contadorJ1(array, miEscena, i) {
 
         miEscena.scoreJ1 += 50;
         miEscena.scoreTextJ1.setText('Score: ' + miEscena.scoreJ1);
-        eliminaFlechaArrayPulsada(array,i);
+        eliminaFlechaArrayPulsada(array, i);
 
     } else if (array[i].y > altoJuego / 7 - 10 && array[i].y < altoJuego / 7 + 10) {
-       
+
         perfect1.visible = true;
         miEscena.startJ1 = true;
 
         miEscena.scoreJ1 += 100;
         miEscena.scoreTextJ1.setText('Score: ' + miEscena.scoreJ1);
-        eliminaFlechaArrayPulsada(array,i);
+        eliminaFlechaArrayPulsada(array, i);
 
     }
 
 }
 function contadorJ2(array, miEscena, i) {
 
-    if ((array[i].y > altoJuego / 7 + altoJuego/46 && array[i].y < altoJuego / 7 + altoJuego/70) || (array[i].y < altoJuego / 7 - altoJuego/46 && array[i].y > altoJuego / 7 - altoJuego/70)) {
+    if ((array[i].y > altoJuego / 7 + altoJuego / 46 && array[i].y < altoJuego / 7 + altoJuego / 70) || (array[i].y < altoJuego / 7 - altoJuego / 46 && array[i].y > altoJuego / 7 - altoJuego / 70)) {
 
         good2.visible = true;
         miEscena.startJ2 = true;
 
         miEscena.scoreJ2 += 25;
         miEscena.scoreTextJ2.setText('Score: ' + miEscena.scoreJ2);
-        eliminaFlechaArrayPulsada(array,i);
-        
+        eliminaFlechaArrayPulsada(array, i);
 
-    } else if ((array[i].y > altoJuego / 7 + altoJuego/150 && array[i].y < altoJuego / 7 + altoJuego/46) || (array[i].y < altoJuego / 7 - altoJuego/150 && array[i].y > altoJuego / 7 - altoJuego/46)) {
+
+    } else if ((array[i].y > altoJuego / 7 + altoJuego / 150 && array[i].y < altoJuego / 7 + altoJuego / 46) || (array[i].y < altoJuego / 7 - altoJuego / 150 && array[i].y > altoJuego / 7 - altoJuego / 46)) {
 
         great2.visible = true;
         miEscena.startJ2 = true;
 
         miEscena.scoreJ2 += 50;
         miEscena.scoreTextJ2.setText('Score: ' + miEscena.scoreJ2);
-        eliminaFlechaArrayPulsada(array,i);
+        eliminaFlechaArrayPulsada(array, i);
 
 
-    } else if (array[i].y > altoJuego / 7 - altoJuego/150 && array[i].y < altoJuego / 7 + altoJuego/150) {
-        
+    } else if (array[i].y > altoJuego / 7 - altoJuego / 150 && array[i].y < altoJuego / 7 + altoJuego / 150) {
+
         perfect2.visible = true;
         miEscena.startJ2 = true;
-        
+
         miEscena.scoreJ2 += 100;
         miEscena.scoreTextJ2.setText('Score: ' + miEscena.scoreJ2);
-        eliminaFlechaArrayPulsada(array,i);
+        eliminaFlechaArrayPulsada(array, i);
     }
 
 }
@@ -462,32 +533,32 @@ function contadorJ2(array, miEscena, i) {
 
 function onEvent() {
 
-  
+
     if (this.scoreJ1 > this.scoreJ2) {
         console.log("hh");
         this.game.scene.add('PFinal1', PFin, true, "Lexi");
         this.scene.remove('miPartida');
         this.scene.remove();
         this.scene.launch('PFinal1');
-       
 
-    
-    }else if(this.scoreJ2>this.scoreJ1){
 
-     this.game.scene.add('PFinal1',PFin, true, "Mat");
 
-     this.scene.remove('miPartida');
-     this.scene.remove(); 
-     this.scene.launch('PFinal1');
+    } else if (this.scoreJ2 > this.scoreJ1) {
 
-     }else if(this.scoreJ1==this.scoreJ2){
-  
-    this.game.scene.add('PFinal1',PFin, true, "Empate");
-   
-    this.scene.remove('miPartida');
-    this.scene.remove(); //Borra la escena de menú
-    this.scene.launch('PFinal1');
-     }
+        this.game.scene.add('PFinal1', PFin, true, "Mat");
+
+        this.scene.remove('miPartida');
+        this.scene.remove();
+        this.scene.launch('PFinal1');
+
+    } else if (this.scoreJ1 == this.scoreJ2) {
+
+        this.game.scene.add('PFinal1', PFin, true, "Empate");
+
+        this.scene.remove('miPartida');
+        this.scene.remove(); //Borra la escena de menú
+        this.scene.launch('PFinal1');
+    }
 
 }
 

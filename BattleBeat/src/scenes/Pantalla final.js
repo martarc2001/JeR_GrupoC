@@ -15,9 +15,16 @@ export default class PFinal extends Phaser.Scene {
 
         this.load.image('MGana', './src/images/PantallaFinal/MatGana.png');
         this.load.image('LPierde', './src/images/PantallaFinal/LexiPierde.png');
+        
+        this.load.audio('miAplauso', './sounds/applause.mp3');
     }
     create(opcion) {
         this.cameras.main.fadeFrom(1000, 57, 47, 236);
+        
+        this.djsound = this.sound.add('djsound',{volume:0.2});
+        this.aplauso=this.sound.add('miAplauso')
+        this.aplauso.play()
+
         this.fondo = this.add.image(0, 0, 'Fondo2');
         this.fondo.setOrigin(0, 0);
         this.fondo.setScale(anchoJuego / this.fondo.width, altoJuego / this.fondo.height); //Imagen se escalará con el resto del juego 
@@ -41,10 +48,10 @@ export default class PFinal extends Phaser.Scene {
             this.texto = this.add.text(anchoJuego * 1.25 / 4, altoJuego / 5, "Ganador: Jugador 2", { font: "40px Impact", fill: "#ffffff", align: "center" });
             
         }else if (opcion == "Empate") {
-            this.gana = this.add.image(anchoJuego * 3 / 4, altoJuego / 2, 'MGana');
-            this.pierde = this.add.image(anchoJuego / 4, altoJuego * 2 / 3, 'LGana');
+            this.gana = this.add.image(anchoJuego * 3 / 4, altoJuego/2, 'MGana');
+            this.pierde = this.add.image(anchoJuego / 4, altoJuego /2, 'LGana');
 
-            this.texto = this.add.text(anchoJuego/ 2, altoJuego / 5, "Empate", { font: "40px Impact", fill: "#ffffff", align: "center" });
+            this.texto = this.add.text(anchoJuego/ 2, altoJuego / 2, "Empate", { font: "40px Impact", fill: "#ffffff", align: "center" });
             
         }
 
@@ -71,7 +78,9 @@ export default class PFinal extends Phaser.Scene {
 
         //Función para clic del botón y cambio de escena
         this.textoCambioPantalla.on('pointerdown', function (event) {
+            this.djsound.play()
             this.cameras.main.fade(1000, 57, 47, 236);
+            this.aplauso.stop();
 
             this.scene.add('miMenu', new Menu);
             this.scene.launch('miMenu');

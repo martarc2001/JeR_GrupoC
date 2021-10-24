@@ -17,7 +17,7 @@ export default class Creditos extends Phaser.Scene {
 
     create() {
         this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
-        this.djsound = this.sound.add('djsound',{volume:0.2});
+        this.djsound = this.sound.add('djsound', { volume: 0.2 });
         //Fondo
         this.fondo1 = this.add.image(0, 0, 'Fondo1');
         this.fondo1.setOrigin(0, 0);
@@ -30,7 +30,7 @@ export default class Creditos extends Phaser.Scene {
         this.filtroCreditos.alpha = 0.8;
 
         //Texto créditos
-        this.creditos = this.add.text(anchoJuego / 10, altoJuego / 10, 'Juego desarrollado por Cuadra Crew:\n-Isabel Escudero Orden\n-Laura Fouz García\n-Elena López-Negrete Burón\n-Marta Rodríguez Castillo\n\nJUEGOS EN RED 3º GDDV URJC\n\n Música hecha por: Jake angel beats', { font: "40px Impact", fill: "#FFFFFF" })
+        this.creditos = this.add.text(anchoJuego / 10, altoJuego / 10, 'Juego desarrollado por Cuadra Crew:\n-Isabel Escudero Orden\n-Laura Fouz García\n-Elena López-Negrete Burón\n-Marta Rodríguez Castillo\n\nJUEGOS EN RED 3º GDDV URJC\n\nMúsica hecha por: jakeangelbeats.com\nSonidos adicionales hechos por: recordinghopkins@freesound', { font: "40px Impact", fill: "#FFFFFF" })
         this.creditos.setFontSize(altoJuego / 20);
 
         this.CuadraCrewLogo = this.add.image(anchoJuego * 8 / 10, altoJuego * 3 / 10, 'CuadraCrewLogo');
