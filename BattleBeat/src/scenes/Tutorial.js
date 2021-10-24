@@ -33,6 +33,8 @@ export default class Tutorial extends Phaser.Scene {
     create() {
         this.cameras.main.fadeFrom(1000, 57, 47, 236);//Fade inicial de la escena
 
+        this.djsound = this.sound.add('djsound',{volume:0.2});
+
         crearFondo(this);
         creaPersonajes(this);
         //textoPantalla1(this, formatoTexto);
@@ -53,6 +55,7 @@ export default class Tutorial extends Phaser.Scene {
 
         //Función para clic del botón y cambio de escena
         this.textoCambioPantalla.on('pointerdown', function (event) {
+            this.djsound.play()
             this.cameras.main.fade(1000, 57, 47, 236);
 
             this.scene.add('miPartida', new Partida);//crea una nueva partida

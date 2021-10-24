@@ -24,9 +24,17 @@ export default class Menu extends Phaser.Scene {
         this.load.path = './assets/';
         this.load.atlas('boviino', 'boviino.png', 'boviino_atlas.json');
 
+        this.load.path = './sounds/';
+        this.load.audio('musicmenu', 'harmonica.mp3');
+        this.load.audio('djsound', 'DJscratch.mp3');
     }
 
     create() {
+
+        this.musicmenu = this.sound.add('musicmenu');
+        this.musicmenu.play();
+        this.djsound = this.sound.add('djsound',{volume:0.2});
+
         this.cameras.main.fadeFrom(1000, 57, 47, 236);
 
         this.fondo1 = this.add.image(0, 0, 'Fondo1');
@@ -79,7 +87,8 @@ export default class Menu extends Phaser.Scene {
 
         //Función para clic del botón y cambio de escena
         this.botonJugar.on('pointerdown', function (event) {
-
+            this.musicmenu.stop();
+            this.djsound.play()
             this.scene.add("miTutorial", new Tutorial);
             this.scene.start("miTutorial"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
 
@@ -101,7 +110,8 @@ export default class Menu extends Phaser.Scene {
 
         //Función para clic del botón y cambio de escena
         this.botonCreditos.on('pointerdown', function (event) {
-
+            this.musicmenu.stop();
+            this.djsound.play()
             this.scene.add("misCreditos", new Creditos);
             this.scene.launch("misCreditos"); //Inicializa créditos
             this.scene.remove(); //Borra la escena de menú

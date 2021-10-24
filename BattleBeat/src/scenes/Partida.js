@@ -24,9 +24,6 @@ export default class Partida extends Phaser.Scene {
     this.load.image("flecha", "/src/images/Flecha.png")
     this.load.image('Fondo2', '/src/images/Fondo2.png');
 
-    this.load.path = './assets/';
-    this.load.atlas('boviino', 'boviino.png', 'boviino_atlas.json');
-
   }
 
   create() {
