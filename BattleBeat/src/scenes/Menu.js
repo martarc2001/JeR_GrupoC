@@ -33,6 +33,9 @@ export default class Menu extends Phaser.Scene {
 
         this.musicmenu = this.sound.add('musicmenu');
         this.musicmenu.play();
+        this.musicmenu.setLoop(true);
+        this.sound.pauseOnBlur=false;
+
         this.djsound = this.sound.add('djsound',{volume:0.2});
 
         this.cameras.main.fadeFrom(1000, 57, 47, 236);

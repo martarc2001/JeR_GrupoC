@@ -38,6 +38,11 @@ export default class Flechas extends Phaser.Scene {
 
         this.scoreJ2 = 0;
         this.scoreTextJ2;
+
+
+        //Para parar las flechas antes de que acabe la partida
+        this.paraFlechas = false;
+        this.timer = 0;
     }
 
     preload() {
@@ -177,13 +182,20 @@ export default class Flechas extends Phaser.Scene {
         //musica partida
         this.musicota = this.sound.add('musicota');
         this.musicota.play();
+        this.sound.pauseOnBlur=false;
 
 
         this.timedEvent = this.time.delayedCall(180000, onEvent, [], this);
 
+
     }
 
     update(time, delta) {
+       
+        this.timer++;
+        if (this.timer > 10522) {
+            this.paraFlechas = true;
+        }
 
         //Comandos juego Lexi (J1)
         if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
@@ -259,12 +271,13 @@ export default class Flechas extends Phaser.Scene {
         //Crea las flechas de manera aleatoria cada cierto tiempo
 
         if (this.tiempo % 30 == 0) {
-            this.cualFlecha = this.random(1, 5);
-            this.vectorFlechasJ1.push(creaFlechaJ1(this));
-            this.vectorFlechasJ2.push(creaFlechaJ2(this));
+            if (this.paraFlechas == false) {
+                this.cualFlecha = this.random(1, 5);
+                this.vectorFlechasJ1.push(creaFlechaJ1(this));
+                this.vectorFlechasJ2.push(creaFlechaJ2(this));
 
-            this.tiempo = 0;
-
+                this.tiempo = 0;
+            }
         }
 
         //Las pone en movimiento
@@ -559,6 +572,8 @@ function onEvent() {
         this.scene.remove(); //Borra la escena de menú
         this.scene.launch('PFinal1');
     }
+
+    
 
 }
 
