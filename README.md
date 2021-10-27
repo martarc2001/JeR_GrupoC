@@ -162,3 +162,62 @@ En cuanto a los efectos de sonido, los más importantes a destacar son aquellos 
 ![Concepto Lexi](/Imágenes%20archivo%20README/1-%20GDD/4-%20Arte/Concept%20art%20Lexi.jpeg)
 ![Concepto Mat](/Imágenes%20archivo%20README/1-%20GDD/4-%20Arte/Concept%20art%20Mat.jpeg)
 ![Concepto DJ BoViiNo](/Imágenes%20archivo%20README/1-%20GDD/4-%20Arte/Concept%20art%20DJ%20BoViiNo.png)
+
+
+
+<br>
+
+## Fase 2: Juego Local
+
+### 1 Pantallazos del juego
+
+#### 1 Menú
+![Menú](/Imágenes%20archivo%20README/2-%20Juego%20local/Pantallazos/Pre-partida/Menú.png)
+
+*Imagen 1: Menú. En esta fase del juego, solo se puede acceder a una versión offline del juego y a los créditos del mismo*
+
+#### 2 Tutorial
+![Tutorial](/Imágenes%20archivo%20README/2-%20Juego%20local/Pantallazos/Pre-partida/Tutorial.png)
+
+*Imagen 2: Tutorial. En esta pantalla, el jugador puede leer cómo se juega a la partida, además de interactuar con los personajes jugables del juego a modo de prueba antes de la partida*
+
+#### 3 Gameplay
+![Partida](/Imágenes%20archivo%20README/2-%20Juego%20local/Pantallazos/Partida/Partida.png)
+
+*Imagen 3: Gameplay. En las partidas offline, el jugador 2 usará las flechas del teclado para jugar*
+
+#### 4 Pantallas de ganadores
+![Ganador: J1](/Imágenes%20archivo%20README/2-%20Juego%20local/Pantallazos/Final/GANADOR%20J1.png)
+![Ganador: J2](/Imágenes%20archivo%20README/2-%20Juego%20local/Pantallazos/Final/GANADOR%20J2.png)
+![Empate](/Imágenes%20archivo%20README/2-%20Juego%20local/Pantallazos/Final/EMPATE.png)
+
+*Imágenes 4, 5 y 6: Pantallas finales. Se decidirá el ganador en base el número de puntos que tengan al finalizar la partida.*
+
+<br>
+
+### 2 Diagrama de flujo
+![Diagrama de flujo](/Imágenes%20archivo%20README/2-%20Juego%20local/Diagrama%20de%20flujo/Diagrama%20de%20flujo.jpeg)
+
+*Imagen 7: Diagrama de flujo del juego local*
+
+<br>
+
+### 3 Actualizaciones (27 de octubre de 2021)
+
+* Flechas y puntuación: Las flechas no emiten ningún sonido de por sí, tan solo siguen el ritmo de la música de fondo. Esto evita la sobresaturación de sonido.<br>Estos son los nuevos diseños de las flechas:<br>
+![Flecha gris](/Imágenes%20archivo%20README/2-%20Juego%20local/Flechas/Flecha%20gris.png)![Flecha rosa](/Imágenes%20archivo%20README/2-%20Juego%20local/Flechas/Flecha%20rosa.png)<br>
+Las flechas grises marcan al jugador la línea horizonte en el cual debe pulsar la tecla correspondiente cuando la flecha en movimiento se acerque.<br>
+Las flechas rosas son las flechas dinámicas que se generan constantemente a lo largo de la partida. 
+
+* Cambio de diseño de los fondos de menú y partida:
+![Granja Día](/Imágenes%20archivo%20README/2-%20Juego%20local/Fondos/Fondo%20día.png)
+![Granja Noche](/Imágenes%20archivo%20README/2-%20Juego%20local/Fondos/Fondo%20noche.png)
+
+* Cambio de diseño del personaje de Mat (Jugador 2):
+![Mat](/Imágenes%20archivo%20README/2-%20Juego%20local/Personajes/Mat.png)
+
+* Introducción de los iconos de puntuación:<br>
+![MISS](/Imágenes%20archivo%20README/2-%20Juego%20local/Puntuación/MISS.png)
+![GOOD](/Imágenes%20archivo%20README/2-%20Juego%20local/Puntuación/GOOD.png)
+![GREAT](/Imágenes%20archivo%20README/2-%20Juego%20local/Puntuación/GREAT.png)
+![PERFECT](/Imágenes%20archivo%20README/2-%20Juego%20local/Puntuación/PERFECT.png)
