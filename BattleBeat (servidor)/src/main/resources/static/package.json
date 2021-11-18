@@ -1,0 +1,14 @@
+{
+  "name": "BattleBeat",
+  "version": "0.0.0",
+  "description": "JeR Grupo C 2021/22 GDDV URJC Madrid-Quintana",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marta Rodríguez Castillo, Elena López-Negrete Burón, Laura Fouz García, Isabel Escudero Orden",
+  "license": "ISC",
+  "dependencies": {
+    "phaser": "^3.55.2"
+  }
+}
