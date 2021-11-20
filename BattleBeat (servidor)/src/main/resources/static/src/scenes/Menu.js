@@ -1,7 +1,7 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import Tutorial from "./Tutorial.js";
 import Creditos from "./Creditos.js";
-
+import Lobby from "./Lobby.js";
 
 export default class Menu extends Phaser.Scene {
     constructor() {
@@ -14,7 +14,8 @@ export default class Menu extends Phaser.Scene {
 
     preload() {
         this.load.image('boton', '/src/images/Menu/BOTÓN.png');
-        this.load.image('botonCreditos', '/src/images/Menu/BOTÓN CRÉDITOS.png');
+        this.load.image('botonOnline','/src/images/Menu/BOTON_online.png');
+       this.load.image('botonCreditos', '/src/images/Menu/BOTÓN CRÉDITOS.png');
         this.load.image('Fondo2', '/src/images/Fondo2.png');
         this.load.image('Fondo1', '/src/images/Fondo1.png');
         this.load.image('BattleBeatLogo', '/src/images/Menu/BattleBeatLogo.png');
@@ -78,6 +79,13 @@ export default class Menu extends Phaser.Scene {
         this.botonJugar = this.add.image(anchoJuego / 4, altoJuego / 2, 'boton');
         this.botonJugar.setScale(anchoJuego / (this.botonJugar.width * escalaBotones), altoJuego / (this.botonJugar.height * escalaBotones));
         this.botonJugar.setInteractive();//Para que funcionen los eventos
+        
+        
+ //Botón para comenzar la partida (Versión online)        
+ this.botonOnline = this.add.image(anchoJuego / 4, altoJuego / 2, 'botonOnline');
+ this.botonOnline.setScale(anchoJuego / (this.botonJugar.width * escalaBotones), altoJuego / (this.botonJugar.height * escalaBotones));
+ this.botonOnline.setInteractive();//Para que funcionen los eventos
+
 
         //Funciones para crear efecto hover del botón de partida
         this.botonJugar.on('pointerover', function () {
@@ -87,6 +95,16 @@ export default class Menu extends Phaser.Scene {
         this.botonJugar.on('pointerout', function () {
             this.clearTint();
         });
+        
+         //Funciones para crear efecto hover del botón de partida
+        this.botonOnline.on('pointerover', function () {
+            this.setTint(0x518DE3);//Se refiere solo al botón, este this se refiere al evento on del botón, no a la escena
+        });
+
+        this.botonOnline.on('pointerout', function () {
+            this.clearTint();
+        });
+
 
         //Función para clic del botón y cambio de escena
         this.botonJugar.on('pointerdown', function (event) {
@@ -94,6 +112,15 @@ export default class Menu extends Phaser.Scene {
             this.djsound.play()
             this.scene.add("miTutorial", new Tutorial);
             this.scene.start("miTutorial"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+            this.scene.remove();
+        }, this);
+        
+              //Función para clic del botón y cambio de escena
+          this.botonOnline.on('pointerdown', function (event) {
+            this.musicmenu.stop();
+            this.djsound.play()
+            this.scene.add("miLobby", new Lobby);
+            this.scene.start("miLobby"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
             this.scene.remove();
         }, this);
 
