@@ -48,7 +48,7 @@ public class Usuario {
 	public void resetTiempo() {
 		this.tiempoConectado=0;
 	}
-	public void setTiempo1segundo() {
+	public void setTiempo1unidad() {
 		this.tiempoConectado+=1;
 	}
 

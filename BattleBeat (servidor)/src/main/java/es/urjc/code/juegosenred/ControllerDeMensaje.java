@@ -15,30 +15,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.ArrayList;
-
-
 
 @RestController
 @RequestMapping("/sesion/")
 public class ControllerDeMensaje {
 
-	Lobby miLobby=new Lobby();
-	
-	//Postear un jugador
-	@PostMapping
+	Lobby miLobby = new Lobby();
+
+	// Postear un jugador
+	@PostMapping()
 	public Usuario nuevoUser(@RequestBody String miNombreUser) {
-		Usuario miUser=new Usuario(miNombreUser);
+		Usuario miUser = new Usuario(miNombreUser);
 		miLobby.anadirUsuario(miUser);
 		return miUser;
 	}
-		
 
-	//Postear un mensaje
+	// Postear un mensaje
 	@PostMapping("/{texto}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Mensaje nuevoMensaje(@RequestBody Mensaje miMensaje) {
@@ -46,23 +45,35 @@ public class ControllerDeMensaje {
 		miLobby.anadirMensaje(miMensaje);
 		System.out.println(miMensaje.getTexto());
 		return miMensaje;
-		
-	}
-	
 
-	
-	//Get de todos los mensajes
-	@GetMapping("/{texto}")
-	public List<Mensaje> getMensajes(){ //(@PathVariable long id)
-		return miLobby.misMensajes;		
 	}
+
+	// Get de todos los mensajes
+	@GetMapping("/{texto}")
+	public List<Mensaje> getMensajes() {
+
+		// COGER QUÉ USUARIO ESTÁ HACIENDO ESTE GET
+		// SET LA CONEXION DE ESE USUARIO A TRUE
+
+		return miLobby.misMensajes;
+	}
+
 	
 	/*
-	public List<String> getMensajes(){
-		return miLobby.misMensajes.getUser
+	public WebClient webClient() {
+	    return WebClient.builder()
+	      .baseUrl("http://localhost:8080")
+	      .clientConnector(new ReactorClientHttpConnector(
+	        HttpClient.create().responseTimeout(Duration.ofMillis(250))
+	      ))
+	      .build();
 	}
-	*/
 
-	
-
+	@GetMapping("/author/webclient")
+	public String getWithWebClient(@RequestParam String title) {
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/author/transactional").queryParam("title", title).build())
+				.retrieve().bodyToMono(String.class).block();
+	}
+*/
 }
