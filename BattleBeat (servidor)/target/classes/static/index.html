@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Battle Beat</title>
-    <style>
-      canvas {
-        display: block;
-        margin: auto; /*Centrado de Phaser en la página*/
-      }
-    </style>
-  </head>
 
-  <body>
-    <div id="contenedor"></div>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
-    <script src="./src/init.js" type="module"></script>
-  </body>
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<script src="ajaxScript.js"></script>
+
+
+	<title>Battle Beat</title>
+	<style>
+		canvas {
+			display: block;
+			margin: auto;
+			/*Centrado de Phaser en la página*/
+		}
+
+		#cajaChat {
+			width: 90vw;
+			/*width:90px;*/
+			height: 500px;
+			background-color: rgb(173, 204, 241);
+			overflow: auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="contenedor"></div>
+	<script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+	<script src="./src/init.js" type="module"></script>
+
+
+	<h1>¡Chatea con tus amigos mientras disfrutas de BattleBeat!</h1>	
+	<div id='info'>
+	<input id='value-input' type='text'><button id='add-button'>Add</button>
+	</div>
+	<div id="cajaChat"></div>
+
+</body>
+
 </html>

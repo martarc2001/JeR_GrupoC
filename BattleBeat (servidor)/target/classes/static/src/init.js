@@ -5,7 +5,10 @@ var configuracion = {
     height: window.innerHeight - 20,
     width: ((window.innerHeight - 20) / 9) * 16, //Formato 16:9
     parent: "contenedor",
-    scene: [Menu]//Escenas que cargará desde el principio
+    scene: [Menu],//Escenas que cargará desde el principio
+    dom: {
+        createContainer: true
+    }
 };
 
 var game = new Phaser.Game(configuracion);
