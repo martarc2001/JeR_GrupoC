@@ -267,6 +267,12 @@ getMensajes-> devuelve la lista de todos los mensajes almacenados (@GetMapping("
 
 Hemos utilizado como plantilla el ejemplo rest 4 de Aula Virtual, donde *Item* es *Mensaje* y *ItemsController* es *ControllerDeMensaje*.
 
+Usuario: esta clase almacena la información necesaria de cada usuario del chat (nombre, id, si está conectado y cuánto tiempo).
+
+Mensaje: los mensajes los creamos con esta clase, teniendo como atributos el usuario que lo manda y la información que contienen.
+
+Lobby: el proposito de esta clase es organizar los usuarios y los mensajes en listas para poder trabajar con ellos posteriormente. Además se encarga de guardar los mensajes en un fichero de texto, para que no se eliminen cuando el servidor se desconecte. 
+
 <br><br>
     
 ### Diagrama de flujo
