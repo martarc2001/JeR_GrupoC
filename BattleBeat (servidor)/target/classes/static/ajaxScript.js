@@ -1,3 +1,5 @@
+//var arrayMensajesJSON=[];
+
 function createUsuario(miUsuario) {
 	$.ajax({
 		method: "POST",
@@ -41,10 +43,22 @@ function loadMensajes() {
 
 
 		$('#cajaChat').empty();
+		
+		/*
+		for(var i=0; i<arrayMensajesJSON[i].length;i++){
+			console.log("ESTE MENSAJE:"+arrayMensajesJSON[i]);
+			$('#cajaChat').append('<div>'+arrayMensajesJSON[i].user+": "+arrayMensajesJSON[i].texto+ '</div>');
+		}
+		*/
+		
 		for (var i = 0; i < texto.length; i++) {
 			showMensaje(texto[i]);
 		}
 
+
+	}).fail(function() {
+		console.log("ERROR: SERVIDOR DESCONECTADO");
+		$('#cajaChat').append('<div>SERVIDOR DESCONECTADO. ESPERANDO RECONEXIÓN.</div>');
 
 	})
 }
@@ -76,6 +90,7 @@ function createMensaje(miMensaje, callback) {
 		}
 	}).done(function(miMensaje) {
 		console.log("Nuevo mensaje: " + JSON.stringify(miMensaje));
+		//arrayMensajesJSON.push(miMensaje);
 		showMensaje(miMensaje);
 		//callback(miMensaje);
 	})
@@ -88,7 +103,6 @@ function showMensaje(miMensaje) {
 }
 
 function showMensajeConexion(miMensaje) {
-	//$('#cajaChat').append("<div>" + miMensaje + " se ha cow-nectado.");
 	$('#cajaChat').append('<div>' + miMensaje.user.nombre + ": " + miMensaje.texto + '</div>')
 
 }
@@ -101,6 +115,8 @@ function showMensajeConexion(miMensaje) {
 $(document).ready(function() {
 	var input = $('#value-input');
 	var info = $('#info');
+	
+	
 
 	//Handle add button
 	$("#add-button").click(function() {
