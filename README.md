@@ -21,9 +21,6 @@ Juegos en Red, 3º GDDV 2021-22 URJC Madrid-Quintana, Grupo C (Cuadra Crew)
 <br>
 
 
-## Diagrama de Clases 
-![Diagrama de Clases](Imágenes%20archivo%20README/3-%20API%20Rest/DiagramaUML.png)
-
 ## Documento de Diseño del Juego
 
 ### 1 Introducción
@@ -225,3 +222,29 @@ Las flechas rosas son las flechas dinámicas que se generan constantemente a lo 
 ![GOOD](/Imágenes%20archivo%20README/2-%20Juego%20local/Puntuación/GOOD.png)
 ![GREAT](/Imágenes%20archivo%20README/2-%20Juego%20local/Puntuación/GREAT.png)
 ![PERFECT](/Imágenes%20archivo%20README/2-%20Juego%20local/Puntuación/PERFECT.png)
+
+<br>
+
+## Fase 3: API REST
+
+### Navegación
+
+Se ha actualizado el menú para poder implementar en un futuro una opción de juego multijugador online:
+
+![Nuevo Menú](Imágenes%20archivo%20README/3-%20API%20Rest/Pantallazos/Nuevo%20Menú.png)
+
+También se ha añadido un lobby, que se actualizará cuando empleemos websockets en la siguiente fase del proyecto, y que a día de hoy solo te redirige al tutorial del juego offline:
+
+![Lobby](Imágenes%20archivo%20README/3-%20API%20Rest/Pantallazos/Lobby.png)
+
+Por último, se ha implementado un chat bajo el juego, para que los jugadores puedan consultarlo en cualquier momento haciendo scroll hacia abajo en la web, y luego volver al juego en pantalla completa haciendo scroll de nuevo hacia arriba:
+
+![Chat](Imágenes%20archivo%20README/3-%20API%20Rest/Pantallazos/Chat.png)
+
+<br>
+
+### Diagrama de Clases 
+
+Como se ha explicado en el apartado de Navegación, el lobby actualmente redirige al juego offline hasta que se implemente la funcionalidad en websockets:
+
+![Diagrama de Clases](Imágenes%20archivo%20README/3-%20API%20Rest/DiagramaUML.png)
