@@ -252,8 +252,12 @@ Como se ha explicado en el apartado de Navegación, el lobby actualmente redirig
 
   -ControllerDeMensaje: es una clase anotada con @RestController, por lo tanto se trata de un controlador y se encarga de antender las peticiones web.
     * Métodos POST:
-    Estos son los métodos anotados con @PostMapping. El cuerpo de la petición se obtiene con un parámetro anotado con @RequestBody.
+    Estos son los métodos anotados con @PostMapping. 
+    <br>
+    El cuerpo de la petición se obtiene con un parámetro anotado con @RequestBody.
+    <br>
     nuevoUser -> para meter un usuario a la lista de usuarios de la lobby
+    <br>
     nuevoMensaje-> para añadir el mensaje a la lista de mensajes de la lobby
     
   
