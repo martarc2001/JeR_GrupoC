@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -44,6 +43,7 @@ public class ControllerDeMensaje {
 
 		miLobby.anadirMensaje(miMensaje);
 		System.out.println(miMensaje.getTexto());
+		miLobby.ficheroMensaje();
 		return miMensaje;
 
 	}
@@ -58,6 +58,27 @@ public class ControllerDeMensaje {
 		return miLobby.misMensajes;
 	}
 
+	
+	
+	/*
+	// Get de todos los usuarios
+		@GetMapping()
+		public ResponseEntity<Usuario> getUsuarios() {
+			for(int i=0; i<miLobby.misUsers.size();i++) {
+				if (miLobby.misUsers.get(i)==null) {
+					return new ResponseEntity<>(miLobby.misUsers.get(i).getNombre(), HttpStatus.NOT_FOUND);
+				}
+				
+			}		
+			
+		}
+		*/
+	
+	
+	
+	
+	
+	
 	
 	/*
 	public WebClient webClient() {

@@ -1,5 +1,9 @@
 package es.urjc.code.juegosenred;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -11,13 +15,17 @@ public class Lobby {
 
 	List<Usuario> misUsers = new ArrayList<>();
 	List<Mensaje> misMensajes = new ArrayList<>();
+	LocalDateTime miFecha;
+	LocalTime miHora;
+	String FechaConFormato;
 
-	int tiempoDeRefresco = 30000; // 3 segundos entre get y get
+	int tiempoDeRefresco = 3000; // 3 segundos entre get y get
 
 	Timer temporizador = new Timer(tiempoDeRefresco, new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			//ficheroMensaje();
 			System.out.println("Funciona Timer");
 
 			for (int i = 0; i < misUsers.size(); i++) {
@@ -54,6 +62,11 @@ public class Lobby {
 
 	public Lobby() {
 		 this.temporizador.start();
+		 
+		 miFecha=LocalDateTime.now();
+		 miHora=LocalTime.now();
+		 DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd-MM-yyyy-HH-mm-ss");
+		 FechaConFormato = miFecha.format(formatoFecha);
 	}
 
 	public void anadirUsuario(Usuario user) {
@@ -74,13 +87,18 @@ public class Lobby {
 	}
 
 	public void ficheroMensaje() {
+		System.out.println(miFecha);
+		System.out.println(miHora);
 		try {
 			PrintStream flujo;
-			flujo = new PrintStream(new FileOutputStream("mensajes.txt"));
+			//flujo = new PrintStream(new FileOutputStream("mensajes"+LocalDate.now()+miHora+".txt"));
+			flujo = new PrintStream(new FileOutputStream("mensajes"+FechaConFormato+".txt"));
 
 			for (int i = 0; i < misMensajes.size(); i++) {
-				flujo.println(misMensajes.get(i).getUser() + ": " + misMensajes.get(i).getTexto());
+				flujo.println(misMensajes.get(i).getUser()+": "+misMensajes.get(i).getTexto());
 			}
+			
+			flujo.close();
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Archivo no encontrado");

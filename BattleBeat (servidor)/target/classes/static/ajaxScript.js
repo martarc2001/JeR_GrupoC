@@ -23,7 +23,7 @@ function createUsuario(miUsuario) {
 				}
 			}
 		)
-		setInterval(function() { loadMensajes(); }, 3000); //Comprueba cada 3 segundos
+		setInterval(function() { loadMensajes(); /*loadJugadores();*/ }, 3000); //Comprueba cada 3 segundos
 
 		var inicioSesion = { user: entrada, texto: "Se ha cow-nectado al servidor" }
 		createMensaje(inicioSesion)
@@ -38,8 +38,8 @@ function loadMensajes() {
 		url: window.location.href + "sesion/texto"
 	}).done(function(texto) {
 		console.log('Mensajes cargados: ' + JSON.stringify(texto));
-		
-		
+
+
 		$('#cajaChat').empty();
 		for (var i = 0; i < texto.length; i++) {
 			showMensaje(texto[i]);
@@ -48,6 +48,21 @@ function loadMensajes() {
 
 	})
 }
+
+/*
+function loadJugadores() {		
+		$.ajax({
+			method: 'GET',
+			url: window.location.href + "sesion/"
+		}).done(function(jugadores) {
+			console.log("Jugadores conectados: " + JSON.stringify(jugadores))
+		}).fail(function(i) {
+			console.log("Jugador con id " + i + " no encontrado")
+		})
+
+
+	}
+*/
 
 //Crear mensaje
 function createMensaje(miMensaje, callback) {
@@ -93,7 +108,7 @@ $(document).ready(function() {
 		var value = input.val();
 		input.val('');
 
-		var esteUsuario = { nombre: value};
+		var esteUsuario = { nombre: value };
 
 		createUsuario(esteUsuario);
 
