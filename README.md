@@ -248,3 +248,22 @@ Por último, se ha implementado un chat bajo el juego, para que los jugadores pu
 Como se ha explicado en el apartado de Navegación, el lobby actualmente redirige al juego offline hasta que se implemente la funcionalidad en websockets:
 
 ![Diagrama de Clases](Imágenes%20archivo%20README/3-%20API%20Rest/DiagramaUML.png)
+
+
+  -ControllerDeMensaje: es una clase anotada con @RestController, por lo tanto se trata de un controlador y se encarga de antender las peticiones web.
+    * Métodos POST:
+    Estos son los métodos anotados con @PostMapping. El cuerpo de la petición se obtiene con un parámetro anotado con @RequestBody.
+    nuevoUser -> para meter un usuario a la lista de usuarios de la lobby
+    nuevoMensaje-> para añadir el mensaje a la lista de mensajes de la lobby
+    
+  
+    
+    
+    
+   
+    
+    
+  
+  
+
+
