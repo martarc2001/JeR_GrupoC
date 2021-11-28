@@ -251,7 +251,11 @@ Como se ha explicado en el apartado de Navegación, el lobby actualmente redirig
 
 
   ControllerDeMensaje: es una clase anotada con @RestController, por lo tanto se trata de un controlador y se encarga de antender las peticiones web.
+  <br>
+  <br>
     * Métodos POST:
+    <br>
+    <br>
     Estos son los métodos anotados con @PostMapping. 
     <br>
     El cuerpo de la petición se obtiene con un parámetro anotado con @RequestBody.
@@ -261,6 +265,23 @@ Como se ha explicado en el apartado de Navegación, el lobby actualmente redirig
     nuevoMensaje-> para añadir el mensaje a la lista de mensajes de la lobby
      <br>
     Hemos ultilizado el ejemplo rest 4 del aula virtual donde Item es Mensaje e ItemsController es ControllerDeMensaje.
+    
+### Instruccioness precisas para ejectutar la aplicación
+
+1º Tener instalado Java
+<br>
+2º Entrar en la carpeta Jer_GrupoC > BattleBeat (servidor) > target
+<br>
+3º Pulsar botón derecho encima del archivo .jar items-backend-and-frontend-0.0.1-SNAPSHOT
+<br>
+4º Seleccionar Abrir con... y buscar Java
+<br>
+5º Abrir una pestaña de navegador y poner en la barra de busqueda localhost:8080
+<br>
+6º Todo listo! :3
+<br>
+    
+    
     
     
    
