@@ -247,53 +247,51 @@ Por último, se ha implementado un chat bajo el juego, para que los jugadores pu
 
 Como se ha explicado en el apartado de Navegación, el lobby actualmente redirige al juego offline hasta que se implemente la funcionalidad en websockets:
 
-![Diagrama de Clases](Imágenes%20archivo%20README/3-%20API%20Rest/DiagramaUML.png)
+![Diagrama de Clases](Imágenes%20archivo%20README/3-%20API%20Rest/DiagramaUML1.png)
+
+En azul: Clase Controlador
+En rosa: Clases Java
 
 
-  ControllerDeMensaje: es una clase anotada con @RestController, por lo tanto se trata de un controlador y se encarga de antender las peticiones web.
-  <br>
-  <br>
-    * Métodos POST:
-    <br>
-    <br>
-    Estos son los métodos anotados con @PostMapping. 
-    <br>
-    El cuerpo de la petición se obtiene con un parámetro anotado con @RequestBody.
-    <br>
-    nuevoUser -> para meter un usuario a la lista de usuarios de la lobby
-    <br>
-    nuevoMensaje-> para añadir el mensaje a la lista de mensajes de la lobby
-     <br>
-    Hemos ultilizado el ejemplo rest 4 del aula virtual donde Item es Mensaje e ItemsController es ControllerDeMensaje.
-    
-### Instruccioness precisas para ejectutar la aplicación
+-ControllerDeMensaje: es una clase anotada con @RestController, por lo tanto se trata de un controlador y se encarga de antender las peticiones web.
 
-1º Tener instalado Java
-<br>
-2º Entrar en la carpeta Jer_GrupoC > BattleBeat (servidor) > target
-<br>
-3º Pulsar botón derecho encima del archivo .jar items-backend-and-frontend-0.0.1-SNAPSHOT
-<br>
-4º Seleccionar Abrir con... y buscar Java
-<br>
-5º Abrir una pestaña de navegador y poner en la barra de busqueda localhost:8080
-<br>
-6º Todo listo! :3
-<br>
-    
-    
-    
-    
-   
-    
-  
-    
-    
-    
-   
-    
-    
-  
-  
+* Métodos POST:
+Estos son los métodos anotados con @PostMapping correspondiente al almacen de la variable en concreto.
+
+El cuerpo de la petición se obtiene con un parámetro anotado con @RequestBody.
+
+nuevoUser-> para meter un usuario a la lista de usuarios de la lobby (@PostMapping())
+
+nuevoMensaje-> para añadir el mensaje a la lista de mensajes de la lobby (@PostMapping("/{texto}"))
+
+* Métodos GET: Estos son los métodos anotados con @GetMapping
+getMensajes-> devuelve la lista de todos los mensajes almacenados (@GetMapping("/{texto}"))
 
 
+-Usuario: esta clase almacena la información necesaria de cada usuario del chat (nombre, id, si está conectado y cuánto tiempo).
+
+-Mensaje: los mensajes los creamos con esta clase, teniendo como atributos el usuario que lo manda y la información que contienen.
+
+-Lobby: el proposito de esta clase es organizar los usuarios y los mensajes en listas para poder trabajar con ellos posteriormente. Además se encarga de guardar los mensajes en un fichero de texto, para que no se eliminen cuando el servidor se desconecte. 
+
+
+Hemos utilizado como plantilla el ejemplo rest 4 de Aula Virtual, donde *Item* es *Mensaje* y *ItemsController* es *ControllerDeMensaje*.
+
+<br><br>
+    
+### Diagrama de flujo
+
+![Diagrama de flujo](Imágenes%20archivo%20README/3-%20API%20Rest/Diagrama%20de%20Flujo.jpeg)
+
+<br>
+
+### Instrucciones precisas para ejectutar la aplicación (es necesario tener instalado Java)
+
+1º Abrir la consola del sistema (CMD)
+
+2º Escribir java -jar ruta\del\archivo\BattleBeat.jar
+
+3º Abrir un buscador, y escribir localhost:8080 en el ordenador donde se haya abierto el servidor, y la IP del ordenador donde se abrió seguido de :8080 en otros ordenadores de la red local
+
+4º ¡Disfrutar de BattleBeat!
+    
