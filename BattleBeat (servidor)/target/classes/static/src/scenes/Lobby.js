@@ -62,7 +62,7 @@ export default class Lobby extends Phaser.Scene {
         }, this);
 
 
-
+/*
         this.cuadroTexto = this.add.dom(anchoJuego/2,altoJuego*9/10).createFromCache("miCajaTexto");
         this.cuadroTexto.setOrigin(0.5, 0.5);
         this.cuadroTexto.setScale(anchoJuego/this.botonJugar.width, altoJuego / this.botonJugar.height )
@@ -84,6 +84,8 @@ export default class Lobby extends Phaser.Scene {
                 textoAEnviar.value = "";
             }
         });
+        
+        */
 
 
 

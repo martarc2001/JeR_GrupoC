@@ -24,6 +24,22 @@
 			background-color: rgb(173, 204, 241);
 			overflow: auto;
 		}
+
+		button,
+		input {
+			border-radius: 10%;
+			border-color: darkblue;
+			background-color: white;
+		}
+
+		button {
+			transition-duration: 0.2s;
+			/*transición entre el color de botón desmarcado y botón marcado (hover)*/
+		}
+
+		button:hover {
+			background-color: rgb(51, 169, 208)
+		}
 	</style>
 </head>
 
@@ -33,11 +49,14 @@
 	<script src="./src/init.js" type="module"></script>
 
 
-	<h1>¡Chatea con tus amigos mientras disfrutas de BattleBeat!</h1>	
+
+
+	<h1 style="font-family: Impact;">¡Chatea con tus amigos mientras disfrutas de BattleBeat!</h1>
 	<div id='info'>
-	<input id='value-input' type='text'><button id='add-button'>Add</button>
+		<input id='value-input' type='text' style="font-family: Impact;">
+		<button id='add-button' style="font-family: Impact;">Añadir jugador a la sala de chat</button>
 	</div>
-	<div id="cajaChat"></div>
+	<div id="cajaChat" style="font-family: Impact;"></div>
 
 </body>
 

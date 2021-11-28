@@ -12,7 +12,7 @@ function createUsuario(miUsuario) {
 
 		$('#info').empty();
 		$('#info').append(
-			"<input id='value-input2' type='text'><button id='add-button2'>Mandar mensaje al chat</button>")
+			"<input id='value-input2' type='text' style='font-family: Impact;'><button id='add-button2' style='font-family: Impact;'>Mandar mensaje al chat</button>")
 
 		$('#add-button2').click(
 			function() {
