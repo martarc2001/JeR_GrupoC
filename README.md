@@ -266,34 +266,20 @@ Como se ha explicado en el apartado de Navegación, el lobby actualmente redirig
      <br>
     Hemos ultilizado el ejemplo rest 4 del aula virtual donde Item es Mensaje e ItemsController es ControllerDeMensaje.
     
-### Instruccioness precisas para ejectutar la aplicación
+    <br>
+### Diagrama de flujo
 
-1º Tener instalado Java
-<br>
-2º Entrar en la carpeta Jer_GrupoC > BattleBeat (servidor) > target
-<br>
-3º Pulsar botón derecho encima del archivo .jar items-backend-and-frontend-0.0.1-SNAPSHOT
-<br>
-4º Seleccionar Abrir con... y buscar Java
-<br>
-5º Abrir una pestaña de navegador y poner en la barra de busqueda localhost:8080
-<br>
-6º Todo listo! :3
-<br>
-    
-    
-    
-    
-   
-    
-  
-    
-    
-    
-   
-    
-    
-  
-  
+![Diagrama de flujo](Imágenes%20archivo%20README/3-%20API%20Rest/Diagrama%20de%20Flujo.jpeg)
 
+<br>
 
+### Instrucciones precisas para ejectutar la aplicación
+
+1º Abrir la consola del sistema (CMD)
+
+2º Escribir java -jar ruta\del\archivo\BattleBeat.jar
+
+3º Abrir un buscador, y escribir localhost:8080 en el ordenador donde se haya abierto el servidor, y la IP del ordenador donde se abrió seguido de :8080 en otros ordenadores de la red local
+
+4º ¡Disfrutar de BattleBeat!
+    
