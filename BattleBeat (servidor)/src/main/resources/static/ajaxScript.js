@@ -43,14 +43,14 @@ function loadMensajes() {
 
 
 		$('#cajaChat').empty();
-		
+
 		/*
 		for(var i=0; i<arrayMensajesJSON[i].length;i++){
 			console.log("ESTE MENSAJE:"+arrayMensajesJSON[i]);
 			$('#cajaChat').append('<div>'+arrayMensajesJSON[i].user+": "+arrayMensajesJSON[i].texto+ '</div>');
 		}
 		*/
-		
+
 		for (var i = 0; i < texto.length; i++) {
 			showMensaje(texto[i]);
 		}
@@ -115,8 +115,8 @@ function showMensajeConexion(miMensaje) {
 $(document).ready(function() {
 	var input = $('#value-input');
 	var info = $('#info');
-	
-	
+
+
 
 	//Handle add button
 	$("#add-button").click(function() {
@@ -131,3 +131,24 @@ $(document).ready(function() {
 
 	})
 })
+
+
+window.onbeforeunload = function() {
+	$.ajax({
+		method: "PUT",
+		url: window.location.href + "sesion/",
+		data: JSON.stringify(esteUsuario),
+		processData: false,
+		headers: {
+			"Content-type": "application/json"
+		}
+	}).done(function(mensaje){
+		$('#cajaChat').append('<div>' + mensaje + '</div>')
+		
+	})
+}
+	
+
+
+
+

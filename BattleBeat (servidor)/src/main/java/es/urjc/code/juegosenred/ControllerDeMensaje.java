@@ -59,42 +59,38 @@ public class ControllerDeMensaje {
 	}
 
 	
-	
-	/*
-	// Get de todos los usuarios
-		@GetMapping()
-		public ResponseEntity<Usuario> getUsuarios() {
-			for(int i=0; i<miLobby.misUsers.size();i++) {
-				if (miLobby.misUsers.get(i)==null) {
-					return new ResponseEntity<>(miLobby.misUsers.get(i).getNombre(), HttpStatus.NOT_FOUND);
-				}
-				
-			}		
-			
-		}
-		*/
-	
-	
-	
-	
-	
-	
-	
-	/*
-	public WebClient webClient() {
-	    return WebClient.builder()
-	      .baseUrl("http://localhost:8080")
-	      .clientConnector(new ReactorClientHttpConnector(
-	        HttpClient.create().responseTimeout(Duration.ofMillis(250))
-	      ))
-	      .build();
+	@PutMapping
+	public ResponseEntity<String> salirPartida(@RequestBody String nombreUsuario) {
+		System.out.println("BORRAR USUARIO");
+		return new ResponseEntity<String>(nombreUsuario+": se ha des-cow-nectado",HttpStatus.OK);
 	}
 
-	@GetMapping("/author/webclient")
-	public String getWithWebClient(@RequestParam String title) {
-		return webClient.get()
-				.uri(uriBuilder -> uriBuilder.path("/author/transactional").queryParam("title", title).build())
-				.retrieve().bodyToMono(String.class).block();
-	}
-*/
+	
+	
+	
+	
+	/*
+	 * // Get de todos los usuarios
+	 * 
+	 * @GetMapping() public ResponseEntity<Usuario> getUsuarios() { for(int i=0;
+	 * i<miLobby.misUsers.size();i++) { if (miLobby.misUsers.get(i)==null) { return
+	 * new ResponseEntity<>(miLobby.misUsers.get(i).getNombre(),
+	 * HttpStatus.NOT_FOUND); }
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
+
+	/*
+	 * public WebClient webClient() { return WebClient.builder()
+	 * .baseUrl("http://localhost:8080") .clientConnector(new
+	 * ReactorClientHttpConnector(
+	 * HttpClient.create().responseTimeout(Duration.ofMillis(250)) )) .build(); }
+	 * 
+	 * @GetMapping("/author/webclient") public String getWithWebClient(@RequestParam
+	 * String title) { return webClient.get() .uri(uriBuilder ->
+	 * uriBuilder.path("/author/transactional").queryParam("title", title).build())
+	 * .retrieve().bodyToMono(String.class).block(); }
+	 */
 }

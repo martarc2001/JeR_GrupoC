@@ -1,0 +1,6 @@
+Usuario 1: Se ha cow-nectado al servidor
+Usuario 2: Se ha cow-nectado al servidor
+Usuario 1: Hola
+Usuario 2: Holaaaaa
+Usuario 1: A jugar!
+Usuario 2: Sí!!!

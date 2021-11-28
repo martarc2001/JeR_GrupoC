@@ -1,0 +1,4 @@
+Usuario 1 jar: Se ha cow-nectado al servidor
+Usuario 2 jar: Se ha cow-nectado al servidor
+Usuario 1 jar: Hola
+Usuario 2 jar: Holaaaaaaaaa
