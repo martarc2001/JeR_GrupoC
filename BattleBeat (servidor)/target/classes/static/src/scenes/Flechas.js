@@ -1,6 +1,6 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import { Flecha } from "./flecha.js";
-//import PFinal from './Pantalla Final.js'
+import PFinal from './PantallaFinal.js'
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
@@ -549,7 +549,7 @@ function onEvent() {
 
     if (this.scoreJ1 > this.scoreJ2) {
         console.log("hh");
-        this.game.scene.add('PFinal1', PFin, true, "Lexi");
+        this.game.scene.add('PFinal1', PFinal, true, "Lexi");
         this.scene.remove('miPartida');
         this.scene.remove();
         this.scene.launch('PFinal1');
@@ -558,7 +558,7 @@ function onEvent() {
 
     } else if (this.scoreJ2 > this.scoreJ1) {
 
-        this.game.scene.add('PFinal1', PFin, true, "Mat");
+        this.game.scene.add('PFinal1', PFinal, true, "Mat");
 
         this.scene.remove('miPartida');
         this.scene.remove();
@@ -566,7 +566,7 @@ function onEvent() {
 
     } else if (this.scoreJ1 == this.scoreJ2) {
 
-        this.game.scene.add('PFinal1', PFin, true, "Empate");
+        this.game.scene.add('PFinal1', PFinal, true, "Empate");
 
         this.scene.remove('miPartida');
         this.scene.remove(); //Borra la escena de menú

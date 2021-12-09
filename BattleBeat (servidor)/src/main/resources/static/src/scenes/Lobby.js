@@ -17,7 +17,7 @@ export default class Lobby extends Phaser.Scene {
 		this.load.image('boton', '/src/images/Menu/BOTON_Jugar.png');
 		this.load.image('filtroColor', '/src/images/Menu/Filtro Color.png');
 
-		this.load.html('miCajaTexto', '/src/scenes/cajaTexto.html');
+		//this.load.html('miCajaTexto', '/src/scenes/cajaTexto.html');
 
 		this.load.path = './sounds/';
 		this.load.audio('musicmenu', 'harmonica.mp3');
