@@ -22,6 +22,8 @@ export default class Lobby extends Phaser.Scene {
 		this.load.path = './sounds/';
 		this.load.audio('musicmenu', 'harmonica.mp3');
 		this.load.audio('djsound', 'DJscratch.mp3');
+		
+		
 	}
 
 	create() {
@@ -36,7 +38,22 @@ export default class Lobby extends Phaser.Scene {
 		this.filtro.setOrigin(0, 0);
 		this.filtro.setScale(anchoJuego / this.filtro.width, altoJuego / this.filtro.height); //Imagen se escalará con el resto del juego 
 		this.filtro.alpha = 0.8;
+		
+		
+		this.texto = this.add.text(anchoJuego / 2, altoJuego / 10, "Lobby", { font: "40px Impact", fill: "#ffffff", align: "center" });
+		this.texto.setFontSize(altoJuego / 10);
+		this.texto.setOrigin(0.5);
 
+
+		this.textoTempo = this.add.text(anchoJuego / 2, altoJuego/2, "", { font: "40px Impact", fill: "#ffffff", align: "center" });
+        this.textoTempo.setOrigin(0.5);
+        this.textoTempo.setFontSize(altoJuego / 15);
+        var textito=this.textoTempo;
+        
+        
+        
+        
+/*
 		var escalaBotones = 6.5;
 
 		//Botón para comenzar la partida (Versión offline juego--fase 2)        
@@ -61,14 +78,93 @@ export default class Lobby extends Phaser.Scene {
 			this.scene.remove();
 		}, this);
 
-
-		this.texto = this.add.text(anchoJuego/ 2, altoJuego / 2, "Lobby", { font: "40px Impact", fill: "#ffffff", align: "center" });
-		this.texto.setFontSize(altoJuego / 10);
-        this.texto.setOrigin(0.5);
+*/
 
 
 
-		/*
+		
+
+
+
+		$(document).ready(function() {
+			var flag = null;
+			//var connection = new WebSocket('ws://127.0.0.1:8080/conexion');
+			var connection = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
+
+			connection.onerror = function(e) {
+				console.log("WS error: " + e);
+			}
+
+			connection.onmessage = function(msg) { //Lo que recibe del servidor
+				console.log("WS message: " + msg.data);
+				if (msg.data == "Lexi") {
+					flag = true;
+
+				}
+				else if (msg.data == "Mat") {
+					flag = false;
+
+					//Comenzar contador
+					var contador = 5;
+					var temporizador = setInterval(function() { contador--; }, 1000); //Comprueba cada 3 segundos
+
+					if (contador == 0) {
+						clearInterval(temporizador);
+						textito.setText(contador);
+						
+						
+						if (flag == true) {
+							//Escena Lexi
+							this.djsound.play()
+							this.scene.add("miTutorial", new Tutorial);
+							this.scene.start("miTutorial"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+							this.scene.remove();
+						}
+						else {
+							//Escena Mat
+							this.djsound.play()
+							this.scene.add("miTutorialMat", new TutorialMat);
+							this.scene.start("miTutorialMat"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+							this.scene.remove();
+
+						}
+					}
+
+				}
+
+
+			}
+
+/*
+			connection.onopen = function() {
+				connection.send("true");
+			}
+
+*/
+		})
+
+
+
+
+
+
+
+	}
+
+	update(time, delta) {
+		
+		console.log("Time: "+time);
+		console.log("Delta: "+delta);
+
+	}
+}
+
+
+
+
+
+
+/*//Esto en create():
 				this.cuadroTexto = this.add.dom(anchoJuego/2,altoJuego*9/10).createFromCache("miCajaTexto");
 				this.cuadroTexto.setOrigin(0.5, 0.5);
 				this.cuadroTexto.setScale(anchoJuego/this.botonJugar.width, altoJuego / this.botonJugar.height )
@@ -92,44 +188,6 @@ export default class Lobby extends Phaser.Scene {
 				});
 			    
 				*/
-
-
-
-$(document).ready(function(){
-	var connection = new WebSocket('ws://127.0.0.1:8080/conexion');
-	connection.onerror = function(e) {
-	  console.log("WS error: " + e);
-	}
-	connection.onmessage = function(msg) {
-	  console.log("WS message: " + msg.data);
-	}
-	
-	connection.onopen=function(){
-		connection.send("true");   
-	}
-	
-	/*
-    $('#send-btn').click(function() {
-    	var message = $('#message').val()	
-	    connection.send(message);
-    });*/
-})
-
-
-
-
-
-
-
-	}
-
-	update() {
-
-	}
-}
-
-
-
 
 
 

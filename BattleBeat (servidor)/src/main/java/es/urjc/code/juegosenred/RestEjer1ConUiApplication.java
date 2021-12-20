@@ -21,14 +21,15 @@ public class RestEjer1ConUiApplication implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(echoHandler(), "/echo")
-			.setAllowedOrigins("*");
+		registry.addHandler(echoHandler(), "/conexion").setAllowedOrigins("*");
 	}
 	
 	@Bean
 	public WebsocketEchoHandler echoHandler() {
 		return new WebsocketEchoHandler();
-	}	
+	}
+	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(RestEjer1ConUiApplication.class, args);
 	}
