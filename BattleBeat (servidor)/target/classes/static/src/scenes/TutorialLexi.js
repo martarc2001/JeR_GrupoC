@@ -5,6 +5,9 @@ import { connection } from './Lobby.js';
 
 var Lexi;
 var LexiActivarIdle = false;
+var tiempo = 2;
+var flagAhora, connectionAhora;
+var block   = true;
 
 export default class TutorialLexi extends Phaser.Scene {
 	constructor() {
@@ -29,6 +32,8 @@ export default class TutorialLexi extends Phaser.Scene {
 	}
 
 	create({ flag, connection }) {
+		flagAhora   = flag;
+		connectionAhora   = connection;
 		console.log("EL DEL TUTORIAL" + flag)
 		console.log(connection);
 		this.cameras.main.fadeFrom(1000, 57, 47, 236);//Fade inicial de la escena
@@ -62,7 +67,29 @@ export default class TutorialLexi extends Phaser.Scene {
 			}, this);
 
 
-			this.timedEvent = this.time.delayedCall(5000, onEvent, [], this);
+			/*
+						connection.send("EmpezarPartida");
+			
+			
+						this.timedEvent = this.time.delayedCall(5000, function() {
+			
+							connection.send("EmpezarPartida");
+			
+							this.djsound.play()
+							this.cameras.main.fade(1000, 57, 47, 236);
+			
+							this.scene.add('misFlechasLexi', new FlechasLexi);
+							this.scene.launch('misFlechasLexi');
+							this.scene.remove();//Borra la escena de tutorial
+			
+			
+			
+						}, [], this);
+			
+			*/
+
+
+
 
 		}
 		this.djsound = this.sound.add('djsound', { volume: 0.2 });
@@ -73,47 +100,27 @@ export default class TutorialLexi extends Phaser.Scene {
 
 
 
-
-
-		$(document).ready(function() {
-
-			//var connection = new WebSocket('ws://127.0.0.1:8080/conexion');
-			//var connection = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
-
-			connection.onerror = function(e) {
-				console.log("WS error: " + e);
-			}
-
-			connection.onopen = function() {
-				connection.send("EmpezarPartida");
-			}
-
-			connection.onmessage = function(msg) { //Lo que recibe del servidor
-				console.log("WS message: " + msg.data);
-
-				if (msg.data == "EmpezarPartida") {
-					flag = true;
-					console.log("AAAAAAAAAAAAAAAAA");
-
-				}
-			}
-
-
-
-
-		})
-
-
-
-
-
-
-
-
-
 	}
 
-	update(time) {
+	update(time, delta) {
+		if  (flagAhora  == true) {
+				tiempo -= delta;
+
+				if (tiempo < 0) {
+					if (block  == true) {
+							console.log("ASDFGHJKLÑ")
+							connectionAhora.send("EmpezarPartida");
+
+							this.djsound.play()
+							this.cameras.main.fade(1000, 57, 47, 236);
+
+							this.scene.add('misFlechasLexi', new FlechasLexi);
+							this.scene.launch('misFlechasLexi');
+							this.scene.remove();//Borra la escena de tutorial
+							block = false;
+						}
+				}
+				}
 
 		//Comandos juego Lexi (J1)
 		if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
@@ -136,13 +143,24 @@ export default class TutorialLexi extends Phaser.Scene {
 		}
 
 
-
-
 	}
+
+
+	onEvent() {
+		connection.send("EmpezarPartida");
+
+		this.djsound.play()
+		this.cameras.main.fade(1000, 57, 47, 236);
+
+		this.scene.add('misFlechasLexi', new FlechasLexi);
+		this.scene.launch('misFlechasLexi');
+		this.scene.remove();//Borra la escena de tutorial
+	}
+
 }
 
 
-
+/*
 function onEvent() {
 	connection.send("EmpezarPartida");
 
@@ -154,7 +172,7 @@ function onEvent() {
 	this.scene.remove();//Borra la escena de tutorial
 }
 
-
+*/
 
 
 function crearFondo(miEscena) {

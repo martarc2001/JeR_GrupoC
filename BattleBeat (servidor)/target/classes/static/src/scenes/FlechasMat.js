@@ -7,10 +7,10 @@ var LexiActivarIdle = false;
 var MatActivarIdle = false;
 var good1, great1, perfect1, miss1;
 var good2, great2, perfect2, miss2;
-export default class Flechas extends Phaser.Scene {
+export default class FlechasMat extends Phaser.Scene {
     constructor() {
         super({
-            key: "Flechas",
+            key: "FlechasMat",
             active: true
         });
 

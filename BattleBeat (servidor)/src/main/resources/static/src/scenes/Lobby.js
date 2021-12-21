@@ -82,6 +82,11 @@ export default class Lobby extends Phaser.Scene {
 				else if(msg.data == "Conexion"){
 					juegosConectados=true;
 				}
+				else if (msg.data == "EmpezarPartida") {
+					flag = true;
+					console.log("AAAAAAAAAAAAAAAAA");
+
+				}
 				else{
 					
 					this.scene.add('miMenu', new Menu);
@@ -94,18 +99,7 @@ export default class Lobby extends Phaser.Scene {
 
 			}
 
-/*
-			connection.onopen = function() {
-				connection.send("true");
-			}
-
-*/
 		})
-
-
-
-
-
 
 
 	}
