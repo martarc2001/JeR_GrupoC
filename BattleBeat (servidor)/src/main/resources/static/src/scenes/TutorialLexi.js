@@ -3,9 +3,10 @@ import Partida from './Partida.js';
 import FlechasLexi from './FlechasLexi.js';
 import { connection } from './Lobby.js';
 
-var Lexi;
+var Lexi, Mat;
 var LexiActivarIdle = false;
-var tiempo = 2;
+var MatActivarIdle = false;
+var tiempo = 1000;
 var flagAhora, connectionAhora;
 var block   = true;
 
@@ -26,6 +27,10 @@ export default class TutorialLexi extends Phaser.Scene {
 		//Para crear animaciones de Lexi (J1)
 		this.load.json('animLexi', 'lexi_atlas_anim.json');
 		this.load.atlas('lexi_atlas', 'lexi_atlas.png', 'lexi_atlas_atlas.json');
+		
+		 //Para crear animaciones de Mat (J2)
+        this.load.json('animMat', 'mat_atlas_anim.json');
+        this.load.atlas('mat_atlas', 'mat_atlas.png', 'mat_atlas_atlas.json');
 
 		this.load.image('boton', '/src/images/Menu/BOTON_Jugar.png');
 
@@ -37,6 +42,10 @@ export default class TutorialLexi extends Phaser.Scene {
 		console.log("EL DEL TUTORIAL" + flag)
 		console.log(connection);
 		this.cameras.main.fadeFrom(1000, 57, 47, 236);//Fade inicial de la escena
+		
+		this.djsound = this.sound.add('djsound', { volume: 0.2 });
+		crearFondo(this);
+		creaPersonajes(this, flag);
 
 		if (flag == true) {
 			//Creamos los botones para el juego:
@@ -67,37 +76,40 @@ export default class TutorialLexi extends Phaser.Scene {
 			}, this);
 
 
-			/*
-						connection.send("EmpezarPartida");
-			
-			
-						this.timedEvent = this.time.delayedCall(5000, function() {
-			
-							connection.send("EmpezarPartida");
-			
-							this.djsound.play()
-							this.cameras.main.fade(1000, 57, 47, 236);
-			
-							this.scene.add('misFlechasLexi', new FlechasLexi);
-							this.scene.launch('misFlechasLexi');
-							this.scene.remove();//Borra la escena de tutorial
-			
-			
-			
-						}, [], this);
-			
-			*/
-
-
-
-
 		}
-		this.djsound = this.sound.add('djsound', { volume: 0.2 });
+		
+		//WEBSOCKETS
+		$(document).ready(function() {		
+			console.log(connectionAhora);
+			
+			connectionAhora.onerror = function(e) {
+				console.log("WS error: " + e);
+			}
 
-		crearFondo(this);
-		creaPersonajes(this);
+			connectionAhora.onmessage = function(msg) { //Lo que recibe del servidor
+			
+				console.log("WS message: " + msg.data);
+				
+				
+			
+				if (msg.data == "null") {
+				
+					console.log("AAAAAAAAAAAAAAAAA");
+                            this.djsound.play()
+							this.cameras.main.fade(1000, 57, 47, 236);
+
+							this.scene.add('misFlechasMat', new FlechasLexi);
+							this.scene.launch('misFlechasMat');
+							this.scene.remove();//Borra la escena de tutorial
+							
+				}
+				
 
 
+			}
+
+		})
+	
 
 
 	}
@@ -106,22 +118,32 @@ export default class TutorialLexi extends Phaser.Scene {
 		if  (flagAhora  == true) {
 				tiempo -= delta;
 
-				if (tiempo < 0) {
+				if (tiempo == 0) {
 					if (block  == true) {
 							console.log("ASDFGHJKLÑ")
-							connectionAhora.send("EmpezarPartida");
+							connectionAhora.send(JSON.stringify(null));
 
 							this.djsound.play()
 							this.cameras.main.fade(1000, 57, 47, 236);
 
+							/*
 							this.scene.add('misFlechasLexi', new FlechasLexi);
 							this.scene.launch('misFlechasLexi');
 							this.scene.remove();//Borra la escena de tutorial
+							*/
+							
+							this.scene.add('misFlechasLexi', new FlechasLexi, true,{flagAhora, connectionAhora});
+							this.scene.start('misFlechasLexi');
+							
 							block = false;
+						}else if(block==false){
+							this.scene.remove();//Borra la escena de tutorial
 						}
 				}
 				}
 
+
+if (flagAhora==true){
 		//Comandos juego Lexi (J1)
 		if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
 			Lexi.play('inicioLexi');
@@ -142,37 +164,37 @@ export default class TutorialLexi extends Phaser.Scene {
 			LexiActivarIdle = true;
 		}
 
+}else{
+		
+		 //Comandos juego Mat  (J2)
+        if (MatActivarIdle) {
+            Mat.play('inicioMat');
+            MatActivarIdle = false;
+        }
 
+        if (this.arribaMat.isDown) {
+            Mat.play('juegoArribaMat');
+            MatActivarIdle = true;
+        } else if (this.abajoMat.isDown) {
+            Mat.play('juegoAbajoMat');
+            MatActivarIdle = true;
+        } else if (this.derechaMat.isDown) {
+            Mat.play('juegoDchaMat');
+            MatActivarIdle = true;
+        } else if (this.izquierdaMat.isDown) {
+            Mat.play('juegoIzqMat');
+            MatActivarIdle = true;
+        }
+}
 	}
 
 
-	onEvent() {
-		connection.send("EmpezarPartida");
 
-		this.djsound.play()
-		this.cameras.main.fade(1000, 57, 47, 236);
-
-		this.scene.add('misFlechasLexi', new FlechasLexi);
-		this.scene.launch('misFlechasLexi');
-		this.scene.remove();//Borra la escena de tutorial
-	}
 
 }
 
 
-/*
-function onEvent() {
-	connection.send("EmpezarPartida");
 
-	this.djsound.play()
-	this.cameras.main.fade(1000, 57, 47, 236);
-
-	this.scene.add('misFlechasLexi', new FlechasLexi);
-	this.scene.launch('misFlechasLexi');
-	this.scene.remove();//Borra la escena de tutorial
-}
-
-*/
 
 
 function crearFondo(miEscena) {
@@ -189,7 +211,7 @@ function crearFondo(miEscena) {
 
 
 
-function creaPersonajes(miEscena) {
+function creaPersonajes(miEscena, flag) {
 	//Controles jugadores
 	miEscena.cursor = miEscena.input.keyboard.createCursorKeys();
 
@@ -199,16 +221,29 @@ function creaPersonajes(miEscena) {
 	miEscena.abajo = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 	miEscena.derecha = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
+//Controles Mat (J2): Flechas
+    miEscena.arribaMat = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    miEscena.izquierdaMat = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    miEscena.abajoMat = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    miEscena.derechaMat = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 	//Animaciones personajes
 	var escalaPersonajes = 0.35; //Usar esta variable para que sean del mismo tamaño
 
+
+if(flag==true){
 	//Animación Lexi (J1)
 	crearAnimacionesLexi(miEscena.anims); //Crea todos los movimientos posibles del personaje
 	Lexi = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'lexi_atlas');
 	Lexi.setScale(altoJuego * escalaPersonajes / Lexi.height);
 	Lexi.play('inicioLexi');
-
+}else if(flag==false){
+ //Animación Mat (J2)
+    crearAnimacionesMat(miEscena.anims);
+    Mat = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'mat_atlas');
+    Mat.setScale(altoJuego * escalaPersonajes / Mat.height);
+    Mat.play('inicioMat');
+}
 
 
 }
@@ -259,3 +294,66 @@ function crearAnimacionesLexi(handleAnimacion) {
 }
 
 
+function crearAnimacionesMat(handleAnimacion) {
+    const inicioMat = {
+        key: 'inicioMat',
+        frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', start: 1, end: 2 }),
+        frameRate: 2,
+        repeat: -1
+    };
+    handleAnimacion.create(inicioMat);
+
+    const juegoArribaMat = {
+        key: 'juegoArribaMat',
+        frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', frames: [4] }),
+        frameRate: 12,
+        repeat: 0
+    };
+    handleAnimacion.create(juegoArribaMat);
+
+    const juegoAbajoMat = {
+        key: 'juegoAbajoMat',
+        frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', frames: [2] }),
+        frameRate: 12,
+        repeat: 0
+    };
+    handleAnimacion.create(juegoAbajoMat);
+
+    const juegoDchaMat = {
+        key: 'juegoDchaMat',
+        frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', frames: [5] }),
+        frameRate: 12,
+        repeat: 0
+    };
+    handleAnimacion.create(juegoDchaMat);
+
+    const juegoIzqMat = {
+        key: 'juegoIzqMat',
+        frames: handleAnimacion.generateFrameNames('mat_atlas', { prefix: 'frame', frames: [3] }),
+        frameRate: 12,
+        repeat: 0
+    };
+    handleAnimacion.create(juegoIzqMat);
+}
+
+
+/*
+						connection.send("EmpezarPartida");
+			
+			
+						this.timedEvent = this.time.delayedCall(5000, function() {
+			
+							connection.send("EmpezarPartida");
+			
+							this.djsound.play()
+							this.cameras.main.fade(1000, 57, 47, 236);
+			
+							this.scene.add('misFlechasLexi', new FlechasLexi);
+							this.scene.launch('misFlechasLexi');
+							this.scene.remove();//Borra la escena de tutorial
+			
+			
+			
+						}, [], this);
+			
+			*/

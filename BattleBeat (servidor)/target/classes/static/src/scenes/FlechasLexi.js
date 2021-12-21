@@ -61,7 +61,7 @@ export default class FlechasLexi extends Phaser.Scene {
     }
 
 
-    create() {
+    create({flag, connection}) {
         this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
 
         //Fondo de la escena
@@ -173,6 +173,12 @@ export default class FlechasLexi extends Phaser.Scene {
         this.abajo = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.derecha = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
+		//Controles Mat (J2): Flechas
+        this.arribaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.izquierdaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.abajoMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.derechaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
         
 
         //musica partida
@@ -211,6 +217,28 @@ export default class FlechasLexi extends Phaser.Scene {
         } else if (this.izquierda.isDown) {
             Lexi.play('juegoIzqLexi');
             LexiActivarIdle = true;
+        }
+        
+        
+        
+        //Comandos juego Mat  (J2)
+        if (MatActivarIdle) {
+            Mat.play('inicioMat');
+            MatActivarIdle = false;
+        }
+
+        if (this.arribaMat.isDown) {
+            Mat.play('juegoArribaMat');
+            MatActivarIdle = true;
+        } else if (this.abajoMat.isDown) {
+            Mat.play('juegoAbajoMat');
+            MatActivarIdle = true;
+        } else if (this.derechaMat.isDown) {
+            Mat.play('juegoDchaMat');
+            MatActivarIdle = true;
+        } else if (this.izquierdaMat.isDown) {
+            Mat.play('juegoIzqMat');
+            MatActivarIdle = true;
         }
 
         this.tiempo++;

@@ -8,6 +8,7 @@ var juegosConectados=false;
 var entraEnBucle=true;
 var connection;
 export{connection}
+export{flag}
 export default class Lobby extends Phaser.Scene {
 	constructor() {
 		super({
