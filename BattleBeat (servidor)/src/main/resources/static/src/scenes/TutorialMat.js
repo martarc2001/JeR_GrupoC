@@ -1,6 +1,7 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import Partida from './Partida.js';
 import FlechasMat from './FlechasMat.js';
+import {connection} from './Lobby.js';
 
 var Mat;
 var MatActivarIdle = false;
@@ -16,7 +17,7 @@ export default class TutorialMat extends Phaser.Scene {
 
     preload() {
         //No hay que hacer preload de elementos ya cargados en Menú, porque es la primera escena cargada
-        this.load.image('miTutorial', './src/images/Menu/TutorialOnline.png')
+        this.load.image('miTutorialOnlineMat', './src/images/Menu/TutorialOnline.png')
 
         this.load.path = './assets/';
 
@@ -33,8 +34,28 @@ export default class TutorialMat extends Phaser.Scene {
 
         crearFondo(this);
         creaPersonajes(this);
+		//this.timedEvent = this.time.delayedCall(5000, onEvent, [], this);
 
+    $(document).ready(function() {		
+			
+			//var connection = new WebSocket('ws://127.0.0.1:8080/conexion');
+			//var connection = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
 
+			connection.onerror = function(e) {
+				console.log("WS error: " + e);
+			}
+
+			connection.onmessage = function(msg) { //Lo que recibe del servidor
+				console.log("WS message: " + msg.data);				
+				
+				if (msg.data == "true") {					
+					flag=true;
+
+				}				
+		}
+					})
+    
+    
     }
 
     update(time) {
@@ -72,7 +93,7 @@ function crearFondo(miEscena) {
     miEscena.fondo1.setScale(anchoJuego / miEscena.fondo1.width, altoJuego / miEscena.fondo1.height); //Imagen se escalará con el resto del juego 
 
     //Texto
-    miEscena.miTutorial = miEscena.add.image(0, 0, 'miTutorial');
+    miEscena.miTutorial = miEscena.add.image(0, 0, 'miTutorialOnlineMat');
     miEscena.miTutorial.setOrigin(0, 0);
     miEscena.miTutorial.setScale(anchoJuego / miEscena.miTutorial.width, altoJuego / miEscena.miTutorial.height);
 }
@@ -146,6 +167,14 @@ function crearAnimacionesMat(handleAnimacion) {
     handleAnimacion.create(juegoIzqMat);
 }
 
+function onEvent(){
+			this.djsound.play()
+            this.cameras.main.fade(1000, 57, 47, 236);
+
+            this.scene.add('misFlechasMat', new FlechasMat);
+            this.scene.launch('misFlechasMat');
+            this.scene.remove();//Borra la escena de tutorial
+}
 
 
 

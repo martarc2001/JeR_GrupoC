@@ -167,17 +167,11 @@ export default class Flechas extends Phaser.Scene {
         //Controles jugadores
         this.cursor = this.input.keyboard.createCursorKeys();
 
-        //Controles Lexi (J1): WASD
+        //Controles WASD
         this.arriba = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.izquierda = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.abajo = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.derecha = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
-        //Controles Mat (J2): Flechas
-        this.arribaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        this.izquierdaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.abajoMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.derechaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         //musica partida
         this.musicota = this.sound.add('musicota');
@@ -197,42 +191,23 @@ export default class Flechas extends Phaser.Scene {
             this.paraFlechas = true;
         }
 
-        //Comandos juego Lexi (J1)
-        if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
-            Lexi.play('inicioLexi');
-            LexiActivarIdle = false;
-        }
-
-        if (this.arriba.isDown) {
-            Lexi.play('juegoArribaLexi');
-            LexiActivarIdle = true; //Activamos el booleano que nos pondrá la animación en bucle al terminar este paso de baile
-        } else if (this.abajo.isDown) {
-            Lexi.play('juegoAbajoLexi');
-            LexiActivarIdle = true;
-        } else if (this.derecha.isDown) {
-            Lexi.play('juegoDchaLexi');
-            LexiActivarIdle = true;
-        } else if (this.izquierda.isDown) {
-            Lexi.play('juegoIzqLexi');
-            LexiActivarIdle = true;
-        }
-
+      
         //Comandos juego Mat  (J2)
         if (MatActivarIdle) {
             Mat.play('inicioMat');
             MatActivarIdle = false;
         }
 
-        if (this.arribaMat.isDown) {
+        if (this.arriba.isDown) {
             Mat.play('juegoArribaMat');
             MatActivarIdle = true;
-        } else if (this.abajoMat.isDown) {
+        } else if (this.abajo.isDown) {
             Mat.play('juegoAbajoMat');
             MatActivarIdle = true;
-        } else if (this.derechaMat.isDown) {
+        } else if (this.derecha.isDown) {
             Mat.play('juegoDchaMat');
             MatActivarIdle = true;
-        } else if (this.izquierdaMat.isDown) {
+        } else if (this.izquierda.isDown) {
             Mat.play('juegoIzqMat');
             MatActivarIdle = true;
         }

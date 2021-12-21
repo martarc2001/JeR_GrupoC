@@ -1,8 +1,13 @@
 import { anchoJuego, altoJuego } from "../init.js";
-import Tutorial from "./Tutorial.js";
+import TutorialLexi from "./TutorialLexi.js";
+import TutorialMat from "./TutorialMat.js";
 
 
-
+var flag = null;
+var juegosConectados=false;
+var entraEnBucle=true;
+var connection;
+export{connection}
 export default class Lobby extends Phaser.Scene {
 	constructor() {
 		super({
@@ -45,51 +50,17 @@ export default class Lobby extends Phaser.Scene {
 		this.texto.setOrigin(0.5);
 
 
-		this.textoTempo = this.add.text(anchoJuego / 2, altoJuego/2, "", { font: "40px Impact", fill: "#ffffff", align: "center" });
+		this.textoTempo = this.add.text(anchoJuego / 2, altoJuego/2, "Esperando a JUGADOR 2...", { font: "40px Impact", fill: "#ffffff", align: "center" });
         this.textoTempo.setOrigin(0.5);
         this.textoTempo.setFontSize(altoJuego / 15);
         var textito=this.textoTempo;
         
         
-        
-        
-/*
-		var escalaBotones = 6.5;
 
-		//Botón para comenzar la partida (Versión offline juego--fase 2)        
-		this.botonJugar = this.add.image(anchoJuego * 9 / 10, altoJuego * 9 / 10, 'boton');
-		this.botonJugar.setScale(anchoJuego / (this.botonJugar.width * escalaBotones), altoJuego / (this.botonJugar.height * escalaBotones));
-		this.botonJugar.setInteractive();//Para que funcionen los eventos
-
-		//Funciones para crear efecto hover del botón de partida
-		this.botonJugar.on('pointerover', function() {
-			this.setTint(0x518DE3);//Se refiere solo al botón, este this se refiere al evento on del botón, no a la escena
-		});
-
-		this.botonJugar.on('pointerout', function() {
-			this.clearTint();
-		});
-
-		//Función para clic del botón y cambio de escena
-		this.botonJugar.on('pointerdown', function(event) {
-			this.djsound.play()
-			this.scene.add("miTutorial", new Tutorial);
-			this.scene.start("miTutorial"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
-			this.scene.remove();
-		}, this);
-
-*/
-
-
-
-		
-
-
-
-		$(document).ready(function() {
-			var flag = null;
+		$(document).ready(function() {		
+			
 			//var connection = new WebSocket('ws://127.0.0.1:8080/conexion');
-			var connection = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
+			connection = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
 
 			connection.onerror = function(e) {
 				console.log("WS error: " + e);
@@ -97,13 +68,103 @@ export default class Lobby extends Phaser.Scene {
 
 			connection.onmessage = function(msg) { //Lo que recibe del servidor
 				console.log("WS message: " + msg.data);
-				if (msg.data == "Lexi") {
-					flag = true;
+				
+				
+				if (msg.data == "Lexi") {					
+					flag=true;
 
 				}
 				else if (msg.data == "Mat") {
-					flag = false;
+					flag=false;
+					juegosConectados=true;
+					connection.send(juegosConectados);
+				}
+				else if(msg.data == "Conexion"){
+					juegosConectados=true;
+				}
+				else{
+					
+					this.scene.add('miMenu', new Menu);
+					this.scene.launch('miMenu');
+					this.scene.remove();
 
+				}
+				console.log(flag);
+
+
+			}
+
+/*
+			connection.onopen = function() {
+				connection.send("true");
+			}
+
+*/
+		})
+
+
+
+
+
+
+
+	}
+
+	update(time, delta) {
+		
+	if(entraEnBucle==true){
+		
+		if(juegosConectados==true){
+			console.log(flag);
+			this.djsound.play()
+			if (flag==true){
+				entraEnBucle=null;						
+					this.scene.remove();
+					this.game.scene.add("miTutorialLexi", new TutorialLexi,true,{flag,connection});
+					this.scene.start("miTutorialLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					
+			}else if (flag==false){
+				entraEnBucle=null;
+					this.scene.remove();
+					//this.scene.add("miTutorialMat", new TutorialMat);
+					//this.scene.start("miTutorialMat"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					
+					//this.scene.add("miTutorialLexi", new TutorialLexi);
+					this.game.scene.add("miTutorialLexi", new TutorialLexi,true,{flag,connection});
+					this.scene.start("miTutorialLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					
+			}
+		
+		}
+		
+	}
+}
+	}	
+
+
+
+/*
+function cargarEscena(flag, miEscena){
+	
+	if (flag==true){
+			
+					miEscena.djsound.play()
+					miEscena.scene.add("miTutorialLexi", new TutorialLexi);
+					miEscena.scene.start("miTutorialLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					miEscena.scene.remove();
+			
+			
+		}else if (flag==false){
+					miEscena.djsound.play()
+					miEscena.scene.add("miTutorialMat", new TutorialMat);
+					miEscena.scene.start("miTutorialMat"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					miEscena.scene.remove();
+		}
+	
+}
+*/
+
+/*
 					//Comenzar contador
 					var contador = 5;
 					var temporizador = setInterval(function() { contador--; }, 1000); //Comprueba cada 3 segundos
@@ -129,19 +190,9 @@ export default class Lobby extends Phaser.Scene {
 
 						}
 					}
-
-				}
-
-
-			}
-
-/*
-			connection.onopen = function() {
-				connection.send("true");
-			}
-
-*/
-		})
+					
+					
+			*/	
 
 
 
@@ -149,15 +200,10 @@ export default class Lobby extends Phaser.Scene {
 
 
 
-	}
 
-	update(time, delta) {
-		
-		console.log("Time: "+time);
-		console.log("Delta: "+delta);
 
-	}
-}
+
+
 
 
 
@@ -190,4 +236,29 @@ export default class Lobby extends Phaser.Scene {
 				*/
 
 
+/*
+		var escalaBotones = 6.5;
 
+		//Botón para comenzar la partida (Versión offline juego--fase 2)        
+		this.botonJugar = this.add.image(anchoJuego * 9 / 10, altoJuego * 9 / 10, 'boton');
+		this.botonJugar.setScale(anchoJuego / (this.botonJugar.width * escalaBotones), altoJuego / (this.botonJugar.height * escalaBotones));
+		this.botonJugar.setInteractive();//Para que funcionen los eventos
+
+		//Funciones para crear efecto hover del botón de partida
+		this.botonJugar.on('pointerover', function() {
+			this.setTint(0x518DE3);//Se refiere solo al botón, este this se refiere al evento on del botón, no a la escena
+		});
+
+		this.botonJugar.on('pointerout', function() {
+			this.clearTint();
+		});
+
+		//Función para clic del botón y cambio de escena
+		this.botonJugar.on('pointerdown', function(event) {
+			this.djsound.play()
+			this.scene.add("miTutorial", new Tutorial);
+			this.scene.start("miTutorial"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+			this.scene.remove();
+		}, this);
+
+*/
