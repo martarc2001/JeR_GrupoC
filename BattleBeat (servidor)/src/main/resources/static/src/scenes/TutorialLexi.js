@@ -275,19 +275,18 @@ function creaPersonajes(miEscena, flag) {
 
 	//Animaciones personajes
 	var escalaPersonajes = 0.35; //Usar esta variable para que sean del mismo tamaño
-	if (flag == true) {
+	
 		//Animación Lexi (J1)
 		crearAnimacionesLexi(miEscena.anims); //Crea todos los movimientos posibles del personaje
 		Lexi = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'lexi_atlas');
 		Lexi.setScale(altoJuego * escalaPersonajes / Lexi.height);
 		Lexi.play('inicioLexi');
-	} else if (flag == false) {
 		//Animación Mat (J2)
 		crearAnimacionesMat(miEscena.anims);
 		Mat = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'mat_atlas');
 		Mat.setScale(altoJuego * escalaPersonajes / Mat.height);
 		Mat.play('inicioMat');
-	}
+	
 
 }
 

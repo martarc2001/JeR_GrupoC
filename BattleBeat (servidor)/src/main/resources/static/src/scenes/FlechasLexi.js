@@ -167,20 +167,20 @@ export default class FlechasLexi extends Phaser.Scene {
 
         //Controles jugadores
         this.cursor = this.input.keyboard.createCursorKeys();
-if(flag==false){
+
         //Controles Lexi (J1): WASD
         this.arriba = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.izquierda = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.abajo = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.derecha = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-}else if (flag==true){
+
 		//Controles Mat (J2): Flechas
         this.arribaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.izquierdaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.abajoMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.derechaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        }
+        
 
         //musica partida
         this.musicota = this.sound.add('musicota');
