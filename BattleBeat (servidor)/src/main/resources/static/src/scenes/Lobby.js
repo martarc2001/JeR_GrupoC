@@ -7,8 +7,8 @@ var flag = null;
 var juegosConectados=false;
 var entraEnBucle=true;
 var connection;
-export{connection}
-export{flag}
+export{connection,flag}
+
 export default class Lobby extends Phaser.Scene {
 	constructor() {
 		super({
@@ -137,7 +137,7 @@ export default class Lobby extends Phaser.Scene {
 	}	
 
 
-
+//-------------------------------------------------------------------------------------------------------------------------
 /*
 function cargarEscena(flag, miEscena){
 	
