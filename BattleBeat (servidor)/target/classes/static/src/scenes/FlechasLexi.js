@@ -217,7 +217,7 @@ export default class FlechasLexi extends Phaser.Scene {
         this.sound.pauseOnBlur=false;
 
 
-        this.timedEvent = this.time.delayedCall(180000, onEvent, [], this);
+        this.timedEvent = this.time.delayedCall(84000, onEvent, [], this);
 
 
 			
@@ -226,7 +226,7 @@ export default class FlechasLexi extends Phaser.Scene {
     update(time, delta) {
        
         this.timer++;
-        if (this.timer > 10522) {
+        if (this.timer > 4850) {
             this.paraFlechas = true;
         }
         if(this.timer > 200){
@@ -644,7 +644,8 @@ function contadorJ2(array, miEscena, i) {
 
 function onEvent() {
 
-
+	this.musicota.stop();
+	
     if (this.scoreJ1 > this.scoreJ2) {
         console.log("hh");
         this.game.scene.add('PFinal1', PFinal, true, "Lexi");
