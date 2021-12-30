@@ -7,6 +7,7 @@ var LexiActivarIdle = false;
 var MatActivarIdle = false;
 var good1, great1, perfect1, miss1;
 var good2, great2, perfect2, miss2;
+var flagAhora;
 export default class FlechasLexi extends Phaser.Scene {
     constructor() {
         super({
@@ -62,6 +63,8 @@ export default class FlechasLexi extends Phaser.Scene {
 
 
     create({flag, connection}) {
+	
+	 flagAhora=flag;
         this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
 
         //Fondo de la escena
@@ -166,19 +169,19 @@ export default class FlechasLexi extends Phaser.Scene {
 
         //Controles jugadores
         this.cursor = this.input.keyboard.createCursorKeys();
-
+if(flagAhora==true){
         //Controles Lexi (J1): WASD
         this.arriba = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.izquierda = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.abajo = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.derecha = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
+}else if(flagAhora==false){
 		//Controles Mat (J2): Flechas
         this.arribaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.izquierdaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.abajoMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.derechaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
+}
         
 
         //musica partida
@@ -199,7 +202,7 @@ export default class FlechasLexi extends Phaser.Scene {
             this.paraFlechas = true;
         }
 
-if(flag==true){
+if(flagAhora==true){
         //Comandos juego Lexi (J1)
         if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
             Lexi.play('inicioLexi');
@@ -219,7 +222,7 @@ if(flag==true){
             Lexi.play('juegoIzqLexi');
             LexiActivarIdle = true;
         }
-        }else if(flag==false){
+        }else if(flagAhora==false){
         
         
         //Comandos juego Mat  (J2)
@@ -310,11 +313,12 @@ if(flag==true){
         }
 
         //Ganar puntuacion 
+        if(flagAhora==true){
         for (var i = 0; i < this.vectorFlechasJ1.length; i++) {
             ganaPuntosJ1(i, this);
 
         }
-
+}else if(flagAhora==false)
         for (var i = 0; i < this.vectorFlechasJ2.length; i++) {
 
             ganaPuntosJ2(i, this);

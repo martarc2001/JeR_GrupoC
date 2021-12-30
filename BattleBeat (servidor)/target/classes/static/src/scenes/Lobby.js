@@ -1,6 +1,7 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import TutorialLexi from "./TutorialLexi.js";
 import TutorialMat from "./TutorialMat.js";
+import FlechasLexi from "./FlechasLexi.js";
 
 
 var flag = null;
@@ -9,6 +10,7 @@ var entraEnBucle=true;
 var connection;
 var tiempo = 5000;
 var textito;
+
 
 export default class Lobby extends Phaser.Scene {
 	constructor() {
@@ -77,14 +79,18 @@ export default class Lobby extends Phaser.Scene {
 				else if (msg.data == "Mat") {
 					flag=false;
 					juegosConectados=true;
-					connection.send(juegosConectados);
+					//connection.send(juegosConectados);
 				}
 				else if(msg.data == "Conexion"){
 					juegosConectados=true;
 				}
-				else if (msg.data == "EmpezarPartida") {
+				else if (msg.data == "Pasoajuego") {
 					flag = true;
-					console.log("AAAAAAAAAAAAAAAAA");
+					this.scene.remove();
+					this.game.scene.add("miTutorialLexi", new TutorialLexi,true,{flag,connection});
+					this.scene.start("miTutorialLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					
+					
 
 				}
 				else{
@@ -111,6 +117,7 @@ export default class Lobby extends Phaser.Scene {
 		if(juegosConectados==true){
 			tiempo -= delta;
 			textito.setText("La partida comenzará en: "+parseInt(tiempo/1000))
+			
 	
 					if (tiempo < 0) {
 			
@@ -119,18 +126,19 @@ export default class Lobby extends Phaser.Scene {
 			if (flag==true){
 				entraEnBucle=null;						
 					this.scene.remove();
-					this.game.scene.add("miTutorialLexi", new TutorialLexi,true,{flag,connection});
-					this.scene.start("miTutorialLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					this.game.scene.add("miFlechasLexi", new FlechasLexi,true,{flag,connection});
+					this.scene.start("miFlechasLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
 					
 			}else if (flag==false){
 				entraEnBucle=null;
+				connection.send("Pasoajuego");
 					this.scene.remove();
 					//this.scene.add("miTutorialMat", new TutorialMat);
 					//this.scene.start("miTutorialMat"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
 					
 					//this.scene.add("miTutorialLexi", new TutorialLexi);
-					this.game.scene.add("miTutorialLexi", new TutorialLexi,true,{flag,connection});
-					this.scene.start("miTutorialLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					this.game.scene.add("miFlechasLexi", new FlechasLexi,true,{flag,connection});
+					this.scene.start("miFlechasLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
 					
 			}
 			}

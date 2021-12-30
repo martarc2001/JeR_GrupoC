@@ -26,7 +26,7 @@ public class Lobby {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			//ficheroMensaje();
-			System.out.println("Funciona Timer");
+
 
 			for (int i = 0; i < misUsers.size(); i++) {
 

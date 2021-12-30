@@ -35,6 +35,17 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 		ObjectNode newNode = mapper.createObjectNode();
 		newNode.put("name", node.get("name").asText());
 		newNode.put("message", node.get("message").asText());
+		
+		if(node.get("name").asText()=="Lobby") {
+			
+			newNode.put("message", node.get("message").asText());
+		}else if (node.get("name").asText()=="Partida") {
+			
+			newNode.put("left", node.get("left").asText());
+	        newNode.put("right", node.get("right").asText());
+	        newNode.put("jump", node.get("jump").asText());
+	        newNode.put("down", node.get("down").asText());
+		}
 
 		for (WebSocketSession participant : sesiones.values()) {
 			if (!participant.getId().equals(session.getId())) {
