@@ -5,9 +5,11 @@ import FlechasLexi from './FlechasLexi.js';
 var Lexi, Mat;
 var LexiActivarIdle = false;
 var MatActivarIdle = false;
-var tiempo = 1000;
+var tiempo = 10000;
 var flagAhora, connectionAhora, connectionTuto;
 var block = true;
+var textito;
+var entraEnBucle=true;
 
 export default class TutorialLexi extends Phaser.Scene {
 	constructor() {
@@ -45,12 +47,15 @@ export default class TutorialLexi extends Phaser.Scene {
 		console.log("EL DEL TUTORIAL" + flag)
 		console.log(connection);
 		this.cameras.main.fadeFrom(1000, 57, 47, 236);//Fade inicial de la escena
-
-
 		crearFondo(this);
+		
 		creaPersonajes(this, flag);
+		
+		textito = this.add.text(anchoJuego / 2, altoJuego*9/10, "", { font: "40px Impact", fill: "#ffffff", align: "center" });
+      	textito.setOrigin(0.5);
+        textito.setFontSize(altoJuego / 15);
 
-
+	
 		if (flag == true) {//Lexi
 			//Creamos los botones para el juego:
 			var escalaBotones = 6.5;
@@ -147,6 +152,36 @@ export default class TutorialLexi extends Phaser.Scene {
 	}
 
 	update(time, delta) {
+		
+		if(entraEnBucle==true){
+			tiempo -= delta;
+			textito.setText("La partida comenzará en: "+parseInt(tiempo/1000))
+			
+	
+					if (tiempo < 0) {
+			
+			this.djsound.play()
+			if (flagAhora==true){
+				entraEnBucle=null;						
+					this.scene.remove();
+					this.game.scene.add("miFlechasLexi", new FlechasLexi,true,{flagAhora});
+					this.scene.start("miFlechasLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					connectionAhora.close();
+					
+			}else if (flagAhora==false){
+				entraEnBucle=null;
+					this.scene.remove();
+					//this.scene.add("miTutorialMat", new TutorialMat);
+					//this.scene.start("miTutorialMat"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					
+					//this.scene.add("miTutorialLexi", new TutorialLexi);
+					this.game.scene.add("miFlechasLexi", new FlechasLexi,true,{flagAhora});
+					this.scene.start("miFlechasLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
+					connectionAhora.close();
+
+			}
+			}
+			}
 		/*	if  (flagAhora  == true) {
 					tiempo -= delta;
 	
@@ -261,31 +296,42 @@ function creaPersonajes(miEscena, flag) {
 	miEscena.cursor = miEscena.input.keyboard.createCursorKeys();
 
 	//Controles Lexi (J1): WASD
+	if(flag == true){
 	miEscena.arriba = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 	miEscena.izquierda = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 	miEscena.abajo = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 	miEscena.derecha = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+	}
 	//Controles Mat (J2): Flechas
+	if(flag == false){
 	miEscena.arribaMat = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 	miEscena.izquierdaMat = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
 	miEscena.abajoMat = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 	miEscena.derechaMat = miEscena.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
+	}
 
 	//Animaciones personajes
 	var escalaPersonajes = 0.35; //Usar esta variable para que sean del mismo tamaño
 	
 		//Animación Lexi (J1)
 		crearAnimacionesLexi(miEscena.anims); //Crea todos los movimientos posibles del personaje
-		Lexi = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'lexi_atlas');
+		
+		if(flag == true){
+			Lexi = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'lexi_atlas');
 		Lexi.setScale(altoJuego * escalaPersonajes / Lexi.height);
 		Lexi.play('inicioLexi');
+		}
+		
 		//Animación Mat (J2)
 		crearAnimacionesMat(miEscena.anims);
-		Mat = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'mat_atlas');
+		if(flag == false){
+			Mat = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'mat_atlas');
 		Mat.setScale(altoJuego * escalaPersonajes / Mat.height);
 		Mat.play('inicioMat');
 	
+			
+		}
+		
 
 }
 

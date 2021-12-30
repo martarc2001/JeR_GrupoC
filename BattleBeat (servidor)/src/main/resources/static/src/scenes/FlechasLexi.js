@@ -7,7 +7,19 @@ var LexiActivarIdle = false;
 var MatActivarIdle = false;
 var good1, great1, perfect1, miss1;
 var good2, great2, perfect2, miss2;
-var flagAhora;
+var flagDespues;
+var wspartida;
+
+var J1_W = 0;
+var J1_A = 0;
+var J1_S = 0;
+var J1_D = 0;
+
+var J2_W;
+var J2_A;
+var J2_S;
+var J2_D;
+
 export default class FlechasLexi extends Phaser.Scene {
     constructor() {
         super({
@@ -62,10 +74,26 @@ export default class FlechasLexi extends Phaser.Scene {
     }
 
 
-    create({flag, connection}) {
+    create({flagAhora}) {
 	
-	 flagAhora=flag;
+	 flagDespues=flagAhora;
+	 console.log("flagAhora Create: " + flagDespues)
         this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
+        
+        wspartida = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
+
+			wspartida.onerror = function(e) {
+				console.log("WS error: " + e);
+			}
+
+			wspartida.onmessage = function(msg) { //Lo que recibe del servidor
+				console.log("WS message: " + msg.data);
+				var message = JSON.parse(msg.data);
+				J2_W = message.arriba;
+				J2_A = message.izquierda;
+        		J2_S = message.abajo;
+        		J2_D = message.derecha;
+    		}
 
         //Fondo de la escena
         this.fondo2 = this.add.image(0, 0, 'Fondo2');
@@ -166,22 +194,21 @@ export default class FlechasLexi extends Phaser.Scene {
         this.scoreTextJ2 = this.add.text(anchoJuego - anchoJuego / 6, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
         this.scoreTextJ2.setFontSize(altoJuego / 20);
 
-
         //Controles jugadores
         this.cursor = this.input.keyboard.createCursorKeys();
-if(flagAhora==true){
+		if(flagDespues==true){
         //Controles Lexi (J1): WASD
         this.arriba = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.izquierda = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.abajo = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.derecha = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-}else if(flagAhora==false){
+		}else if(flagDespues==false){
 		//Controles Mat (J2): Flechas
         this.arribaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.izquierdaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.abajoMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.derechaMat = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-}
+		}
         
 
         //musica partida
@@ -193,6 +220,7 @@ if(flagAhora==true){
         this.timedEvent = this.time.delayedCall(180000, onEvent, [], this);
 
 
+			
     }
 
     update(time, delta) {
@@ -201,47 +229,109 @@ if(flagAhora==true){
         if (this.timer > 10522) {
             this.paraFlechas = true;
         }
+        if(this.timer > 200){
+			sendData();
+		}
 
-if(flagAhora==true){
+if(flagDespues==true){
         //Comandos juego Lexi (J1)
         if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
             Lexi.play('inicioLexi');
+            J1_W = 0;
+			J1_A = 0;
+			J1_S = 0;
+			J1_D = 0;
             LexiActivarIdle = false;
         }
 
         if (this.arriba.isDown) {
             Lexi.play('juegoArribaLexi');
+            J1_W = 1;
             LexiActivarIdle = true; //Activamos el booleano que nos pondrá la animación en bucle al terminar este paso de baile
+        
         } else if (this.abajo.isDown) {
             Lexi.play('juegoAbajoLexi');
+            J1_S = 1;
             LexiActivarIdle = true;
+ 			
         } else if (this.derecha.isDown) {
             Lexi.play('juegoDchaLexi');
+            J1_D = 1;
             LexiActivarIdle = true;
+            
         } else if (this.izquierda.isDown) {
+            Lexi.play('juegoIzqLexi');
+             J1_A = 1;
+            LexiActivarIdle = true;
+          
+        }
+         if (MatActivarIdle) {
+            Mat.play('inicioMat');
+            
+            MatActivarIdle = false;
+    
+        }
+
+        if (J2_W == 1) {
+            Mat.play('juegoArribaMat');
+            MatActivarIdle = true;
+        } else if (J2_S == 1) {
+            Mat.play('juegoAbajoMat');
+            MatActivarIdle = true;
+        } else if (J2_D == 1) {
+            Mat.play('juegoDchaMat');
+            MatActivarIdle = true;
+        } else if (J2_A == 1) {
+            Mat.play('juegoIzqMat');
+            MatActivarIdle = true;
+        }
+        
+        }else if(flagDespues==false){
+        
+         if (LexiActivarIdle) { 
+            Lexi.play('inicioLexi');
+            LexiActivarIdle = false;
+        }
+
+        if (J2_W == 1) {
+            Lexi.play('juegoArribaLexi');
+            LexiActivarIdle = true; 
+       } else if (J2_S == 1) {
+            Lexi.play('juegoAbajoLexi');
+            LexiActivarIdle = true;
+        } else if (J2_D == 1) {
+            Lexi.play('juegoDchaLexi');
+            LexiActivarIdle = true;
+        } else if (J2_A == 1) {
             Lexi.play('juegoIzqLexi');
             LexiActivarIdle = true;
         }
-        }else if(flagAhora==false){
         
-        
-        //Comandos juego Mat  (J2)
+
         if (MatActivarIdle) {
             Mat.play('inicioMat');
+            J1_W = 0;
+			J1_A = 0;
+			J1_S = 0;
+			J1_D = 0;
             MatActivarIdle = false;
         }
 
         if (this.arribaMat.isDown) {
             Mat.play('juegoArribaMat');
+            J1_W = 1;
             MatActivarIdle = true;
         } else if (this.abajoMat.isDown) {
             Mat.play('juegoAbajoMat');
+            J1_S = 1;
             MatActivarIdle = true;
         } else if (this.derechaMat.isDown) {
             Mat.play('juegoDchaMat');
+            J1_D = 1;
             MatActivarIdle = true;
         } else if (this.izquierdaMat.isDown) {
             Mat.play('juegoIzqMat');
+            J1_A = 1;
             MatActivarIdle = true;
         }
         }
@@ -313,12 +403,12 @@ if(flagAhora==true){
         }
 
         //Ganar puntuacion 
-        if(flagAhora==true){
+        if(flagDespues==true){
         for (var i = 0; i < this.vectorFlechasJ1.length; i++) {
             ganaPuntosJ1(i, this);
 
         }
-}else if(flagAhora==false)
+}else if(flagDespues==false)
         for (var i = 0; i < this.vectorFlechasJ2.length; i++) {
 
             ganaPuntosJ2(i, this);
@@ -584,7 +674,15 @@ function onEvent() {
     
 
 }
-
+function sendData(){
+	var msg = {
+		arriba: J1_W,
+		izquierda: J1_A,
+		abajo: J1_S,
+		derecha: J1_D
+	}
+	wspartida.send(JSON.stringify(msg));
+}
 
 
 

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -33,19 +34,13 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 		System.out.println("Message sent: " + node.toString());
 
 		ObjectNode newNode = mapper.createObjectNode();
-		newNode.put("name", node.get("name").asText());
-		newNode.put("message", node.get("message").asText());
-		
-		if(node.get("name").asText()=="Lobby") {
-			
-			newNode.put("message", node.get("message").asText());
-		}else if (node.get("name").asText()=="Partida") {
-			
-			newNode.put("left", node.get("left").asText());
-	        newNode.put("right", node.get("right").asText());
-	        newNode.put("jump", node.get("jump").asText());
-	        newNode.put("down", node.get("down").asText());
-		}
+		//newNode.put("name", node.get("name").asText());
+			newNode.put("arriba", node.get("arriba").asText());
+			newNode.put("izquierda", node.get("izquierda").asText());
+			newNode.put("abajo", node.get("abajo").asText());
+	        newNode.put("derecha", node.get("derecha").asText());
+	        
+	       
 
 		for (WebSocketSession participant : sesiones.values()) {
 			if (!participant.getId().equals(session.getId())) {
@@ -62,6 +57,7 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 
 		if (contadorSesiones.get() == 0) {
 			session.sendMessage(new TextMessage("Lexi"));
+			System.out.println("Lexi entra");
 		} else if (contadorSesiones.get() == 1) {
 			session.sendMessage(new TextMessage("Mat"));
 
@@ -71,9 +67,12 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 				}
 			}
 
-		} else {
-		}
-
+	
 	}
 
+}
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		sesiones.remove(session.getId());
+	}
 }
