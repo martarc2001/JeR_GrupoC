@@ -1,8 +1,6 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import Partida from './Partida.js';
 import FlechasMat from './FlechasMat.js';
-import {connection} from './Lobby.js';
-
 var Mat;
 var MatActivarIdle = false;
 

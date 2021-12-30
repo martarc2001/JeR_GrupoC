@@ -7,7 +7,8 @@ var flag = null;
 var juegosConectados=false;
 var entraEnBucle=true;
 var connection;
-export{connection,flag}
+var tiempo = 5000;
+var textito;
 
 export default class Lobby extends Phaser.Scene {
 	constructor() {
@@ -51,14 +52,12 @@ export default class Lobby extends Phaser.Scene {
 		this.texto.setOrigin(0.5);
 
 
-		this.textoTempo = this.add.text(anchoJuego / 2, altoJuego/2, "Esperando a JUGADOR 2...", { font: "40px Impact", fill: "#ffffff", align: "center" });
+		this.textoTempo = this.add.text(anchoJuego / 2, altoJuego*9/10, "Esperando a JUGADOR 2...", { font: "40px Impact", fill: "#ffffff", align: "center" });
         this.textoTempo.setOrigin(0.5);
         this.textoTempo.setFontSize(altoJuego / 15);
-        var textito=this.textoTempo;
+        textito=this.textoTempo;
         
-        
-
-		$(document).ready(function() {		
+       
 			
 			//var connection = new WebSocket('ws://127.0.0.1:8080/conexion');
 			connection = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
@@ -100,7 +99,7 @@ export default class Lobby extends Phaser.Scene {
 
 			}
 
-		})
+		
 
 
 	}
@@ -110,6 +109,11 @@ export default class Lobby extends Phaser.Scene {
 	if(entraEnBucle==true){
 		
 		if(juegosConectados==true){
+			tiempo -= delta;
+			textito.setText("La partida comenzará en: "+parseInt(tiempo/1000))
+	
+					if (tiempo < 0) {
+			
 			console.log(flag);
 			this.djsound.play()
 			if (flag==true){
@@ -128,6 +132,7 @@ export default class Lobby extends Phaser.Scene {
 					this.game.scene.add("miTutorialLexi", new TutorialLexi,true,{flag,connection});
 					this.scene.start("miTutorialLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
 					
+			}
 			}
 		
 		}

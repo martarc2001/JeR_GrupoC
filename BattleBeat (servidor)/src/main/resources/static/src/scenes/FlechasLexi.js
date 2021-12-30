@@ -1,7 +1,6 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import { Flecha } from "./flecha.js";
 import PFinal from './PantallaFinal.js'
-import { connection, flag } from './Lobby.js';
 
 var Lexi, Mat;
 var LexiActivarIdle = false;

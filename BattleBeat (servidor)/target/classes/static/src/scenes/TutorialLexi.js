@@ -1,7 +1,6 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import Partida from './Partida.js';
 import FlechasLexi from './FlechasLexi.js';
-import { connection, flag } from './Lobby.js';
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
@@ -76,7 +75,7 @@ export default class TutorialLexi extends Phaser.Scene {
 
 				this.botonPulsado = true;
 
-
+				connectionAhora.send("EmpezarPartida");		
 				this.djsound.play()
 				this.scene.add("FlechasLexi", new FlechasLexi);
 				this.scene.start("FlechasLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
@@ -119,15 +118,15 @@ export default class TutorialLexi extends Phaser.Scene {
 		$(document).ready(function() {
 
 			
-
+/*
 			connectionTuto = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
 			console.log(connectionTuto);
-			
-			connectionTuto.onerror = function(e) {
+	*/		
+			connectionAhora.onerror = function(e) {
 				console.log("WS error: " + e);
 			}
 
-			connectionTuto.onmessage = function(msg) { //Lo que recibe del servidor
+			connectionAhora.onmessage = function(msg) { //Lo que recibe del servidor
 
 				console.log("WS message: " + msg.data);
 
@@ -168,7 +167,7 @@ export default class TutorialLexi extends Phaser.Scene {
 							}
 					}
 					}*/
-		if (flag == true) {
+		if (flagAhora == true) {
 			//Comandos juego Lexi (J1)
 			if (LexiActivarIdle) { //Si hemos dejado de pulsar, activaremos la animación en bucle que se vio al inicio de la partida
 				Lexi.play('inicioLexi');
