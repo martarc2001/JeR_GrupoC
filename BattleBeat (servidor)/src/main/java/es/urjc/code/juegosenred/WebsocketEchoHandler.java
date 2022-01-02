@@ -39,6 +39,7 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 			newNode.put("izquierda", node.get("izquierda").asText());
 			newNode.put("abajo", node.get("abajo").asText());
 	        newNode.put("derecha", node.get("derecha").asText());
+	        newNode.put("score",node.get("score").asText());
 	        
 	       
 

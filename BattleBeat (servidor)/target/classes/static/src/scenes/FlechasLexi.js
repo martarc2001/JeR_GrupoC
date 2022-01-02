@@ -20,10 +20,11 @@ var J2_A;
 var J2_S;
 var J2_D;
 
-var suma = 7;
-var cualFlechaAnterior = 3;
 
 var semilla = 0;
+
+var scoreJ1=0;
+var scoreJ2=0;
 
 export default class FlechasLexi extends Phaser.Scene {
     constructor() {
@@ -51,10 +52,8 @@ export default class FlechasLexi extends Phaser.Scene {
         this.justPressed = true;
 
         //Creamos las variables para la puntuacion y para el texto
-        this.scoreJ1 = 0;
+      
         this.scoreTextJ1;
-
-        this.scoreJ2 = 0;
         this.scoreTextJ2;
 
 
@@ -98,6 +97,7 @@ export default class FlechasLexi extends Phaser.Scene {
 				J2_A = message.izquierda;
         		J2_S = message.abajo;
         		J2_D = message.derecha;
+        		scoreJ2=message.score;
     		}
 
         //Fondo de la escena
@@ -194,11 +194,19 @@ export default class FlechasLexi extends Phaser.Scene {
         this.flecha8_f.setScale(this.escalaFlechas);
 
         //Scores de los jugadores
+        if(flagDespues==true){
         this.scoreTextJ1 = this.add.text(anchoJuego / 20, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
         this.scoreTextJ1.setFontSize(altoJuego / 20);
+        
         this.scoreTextJ2 = this.add.text(anchoJuego - anchoJuego / 6, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
         this.scoreTextJ2.setFontSize(altoJuego / 20);
-
+        }else if(flagDespues==false){
+        this.scoreTextJ2 = this.add.text(anchoJuego / 20, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
+        this.scoreTextJ2.setFontSize(altoJuego / 20);
+        
+        this.scoreTextJ1 = this.add.text(anchoJuego - anchoJuego / 6, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
+        this.scoreTextJ1.setFontSize(altoJuego / 20);
+        }
         //Controles jugadores
         this.cursor = this.input.keyboard.createCursorKeys();
 		if(flagDespues==true){
@@ -237,6 +245,12 @@ export default class FlechasLexi extends Phaser.Scene {
         if(this.timer > 200){
 			sendData();
 		}
+		
+		
+		
+			
+	this.scoreTextJ2.setText('Score: ' + scoreJ2);
+		
 
 if(flagDespues==true){
         //Comandos juego Lexi (J1)
@@ -414,13 +428,13 @@ if(flagDespues==true){
         //Ganar puntuacion 
         if(flagDespues==true){
         for (var i = 0; i < this.vectorFlechasJ1.length; i++) {
-            ganaPuntosJ1(i, this);
+            ganaPuntosOnline(i, this);
 
         }
 }else if(flagDespues==false)
         for (var i = 0; i < this.vectorFlechasJ2.length; i++) {
 
-            ganaPuntosJ2(i, this);
+            ganaPuntosOnline(i, this);
 
         }
 
@@ -544,56 +558,60 @@ function creaFlechaJ2(miEscena) {
 
 }
 
-function ganaPuntosJ1(i, miEscena) {
+function ganaPuntosOnline(i, miEscena) {
+	if(flagDespues==true){
     if (miEscena.izquierda.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 1) {
 
-        contadorJ1(miEscena.vectorFlechasJ1, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ1, miEscena, i);
 
     } else if (miEscena.abajo.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 2) {
 
-        contadorJ1(miEscena.vectorFlechasJ1, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ1, miEscena, i);
 
     } else if (miEscena.arriba.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 3) {
 
-        contadorJ1(miEscena.vectorFlechasJ1, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ1, miEscena, i);
 
     } else if (miEscena.derecha.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 4) {
 
-        contadorJ1(miEscena.vectorFlechasJ1, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ1, miEscena, i);
 
     }
-}
+    }else if(flagDespues==false){
+	
+	if (miEscena.izquierdaMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 1) {
 
-
-function ganaPuntosJ2(i, miEscena) {
-    if (miEscena.izquierdaMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 1) {
-
-        contadorJ2(miEscena.vectorFlechasJ2, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ2, miEscena, i);
 
     } else if (miEscena.abajoMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 2) {
 
-        contadorJ2(miEscena.vectorFlechasJ2, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ2, miEscena, i);
 
     } else if (miEscena.arribaMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 3) {
 
-        contadorJ2(miEscena.vectorFlechasJ2, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ2, miEscena, i);
 
     } else if (miEscena.derechaMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 4) {
 
-        contadorJ2(miEscena.vectorFlechasJ2, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ2, miEscena, i);
 
     }
+  }
 }
 
-function contadorJ1(array, miEscena, i) {
+
+
+
+function contadorOnline(array, miEscena, i) {
+	if(flagDespues==true){
 
     if ((array[i].y > altoJuego / 7 + 20 && array[i].y < altoJuego / 7 + 30) || (array[i].y < altoJuego / 7 - 20 && array[i].y > altoJuego / 7 - 30)) {
 
         good1.visible = true;
         miEscena.startJ1 = true;
 
-        miEscena.scoreJ1 += 25;
-        miEscena.scoreTextJ1.setText('Score: ' + miEscena.scoreJ1);
+       scoreJ1 += 25;
+        miEscena.scoreTextJ1.setText('Score: ' + scoreJ1);
         eliminaFlechaArrayPulsada(array, i);
 
     } else if ((array[i].y > altoJuego / 7 + 10 && array[i].y < altoJuego / 7 + 20) || (array[i].y < altoJuego / 7 - 10 && array[i].y > altoJuego / 7 - 20)) {
@@ -601,8 +619,8 @@ function contadorJ1(array, miEscena, i) {
         great1.visible = true;
         miEscena.startJ1 = true;
 
-        miEscena.scoreJ1 += 50;
-        miEscena.scoreTextJ1.setText('Score: ' + miEscena.scoreJ1);
+        scoreJ1 += 50;
+        miEscena.scoreTextJ1.setText('Score: ' + scoreJ1);
         eliminaFlechaArrayPulsada(array, i);
 
     } else if (array[i].y > altoJuego / 7 - 10 && array[i].y < altoJuego / 7 + 10) {
@@ -610,22 +628,20 @@ function contadorJ1(array, miEscena, i) {
         perfect1.visible = true;
         miEscena.startJ1 = true;
 
-        miEscena.scoreJ1 += 100;
-        miEscena.scoreTextJ1.setText('Score: ' + miEscena.scoreJ1);
+        scoreJ1 += 100;
+        miEscena.scoreTextJ1.setText('Score: ' + scoreJ1);
         eliminaFlechaArrayPulsada(array, i);
 
     }
-
-}
-function contadorJ2(array, miEscena, i) {
-
-    if ((array[i].y > altoJuego / 7 + altoJuego / 46 && array[i].y < altoJuego / 7 + altoJuego / 70) || (array[i].y < altoJuego / 7 - altoJuego / 46 && array[i].y > altoJuego / 7 - altoJuego / 70)) {
+    }else if (flagDespues==false){
+	
+	 if ((array[i].y > altoJuego / 7 + altoJuego / 46 && array[i].y < altoJuego / 7 + altoJuego / 70) || (array[i].y < altoJuego / 7 - altoJuego / 46 && array[i].y > altoJuego / 7 - altoJuego / 70)) {
 
         good2.visible = true;
         miEscena.startJ2 = true;
 
-        miEscena.scoreJ2 += 25;
-        miEscena.scoreTextJ2.setText('Score: ' + miEscena.scoreJ2);
+        scoreJ1 += 25;
+        miEscena.scoreTextJ1.setText('Score: ' + scoreJ1);
         eliminaFlechaArrayPulsada(array, i);
 
 
@@ -634,8 +650,8 @@ function contadorJ2(array, miEscena, i) {
         great2.visible = true;
         miEscena.startJ2 = true;
 
-        miEscena.scoreJ2 += 50;
-        miEscena.scoreTextJ2.setText('Score: ' + miEscena.scoreJ2);
+        scoreJ1 += 50;
+        miEscena.scoreTextJ1.setText('Score: ' + scoreJ1);
         eliminaFlechaArrayPulsada(array, i);
 
 
@@ -644,12 +660,16 @@ function contadorJ2(array, miEscena, i) {
         perfect2.visible = true;
         miEscena.startJ2 = true;
 
-        miEscena.scoreJ2 += 100;
-        miEscena.scoreTextJ2.setText('Score: ' + miEscena.scoreJ2);
+        scoreJ1 += 100;
+        console.log(scoreJ1)
+        miEscena.scoreTextJ1.setText('Score: ' + scoreJ1);
         eliminaFlechaArrayPulsada(array, i);
     }
 
 }
+
+}
+
 
 
 
@@ -691,7 +711,8 @@ function sendData(){
 		arriba: J1_W,
 		izquierda: J1_A,
 		abajo: J1_S,
-		derecha: J1_D
+		derecha: J1_D,
+		score: scoreJ1
 	}
 	wspartida.send(JSON.stringify(msg));
 }

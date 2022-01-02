@@ -5,7 +5,7 @@ import FlechasLexi from './FlechasLexi.js';
 var Lexi, Mat;
 var LexiActivarIdle = false;
 var MatActivarIdle = false;
-var tiempo = 10000;
+var tiempo = 3000;
 var flagAhora, connectionAhora, connectionTuto;
 var block = true;
 var textito;
