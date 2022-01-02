@@ -40,6 +40,10 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 			newNode.put("abajo", node.get("abajo").asText());
 	        newNode.put("derecha", node.get("derecha").asText());
 	        newNode.put("score",node.get("score").asText());
+	        newNode.put("miss",node.get("miss").asText());
+	        newNode.put("good",node.get("good").asText());
+	        newNode.put("great",node.get("great").asText());
+	        newNode.put("perfect",node.get("perfect").asText());
 	        
 	       
 
@@ -67,13 +71,12 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 					participant.sendMessage(new TextMessage("Conexion"));
 				}
 			}
-
-	
 	}
 
 }
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		sesiones.remove(session.getId());
+		
 	}
 }

@@ -6,7 +6,19 @@ var Lexi, Mat;
 var LexiActivarIdle = false;
 var MatActivarIdle = false;
 var good1, great1, perfect1, miss1;
+
+var good1Visible = 0;
+var great1Visible = 0;
+var perfect1Visible = 0;
+var miss1Visible = 0;
+
 var good2, great2, perfect2, miss2;
+
+var good2Visible = 0;
+var great2Visible = 0;
+var perfect2Visible = 0;
+var miss2Visible = 0;
+
 var flagDespues;
 var wspartida;
 
@@ -42,8 +54,6 @@ export default class FlechasLexi extends Phaser.Scene {
 
         this.borradorJ1 = 0;
         this.startJ1 = false;
-        this.borradorJ2 = 0;
-        this.startJ2 = false;
         this.tiempo = 0;
 
         this.escalaFlechas;
@@ -98,6 +108,10 @@ export default class FlechasLexi extends Phaser.Scene {
         		J2_S = message.abajo;
         		J2_D = message.derecha;
         		scoreJ2=message.score;
+        		miss2Visible = message.miss;
+        		good2Visible = message.good;
+        		great2Visible = message.great;
+        		perfect2Visible = message.perfect;      
     		}
 
         //Fondo de la escena
@@ -125,7 +139,10 @@ export default class FlechasLexi extends Phaser.Scene {
         Mat.play('inicioMat');
 
 
-        //mensajes de feedback J1
+        
+        if(flagDespues== true){
+	
+		//mensajes de feedback Lexi
         good1 = this.add.image(anchoJuego * 2.5 / 15, altoJuego / 2.8, "good");
         good1.setScale(altoJuego * 0.1 / good1.height);
         good1.visible = false;
@@ -142,7 +159,7 @@ export default class FlechasLexi extends Phaser.Scene {
         miss1.setScale(altoJuego * 0.06 / miss1.height);
         miss1.visible = false;
 
-        //mensajes de feedback J2
+        //mensajes de feedback Mat
         good2 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 2.8, "good");
         good2.setScale(altoJuego * 0.1 / good2.height);
         good2.visible = false;
@@ -159,6 +176,46 @@ export default class FlechasLexi extends Phaser.Scene {
         miss2.setScale(altoJuego * 0.06 / miss2.height);
         miss2.visible = false;
 
+	
+}
+ if(flagDespues== false){
+	
+		//mensajes de feedback Lexi
+        good2 = this.add.image(anchoJuego * 2.5 / 15, altoJuego / 2.8, "good");
+        good2.setScale(altoJuego * 0.1 / good2.height);
+        good2.visible = false;
+
+        great2 = this.add.image(anchoJuego * 2.5 / 15, altoJuego / 2.8, "great");
+        great2.setScale(altoJuego * 0.1 / great2.height);
+        great2.visible = false;
+
+        perfect2 = this.add.image(anchoJuego * 2.5 / 15, altoJuego / 2.8, "perfect");
+        perfect2.setScale(altoJuego * 0.1 / perfect2.height);
+        perfect2.visible = false;
+
+        miss2 = this.add.image(anchoJuego * 2.5 / 15, altoJuego / 3.5, "miss");
+        miss2.setScale(altoJuego * 0.06 / miss2.height);
+        miss2.visible = false;
+
+        //mensajes de feedback Mat
+        good1 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 2.8, "good");
+        good1.setScale(altoJuego * 0.1 / good1.height);
+        good1.visible = false;
+
+        great1 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 2.8, "great");
+        great1.setScale(altoJuego * 0.1 / great1.height);
+        great1.visible = false;
+
+        perfect1 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 2.8, "perfect");
+        perfect1.setScale(altoJuego * 0.1 / perfect1.height);
+        perfect1.visible = false;
+
+        miss1 = this.add.image(anchoJuego - (anchoJuego * 2.5 / 15), altoJuego / 3.5, "miss");
+        miss1.setScale(altoJuego * 0.06 / miss1.height);
+        miss1.visible = false;
+
+	
+}
 
         //flechas jugador 1
         //objetivo flechas
@@ -362,36 +419,54 @@ if(flagDespues==true){
         }
         if (this.borradorJ1 > 300) {
             good1.visible = false;
+            good1Visible = 0;
             great1.visible = false;
+             great1Visible = 0;
             perfect1.visible = false;
+             perfect1Visible = 0;
             miss1.visible = false;
-
+             miss1Visible = 0;
+			
             this.startJ1 = false;
             this.borradorJ1 = 0;
         }
-
-        if (this.startJ2 == true) {
-            this.borradorJ2 += delta;
-        }
-        if (this.borradorJ2 > 300) {
-            good2.visible = false;
+        
+       		if (good2Visible == 0)
+			good2.visible = false;
+			if(great2Visible == 0)
             great2.visible = false;
+            if(perfect2Visible == 0)
             perfect2.visible = false;
+            if(miss2Visible == 0)
             miss2.visible = false;
-            this.startJ2 = false;
-            this.borradorJ2 = 0;
-        }
-
-
+            
+             if (good2Visible == 1)
+			good2.visible = true;
+			if(great2Visible == 1)
+            great2.visible = true;
+            if(perfect2Visible == 1)
+            perfect2.visible = true;
+            if(miss2Visible == 1)
+            miss2.visible = true;
+        
+        
 
         //Crea las flechas de manera aleatoria cada cierto tiempo
 
         if (this.tiempo % 30 == 0) {
             if (this.paraFlechas == false) {
                 this.cualFlecha = this.random(1, 5);
-                this.vectorFlechasJ1.push(creaFlechaJ1(this));
-                this.vectorFlechasJ2.push(creaFlechaJ2(this));
-
+                
+                if(flagDespues == true){
+				this.vectorFlechasJ1.push(creaFlechaLexi(this));
+                this.vectorFlechasJ2.push(creaFlechaMat(this));
+						
+				}
+				if(flagDespues == false){
+				this.vectorFlechasJ2.push(creaFlechaLexi(this));
+                this.vectorFlechasJ1.push(creaFlechaMat(this));
+				}
+              
                 this.tiempo = 0;
             }
         }
@@ -415,29 +490,30 @@ if(flagDespues==true){
         }
 
         //Elimina las flechas que se salen de la pantalla
+        
         if (this.vectorFlechasJ1.length != 0) {
-
-            eliminaFlechaArrayPantallaJ1(this.vectorFlechasJ1, this);
+			if(flagDespues==true){
+				 eliminaFlechaArrayPantallaLexi(this.vectorFlechasJ1, this);
+			} else if (flagDespues==false){
+				 eliminaFlechaArrayPantallaMat(this.vectorFlechasJ1, this);
+			}
+           
         }
 
         if (this.vectorFlechasJ2.length != 0) {
-
-            eliminaFlechaArrayPantallaJ2(this.vectorFlechasJ2, this);
+			if(flagDespues==true){
+				 eliminaFlechaArrayPantallaMat(this.vectorFlechasJ2, this);
+			} else if (flagDespues==false){
+				 eliminaFlechaArrayPantallaLexi(this.vectorFlechasJ2, this);
+			}
         }
 
         //Ganar puntuacion 
-        if(flagDespues==true){
+   
         for (var i = 0; i < this.vectorFlechasJ1.length; i++) {
             ganaPuntosOnline(i, this);
 
         }
-}else if(flagDespues==false)
-        for (var i = 0; i < this.vectorFlechasJ2.length; i++) {
-
-            ganaPuntosOnline(i, this);
-
-        }
-
     }
 
     random(min, max) {
@@ -446,30 +522,32 @@ if(flagDespues==true){
 
 }
 
-function eliminaFlechaArrayPantallaJ1(array, miEscena) {
+function eliminaFlechaArrayPantallaLexi(array, miEscena) {
 
-
-    if (array[0].y < 0) {
-        miss1.visible = true;
+		if (array[0].y < 0) {
+		if(flagDespues == true){
+			 miss1.visible = true;
+			 miss1Visible = 1;
         miEscena.startJ1 = true;
+		}
 
         array[0].destroy();
         array.splice(0, 1);
-    }
-}
+   }
+   }
 
-function eliminaFlechaArrayPantallaJ2(array, miEscena) {
-
-
-    if (array[0].y < 0) {
-        miss2.visible = true;
-        miEscena.startJ2 = true;
-
+function eliminaFlechaArrayPantallaMat(array, miEscena) {
+	
+		if (array[0].y < 0) {
+			if(flagDespues == false){
+			 miss1.visible = true;
+			 miss1Visible = 1;
+       		 miEscena.startJ1 = true;
+		}
         array[0].destroy();
         array.splice(0, 1);
     }
-
-}
+	}
 
 function eliminaFlechaArrayPulsada(array, i) {
 
@@ -481,7 +559,7 @@ function eliminaFlechaArrayPulsada(array, i) {
 }
 
 
-function creaFlechaJ1(miEscena) {
+function creaFlechaLexi(miEscena) {
 	var x= semilla;
 	miEscena.cualFlecha = parseInt(Math.sin((Math.pow(((x+1)/Math.pow(x,2)),-1))) * 2 + 2) + 1;
 	
@@ -520,7 +598,7 @@ function creaFlechaJ1(miEscena) {
     return f1;
 }
 
-function creaFlechaJ2(miEscena) {
+function creaFlechaMat(miEscena) {
 
     if (miEscena.cualFlecha == 1) {
 
@@ -559,6 +637,7 @@ function creaFlechaJ2(miEscena) {
 }
 
 function ganaPuntosOnline(i, miEscena) {
+	
 	if(flagDespues==true){
     if (miEscena.izquierda.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 1) {
 
@@ -579,21 +658,21 @@ function ganaPuntosOnline(i, miEscena) {
     }
     }else if(flagDespues==false){
 	
-	if (miEscena.izquierdaMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 1) {
+	if (miEscena.izquierdaMat.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 1) {
 
-        contadorOnline(miEscena.vectorFlechasJ2, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ1, miEscena, i);
 
-    } else if (miEscena.abajoMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 2) {
+    } else if (miEscena.abajoMat.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 2) {
 
-        contadorOnline(miEscena.vectorFlechasJ2, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ1, miEscena, i);
 
-    } else if (miEscena.arribaMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 3) {
+    } else if (miEscena.arribaMat.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 3) {
 
-        contadorOnline(miEscena.vectorFlechasJ2, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ1, miEscena, i);
 
-    } else if (miEscena.derechaMat.isDown && miEscena.vectorFlechasJ2[i].queFlecha == 4) {
+    } else if (miEscena.derechaMat.isDown && miEscena.vectorFlechasJ1[i].queFlecha == 4) {
 
-        contadorOnline(miEscena.vectorFlechasJ2, miEscena, i);
+        contadorOnline(miEscena.vectorFlechasJ1, miEscena, i);
 
     }
   }
@@ -608,6 +687,7 @@ function contadorOnline(array, miEscena, i) {
     if ((array[i].y > altoJuego / 7 + 20 && array[i].y < altoJuego / 7 + 30) || (array[i].y < altoJuego / 7 - 20 && array[i].y > altoJuego / 7 - 30)) {
 
         good1.visible = true;
+        good1Visible = 1;
         miEscena.startJ1 = true;
 
        scoreJ1 += 25;
@@ -617,6 +697,7 @@ function contadorOnline(array, miEscena, i) {
     } else if ((array[i].y > altoJuego / 7 + 10 && array[i].y < altoJuego / 7 + 20) || (array[i].y < altoJuego / 7 - 10 && array[i].y > altoJuego / 7 - 20)) {
 
         great1.visible = true;
+        great1Visible = 1;
         miEscena.startJ1 = true;
 
         scoreJ1 += 50;
@@ -626,6 +707,7 @@ function contadorOnline(array, miEscena, i) {
     } else if (array[i].y > altoJuego / 7 - 10 && array[i].y < altoJuego / 7 + 10) {
 
         perfect1.visible = true;
+        perfect1Visible = 1;
         miEscena.startJ1 = true;
 
         scoreJ1 += 100;
@@ -635,30 +717,33 @@ function contadorOnline(array, miEscena, i) {
     }
     }else if (flagDespues==false){
 	
-	 if ((array[i].y > altoJuego / 7 + altoJuego / 46 && array[i].y < altoJuego / 7 + altoJuego / 70) || (array[i].y < altoJuego / 7 - altoJuego / 46 && array[i].y > altoJuego / 7 - altoJuego / 70)) {
-
-        good2.visible = true;
-        miEscena.startJ2 = true;
-
+	 //if ((array[i].y > altoJuego / 7 + altoJuego / 46 && array[i].y < altoJuego / 7 + altoJuego / 70) || (array[i].y < altoJuego / 7 - altoJuego / 46 && array[i].y > altoJuego / 7 - altoJuego / 70)) {
+	if ((array[i].y > altoJuego / 7 + 20 && array[i].y < altoJuego / 7 + 30) || (array[i].y < altoJuego / 7 - 20 && array[i].y > altoJuego / 7 - 30)) {
+        good1.visible = true;
+        good1Visible = 1;
+        miEscena.startJ1 = true;
+		
         scoreJ1 += 25;
         miEscena.scoreTextJ1.setText('Score: ' + scoreJ1);
         eliminaFlechaArrayPulsada(array, i);
 
 
-    } else if ((array[i].y > altoJuego / 7 + altoJuego / 150 && array[i].y < altoJuego / 7 + altoJuego / 46) || (array[i].y < altoJuego / 7 - altoJuego / 150 && array[i].y > altoJuego / 7 - altoJuego / 46)) {
-
-        great2.visible = true;
-        miEscena.startJ2 = true;
+    } //else if ((array[i].y > altoJuego / 7 + altoJuego / 150 && array[i].y < altoJuego / 7 + altoJuego / 46) || (array[i].y < altoJuego / 7 - altoJuego / 150 && array[i].y > altoJuego / 7 - altoJuego / 46)) {
+	else if ((array[i].y > altoJuego / 7 + 10 && array[i].y < altoJuego / 7 + 20) || (array[i].y < altoJuego / 7 - 10 && array[i].y > altoJuego / 7 - 20)) {
+        great1.visible = true;
+        great1Visible = 1;
+        miEscena.startJ1 = true;
 
         scoreJ1 += 50;
         miEscena.scoreTextJ1.setText('Score: ' + scoreJ1);
         eliminaFlechaArrayPulsada(array, i);
 
 
-    } else if (array[i].y > altoJuego / 7 - altoJuego / 150 && array[i].y < altoJuego / 7 + altoJuego / 150) {
-
-        perfect2.visible = true;
-        miEscena.startJ2 = true;
+    } //else if (array[i].y > altoJuego / 7 - altoJuego / 150 && array[i].y < altoJuego / 7 + altoJuego / 150) {
+	else if (array[i].y > altoJuego / 7 - 10 && array[i].y < altoJuego / 7 + 10) {
+        perfect1.visible = true;
+        perfect1Visible = 1;
+        miEscena.startJ1 = true;
 
         scoreJ1 += 100;
         console.log(scoreJ1)
@@ -677,7 +762,36 @@ function onEvent() {
 
 	this.musicota.stop();
 	
-    if (this.scoreJ1 > this.scoreJ2) {
+	if(flagDespues == true){
+		if (scoreJ1 > scoreJ2) {
+        this.game.scene.add('PFinal1', PFinal, true, "Lexi");
+        this.scene.remove('miPartida');
+        this.scene.remove();
+        this.scene.launch('PFinal1');
+
+
+
+    } else if (scoreJ2 > scoreJ1) {
+
+        this.game.scene.add('PFinal1', PFinal, true, "Mat");
+
+        this.scene.remove('miPartida');
+        this.scene.remove();
+        this.scene.launch('PFinal1');
+
+    } else if (scoreJ1 == scoreJ2) {
+
+        this.game.scene.add('PFinal1', PFinal, true, "Empate");
+
+        this.scene.remove('miPartida');
+        this.scene.remove(); //Borra la escena de menú
+        this.scene.launch('PFinal1');
+    }
+		
+	}
+	
+	if(flagDespues == false){
+		if (scoreJ2 > scoreJ1) {
         console.log("hh");
         this.game.scene.add('PFinal1', PFinal, true, "Lexi");
         this.scene.remove('miPartida');
@@ -686,7 +800,7 @@ function onEvent() {
 
 
 
-    } else if (this.scoreJ2 > this.scoreJ1) {
+    } else if (scoreJ1 > scoreJ2) {
 
         this.game.scene.add('PFinal1', PFinal, true, "Mat");
 
@@ -694,7 +808,7 @@ function onEvent() {
         this.scene.remove();
         this.scene.launch('PFinal1');
 
-    } else if (this.scoreJ1 == this.scoreJ2) {
+    } else if (scoreJ1 == scoreJ2) {
 
         this.game.scene.add('PFinal1', PFinal, true, "Empate");
 
@@ -702,9 +816,8 @@ function onEvent() {
         this.scene.remove(); //Borra la escena de menú
         this.scene.launch('PFinal1');
     }
-
+	}
     
-
 }
 function sendData(){
 	var msg = {
@@ -712,7 +825,11 @@ function sendData(){
 		izquierda: J1_A,
 		abajo: J1_S,
 		derecha: J1_D,
-		score: scoreJ1
+		score: scoreJ1,
+		miss: miss1Visible,
+		good: good1Visible,
+		great: great1Visible,
+		perfect: perfect1Visible
 	}
 	wspartida.send(JSON.stringify(msg));
 }

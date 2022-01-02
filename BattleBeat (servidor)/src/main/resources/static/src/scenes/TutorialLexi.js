@@ -96,12 +96,11 @@ export default class TutorialLexi extends Phaser.Scene {
 			tiempo -= delta;
 			textito.setText("La partida comenzará en: "+parseInt(tiempo/1000))
 			
-	
 					if (tiempo < 0) {
 			
 			this.djsound.play()
 			if (flagAhora==true){
-				entraEnBucle=null;						
+				entraEnBucle=null;
 					this.scene.remove();
 					this.game.scene.add("miFlechasLexi", new FlechasLexi,true,{flagAhora});
 					this.scene.start("miFlechasLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
