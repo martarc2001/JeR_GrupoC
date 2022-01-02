@@ -1,6 +1,7 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import Partida from './Partida.js';
 import Flechas from './Flechas.js';
+import Menu from "./Menu.js";
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
@@ -18,6 +19,7 @@ export default class Tutorial extends Phaser.Scene {
     preload() {
         //No hay que hacer preload de elementos ya cargados en Menú, porque es la primera escena cargada
         this.load.image('miTutorial', './src/images/Menu/Tutorial.png')
+        this.load.image('botonVolver', './src/images/Menu/BOTÓN VOLVER.png')
 
         this.load.path = './assets/';
         //Para crear animaciones de Lexi (J1)
@@ -38,6 +40,30 @@ export default class Tutorial extends Phaser.Scene {
         crearFondo(this);
         creaPersonajes(this);
         //textoPantalla1(this, formatoTexto);
+        
+        var escalaBotones =10;
+         //Botón para comenzar la partida (Versión online)        
+        this.botonVolver = this.add.image(anchoJuego / 6, altoJuego*9 / 10, 'botonVolver');
+        this.botonVolver.setScale(anchoJuego / (this.botonVolver.width * escalaBotones), altoJuego / (this.botonVolver.height * escalaBotones));
+        this.botonVolver.setInteractive();//Para que funcionen los eventos
+
+
+        //Funciones para crear efecto hover del botón de partida
+        this.botonVolver.on('pointerover', function () {
+            this.setTint(0x518DE3);//Se refiere solo al botón, este this se refiere al evento on del botón, no a la escena
+        });
+
+        this.botonVolver.on('pointerout', function () {
+            this.clearTint();
+        });
+        
+         this.botonVolver.on('pointerdown', function (event) {            
+            this.djsound.play()
+            this.cameras.main.fade(1000, 57, 47, 236);
+            this.scene.add('miMenu', new Menu);
+            this.scene.launch('miMenu');
+            this.scene.remove();
+        }, this);
 
         //Texto de cambio de pantalla al juego
         this.textoCambioPantalla = this.add.text(anchoJuego / 2, altoJuego * 9 / 10, "Clica aquí para finalizar el tutorial", { font: "40px Impact", fill: "#ffffff", align: "center" });

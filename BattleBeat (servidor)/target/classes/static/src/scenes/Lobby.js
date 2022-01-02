@@ -2,6 +2,7 @@ import { anchoJuego, altoJuego } from "../init.js";
 import TutorialLexi from "./TutorialLexi.js";
 import TutorialMat from "./TutorialMat.js";
 import FlechasLexi from "./FlechasLexi.js";
+import Menu from "./Menu.js";
 
 
 var flag = null;
@@ -25,6 +26,7 @@ export default class Lobby extends Phaser.Scene {
 		this.load.image('Fondo1', '/src/images/Fondo1.png');
 		this.load.image('boton', '/src/images/Menu/BOTON_Jugar.png');
 		this.load.image('filtroColor', '/src/images/Menu/Filtro Color.png');
+		this.load.image('botonVolver', './src/images/Menu/BOTÓN VOLVER.png')
 
 		//this.load.html('miCajaTexto', '/src/scenes/cajaTexto.html');
 
@@ -58,6 +60,30 @@ export default class Lobby extends Phaser.Scene {
         this.textoTempo.setOrigin(0.5);
         this.textoTempo.setFontSize(altoJuego / 15);
         
+        var escalaBotones =10;
+         //Botón para comenzar la partida (Versión online)        
+        this.botonVolver = this.add.image(anchoJuego / 6, altoJuego*9 / 10, 'botonVolver');
+        this.botonVolver.setScale(anchoJuego / (this.botonVolver.width * escalaBotones), altoJuego / (this.botonVolver.height * escalaBotones));
+        this.botonVolver.setInteractive();//Para que funcionen los eventos
+
+
+        //Funciones para crear efecto hover del botón de partida
+        this.botonVolver.on('pointerover', function () {
+            this.setTint(0x518DE3);//Se refiere solo al botón, este this se refiere al evento on del botón, no a la escena
+        });
+
+        this.botonVolver.on('pointerout', function () {
+            this.clearTint();
+        });
+        
+         this.botonVolver.on('pointerdown', function (event) {            
+            this.djsound.play()
+            connection.close();
+            this.cameras.main.fade(1000, 57, 47, 236);
+            this.scene.add('miMenu', new Menu);
+            this.scene.launch('miMenu');
+            this.scene.remove();
+        }, this);
         
 			//var connection = new WebSocket('ws://127.0.0.1:8080/conexion');
 			connection = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
