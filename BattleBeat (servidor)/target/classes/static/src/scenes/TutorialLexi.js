@@ -55,68 +55,7 @@ export default class TutorialLexi extends Phaser.Scene {
       	textito.setOrigin(0.5);
         textito.setFontSize(altoJuego / 15);
 
-	
-		if (flag == true) {//Lexi
-			//Creamos los botones para el juego:
-			var escalaBotones = 6.5;
-
-			//Botón para comenzar la partida (Versión offline juego--fase 2)        
-			this.botonJugar = this.add.image(anchoJuego / 4, altoJuego * 3 / 6, 'boton');
-			this.botonJugar.setScale(anchoJuego / (this.botonJugar.width * escalaBotones), altoJuego / (this.botonJugar.height * escalaBotones));
-			this.botonJugar.setInteractive();//Para que funcionen los eventos
-
-			//Funciones para crear efecto hover del botón de partida
-			this.botonJugar.on('pointerover', function() {
-				this.setTint(0x518DE3);//Se refiere solo al botón, este this se refiere al evento on del botón, no a la escena
-			});
-
-			this.botonJugar.on('pointerout', function() {
-				this.clearTint();
-			});
-
-
-			//Función para clic del botón y cambio de escena
-			this.botonJugar.on('pointerdown', function(event) {
-
-				this.botonPulsado = true;
-
-				connectionAhora.send("EmpezarPartida");		
-				this.djsound.play()
-				this.scene.add("FlechasLexi", new FlechasLexi);
-				this.scene.start("FlechasLexi"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
-				this.scene.remove();
-			}, this);
-
-
-			/*
-						connection.send("EmpezarPartida");			
-			
-						this.timedEvent = this.time.delayedCall(5000, function() {
-			
-							connection.send("EmpezarPartida");
-			
-							this.djsound.play()
-							this.cameras.main.fade(1000, 57, 47, 236);
-			
-							this.scene.add('misFlechasLexi', new FlechasLexi);
-							this.scene.launch('misFlechasLexi');
-							this.scene.remove();//Borra la escena de tutorial
-			
-			
-			
-						}, [], this);
-			
-			*/
-
-
-
-
-		}
 		this.djsound = this.sound.add('djsound', { volume: 0.2 });
-
-
-
-
 
 		//WEBSOCKETS
 		var that = this;

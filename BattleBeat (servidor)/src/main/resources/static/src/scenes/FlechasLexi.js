@@ -20,6 +20,11 @@ var J2_A;
 var J2_S;
 var J2_D;
 
+var suma = 7;
+var cualFlechaAnterior = 3;
+
+var semilla = 0;
+
 export default class FlechasLexi extends Phaser.Scene {
     constructor() {
         super({
@@ -376,6 +381,10 @@ if(flagDespues==true){
                 this.tiempo = 0;
             }
         }
+        
+        if (this.tiempo % 3 == 0) {
+         	semilla++;
+        }
 
         //Las pone en movimiento
         for (var i = 0; i < this.vectorFlechasJ1.length; i++) {
@@ -459,7 +468,10 @@ function eliminaFlechaArrayPulsada(array, i) {
 
 
 function creaFlechaJ1(miEscena) {
-    miEscena.cualFlecha = miEscena.random(1, 5);
+	var x= semilla;
+	miEscena.cualFlecha = parseInt(Math.sin((Math.pow(((x+1)/Math.pow(x,2)),-1))) * 2 + 2) + 1;
+	
+    //miEscena.cualFlecha = miEscena.random(1, 5);
 
     if (miEscena.cualFlecha == 1) {
 
@@ -491,7 +503,6 @@ function creaFlechaJ1(miEscena) {
     }
 
     f1.setScale(miEscena.escalaFlechas);
-
     return f1;
 }
 

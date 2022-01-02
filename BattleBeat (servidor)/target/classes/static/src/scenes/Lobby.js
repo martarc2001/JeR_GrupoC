@@ -62,10 +62,10 @@ export default class Lobby extends Phaser.Scene {
         
         var escalaBotones =10;
          //Botón para comenzar la partida (Versión online)        
-        this.botonVolver = this.add.image(anchoJuego / 6, altoJuego*9 / 10, 'botonVolver');
+       /* this.botonVolver = this.add.image(anchoJuego / 6, altoJuego*9 / 10, 'botonVolver');
         this.botonVolver.setScale(anchoJuego / (this.botonVolver.width * escalaBotones), altoJuego / (this.botonVolver.height * escalaBotones));
         this.botonVolver.setInteractive();//Para que funcionen los eventos
-
+		
 
         //Funciones para crear efecto hover del botón de partida
         this.botonVolver.on('pointerover', function () {
@@ -84,7 +84,7 @@ export default class Lobby extends Phaser.Scene {
             this.scene.launch('miMenu');
             this.scene.remove();
         }, this);
-        
+        */
 			//var connection = new WebSocket('ws://127.0.0.1:8080/conexion');
 			connection = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
 
