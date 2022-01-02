@@ -40,7 +40,7 @@ export default class TutorialLexi extends Phaser.Scene {
 
 	}
 
-	create({ flag, connection }) {
+	create({ flag, connection}) {
 		flagAhora = flag;
 		connectionAhora = connection;
 		this.botonPulsado = false;
@@ -74,14 +74,18 @@ export default class TutorialLexi extends Phaser.Scene {
 
 				console.log("WS message: " + msg.data);
 
-				if (msg.data == "Conexion") {
-					console.log("AAAAAAAAAAAAAAAAAarriba");
+				if (msg.data == "Conexion") {			
 					cambiarEscenaMat(that);
-					console.log("AAAAAAAAAAAAAAAAAabajo");
 
 				}
+				
+				if (msg.data == "Desconexion") {			
+					this.cameras.main.fade(1000, 57, 47, 236);
+					this.scene.add('Desconexion', new Desconexion);
+					this.scene.launch('Desconexion');
+					this.scene.remove();//Borra la escena de tutorial
 
-
+				}
 
 			}
 
@@ -361,10 +365,8 @@ function crearAnimacionesMat(handleAnimacion) {
 }
 
 function cambiarEscenaMat(that) {
-	console.log("AAAAAAAAAAAAAAAAA");
 
 	that.cameras.main.fade(1000, 57, 47, 236);
-
 	that.scene.add('misFlechasMat', new FlechasLexi);
 	that.scene.launch('misFlechasMat');
 	that.scene.remove();//Borra la escena de tutorial

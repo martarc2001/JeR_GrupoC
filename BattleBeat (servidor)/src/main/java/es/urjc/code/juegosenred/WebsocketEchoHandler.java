@@ -76,7 +76,12 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 }
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		System.out.println("DESCONEXION");
 		sesiones.remove(session.getId());
-		
+		for (WebSocketSession participant : sesiones.values()) {
+			if (!participant.getId().equals(session.getId())) {
+				participant.sendMessage(new TextMessage("Desconexion"));
+			}
+		}
 	}
 }

@@ -111,7 +111,15 @@ export default class FlechasLexi extends Phaser.Scene {
         		miss2Visible = message.miss;
         		good2Visible = message.good;
         		great2Visible = message.great;
-        		perfect2Visible = message.perfect;      
+        		perfect2Visible = message.perfect;  
+        		
+        		if (msg.data == "Desconexion") {			
+					this.cameras.main.fade(1000, 57, 47, 236);
+					this.scene.add('Desconexion', new Desconexion);
+					this.scene.launch('Desconexion');
+					this.scene.remove();//Borra la escena de tutorial
+
+				}    
     		}
 
         //Fondo de la escena
