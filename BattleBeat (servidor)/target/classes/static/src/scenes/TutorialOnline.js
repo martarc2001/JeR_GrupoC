@@ -1,6 +1,7 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import Partida from './Partida.js';
 import FlechasOnline from './FlechasOnline.js';
+import Desconexion from './Desconexion.js'
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
@@ -10,6 +11,9 @@ var flagAhora, connectionAhora, connectionTuto;
 var block = true;
 var textito;
 var entraEnBucle = true;
+
+var entraEnBucleDesconexion = true;
+var error = false;
 
 export default class TutorialLexi extends Phaser.Scene {
 	constructor() {
@@ -50,9 +54,46 @@ export default class TutorialLexi extends Phaser.Scene {
 		textito.setFontSize(altoJuego / 15);
 
 		this.djsound = this.sound.add('djsound', { volume: 0.2 });
+		
+		
+		
+		connectionAhora.onerror = function(e) {
+			connectionAhora.close();
+			console.log("WS error: " + e);
+			that.cameras.main.fade(1000, 57, 47, 236);
+			that.scene.add('Desconexion', new Desconexion);
+			that.scene.launch('Desconexion');
+			that.scene.remove();//Borra la escena de tutorial
+
+		}
+
+		connectionAhora.onmessage = function(msg) { //Lo que recibe del servidor
+			console.log("WS message: " + msg.data);
+			if (msg.data == "Desconexion") {
+				error = true;
+
+			}
+			console.log(flag);
+
+
+		}
+
+		
+		
 	}
 
 	update(time, delta) {
+		
+		if (entraEnBucleDesconexion == true) {
+			if (error == true) {
+				connectionAhora.close();
+				this.cameras.main.fade(1000, 57, 47, 236);
+				this.scene.add('Desconexion', new Desconexion);
+				this.scene.launch('Desconexion');
+				this.scene.remove();//Borra la escena de tutorial
+				entraEnBucleDesconexion = false;
+			}
+		}
 
 		if (entraEnBucle == true) {
 			tiempo -= delta;
@@ -66,14 +107,14 @@ export default class TutorialLexi extends Phaser.Scene {
 					this.scene.remove();
 					this.game.scene.add("miFlechasOnline", new FlechasOnline, true, { flagAhora });
 					this.scene.start("miFlechasOnline"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
-					connectionAhora.close();
+					//connectionAhora.close();
 
 				} else if (flagAhora == false) {
 					entraEnBucle = null;
 					this.scene.remove();					
 					this.game.scene.add("miFlechasOnline", new FlechasOnline, true, { flagAhora });
 					this.scene.start("miFlechasOnline"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
-					connectionAhora.close();
+					//connectionAhora.close();
 
 				}
 			}

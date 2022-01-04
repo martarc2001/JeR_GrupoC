@@ -1,6 +1,10 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import { Flecha } from "./flecha.js";
 import PFinal from './PantallaFinal.js'
+import Desconexion from './Desconexion.js'
+
+var error = false;
+var entraEnBucle = true;
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
@@ -89,26 +93,31 @@ export default class FlechasOnline extends Phaser.Scene {
 		flagDespues = flagAhora;
 		console.log("flagAhora Create: " + flagDespues)
 		this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
+		var patata = this;
 
 		wspartida = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
 
-		wspartida.onerror = function(e) {console.log("WS error: " + e);	}
-		
-		var that = this;
+		wspartida.onerror = function(e) {
+			console.log("WS error: " + e);
+			connectionAhora.close();
+			that.cameras.main.fade(1000, 57, 47, 236);
+			that.scene.add('Desconexion', new Desconexion);
+			that.scene.launch('Desconexion');
+			that.scene.remove();//Borra la escena de tutorial
+
+		}
+
+		var patata = this;
 		wspartida.onmessage = function(msg) { //Lo que recibe del servidor
 			console.log("WS message: " + msg.data);
 
 			if (msg.data == "Lexi") {
-			}else if (msg.data == "Mat") {
-			}else if (msg.data == "Conexion") {
-			}else if (msg.data == "Desconexion") {
-				that.cameras.main.fade(1000, 57, 47, 236);
-				that.scene.add('Desconexion', new Desconexion);
-				that.scene.launch('Desconexion');
-				that.scene.remove();//Borra la escena de tutorial
-
-			}else {				
-			var message = JSON.parse(msg.data);
+			} else if (msg.data == "Mat") {
+			} else if (msg.data == "Conexion") {
+			} else if (msg.data == "Desconexion") {
+				error=true;
+			} else {
+				var message = JSON.parse(msg.data);
 				J2_W = message.arriba;
 				J2_A = message.izquierda;
 				J2_S = message.abajo;
@@ -303,12 +312,22 @@ export default class FlechasOnline extends Phaser.Scene {
 	}
 
 	update(time, delta) {
+		if (entraEnBucle == true) {
+			if (error == true) {
+				connectionAhora.close();
+				this.cameras.main.fade(1000, 57, 47, 236);
+				this.scene.add('Desconexion', new Desconexion);
+				this.scene.launch('Desconexion');
+				this.scene.remove();//Borra la escena de tutorial
+				entraEnBucle = false;
+			}
+		}
 
 		this.timer++;
 		if (this.timer > 4850) {
 			this.paraFlechas = true;
 		}
-		if (this.timer > 200) {
+		if ((this.timer > 200) && (this.timer < 5000)){
 			sendData();
 		}
 
@@ -759,7 +778,7 @@ function contadorOnline(array, miEscena, i) {
 function onEvent() {
 
 	this.musicota.stop();
-	wspartida.close();	
+	//wspartida.close();
 	console.log(wspartida);
 
 	if (flagDespues == true) {
