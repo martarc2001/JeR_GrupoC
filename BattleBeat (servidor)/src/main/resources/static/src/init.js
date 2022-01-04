@@ -1,7 +1,7 @@
 import Menu from './scenes/Menu.js';
 
 var configuracion = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     height: window.innerHeight - 20,
     width: ((window.innerHeight - 20) / 9) * 16, //Formato 16:9
     parent: "contenedor",

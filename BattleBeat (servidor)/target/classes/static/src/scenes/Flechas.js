@@ -185,7 +185,7 @@ export default class Flechas extends Phaser.Scene {
         this.sound.pauseOnBlur=false;
 
 
-        this.timedEvent = this.time.delayedCall(180000, onEvent, [], this);
+        this.timedEvent = this.time.delayedCall(84000, onEvent, [], this);
 
 
     }
@@ -193,7 +193,7 @@ export default class Flechas extends Phaser.Scene {
     update(time, delta) {
        
         this.timer++;
-        if (this.timer > 10522) {
+        if (this.timer > 4850) {
             this.paraFlechas = true;
         }
 
