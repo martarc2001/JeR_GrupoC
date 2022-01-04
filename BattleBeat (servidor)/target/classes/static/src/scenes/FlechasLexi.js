@@ -99,10 +99,30 @@ export default class FlechasLexi extends Phaser.Scene {
 			wspartida.onerror = function(e) {
 				console.log("WS error: " + e);
 			}
-
+			var that = this;
 			wspartida.onmessage = function(msg) { //Lo que recibe del servidor
 				console.log("WS message: " + msg.data);
-				var message = JSON.parse(msg.data);
+					var message = JSON.parse(msg.data);
+
+				if (message == "Lexi") {			
+					
+				}    
+				if (message == "Mat") {			
+					
+				}    
+				if (message == "Conexion") {			
+					
+				}  
+				
+				if (message == "Desconexion") {			
+					that.cameras.main.fade(1000, 57, 47, 236);
+					that.scene.add('Desconexion', new Desconexion);
+					that.scene.launch('Desconexion');
+					that.scene.remove();//Borra la escena de tutorial
+
+				}    
+					else{
+			
 				J2_W = message.arriba;
 				J2_A = message.izquierda;
         		J2_S = message.abajo;
@@ -111,15 +131,10 @@ export default class FlechasLexi extends Phaser.Scene {
         		miss2Visible = message.miss;
         		good2Visible = message.good;
         		great2Visible = message.great;
-        		perfect2Visible = message.perfect;  
-        		
-        		if (msg.data == "Desconexion") {			
-					this.cameras.main.fade(1000, 57, 47, 236);
-					this.scene.add('Desconexion', new Desconexion);
-					this.scene.launch('Desconexion');
-					this.scene.remove();//Borra la escena de tutorial
-
-				}    
+        		perfect2Visible = message.perfect;         		        		
+				}
+				
+				
     		}
 
         //Fondo de la escena

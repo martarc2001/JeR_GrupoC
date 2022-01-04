@@ -111,13 +111,6 @@ export default class Lobby extends Phaser.Scene {
 				else if (msg.data == "Pasoajuego") {
 					
 				}
-				else{
-					
-					this.scene.add('miMenu', new Menu);
-					this.scene.launch('miMenu');
-					this.scene.remove();
-
-				}
 				console.log(flag);
 
 
