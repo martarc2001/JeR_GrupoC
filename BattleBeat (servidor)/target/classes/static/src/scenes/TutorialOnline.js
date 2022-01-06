@@ -1,24 +1,22 @@
 import { anchoJuego, altoJuego } from "../init.js";
-import Partida from './Partida.js';
 import FlechasOnline from './FlechasOnline.js';
 import Desconexion from './Desconexion.js'
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
 var MatActivarIdle = false;
-var tiempo = 3000;
-var flagAhora, connectionAhora, connectionTuto;
+var tiempo = 10000;
+var flagAhora, connectionAhora;
 var block = true;
 var textito;
 var entraEnBucle = true;
-
 var entraEnBucleDesconexion = true;
 var error = false;
 
-export default class TutorialLexi extends Phaser.Scene {
+export default class TutorialOnline extends Phaser.Scene {
 	constructor() {
 		super({
-			key: "TutorialLexi",
+			key: "TutorialOnline",
 			active: true
 		});
 
@@ -42,58 +40,53 @@ export default class TutorialLexi extends Phaser.Scene {
 		flagAhora = flag;
 		connectionAhora = connection;
 		this.botonPulsado = false;
-		console.log("EL DEL TUTORIAL" + flag)
-		console.log(connection);
-		this.cameras.main.fadeFrom(1000, 57, 47, 236);//Fade inicial de la escena
+		
+		this.cameras.main.fadeFrom(1000, 57, 47, 236);//Fade inicial de la escena		
 		crearFondo(this);
-
 		creaPersonajes(this, flag);
+		this.djsound = this.sound.add('djsound', { volume: 0.2 });
 
 		textito = this.add.text(anchoJuego / 2, altoJuego * 9 / 10, "", { font: "40px Impact", fill: "#ffffff", align: "center" });
 		textito.setOrigin(0.5);
 		textito.setFontSize(altoJuego / 15);
 
-		this.djsound = this.sound.add('djsound', { volume: 0.2 });
-		
-		
 		
 		connectionAhora.onerror = function(e) {
 			connectionAhora.close();
+			connection.close();
 			console.log("WS error: " + e);
 			that.cameras.main.fade(1000, 57, 47, 236);
 			that.scene.add('Desconexion', new Desconexion);
 			that.scene.launch('Desconexion');
 			that.scene.remove();//Borra la escena de tutorial
-
+			flagAhora=null;
 		}
 
 		connectionAhora.onmessage = function(msg) { //Lo que recibe del servidor
 			console.log("WS message: " + msg.data);
 			if (msg.data == "Desconexion") {
 				error = true;
-
 			}
-			console.log(flag);
-
+			
 
 		}
 
-		
-		
 	}
 
 	update(time, delta) {
-		
 		if (entraEnBucleDesconexion == true) {
 			if (error == true) {
 				connectionAhora.close();
+				connection.close();
 				this.cameras.main.fade(1000, 57, 47, 236);
 				this.scene.add('Desconexion', new Desconexion);
 				this.scene.launch('Desconexion');
 				this.scene.remove();//Borra la escena de tutorial
 				entraEnBucleDesconexion = false;
+				flagAhora=null;
 			}
 		}
+
 
 		if (entraEnBucle == true) {
 			tiempo -= delta;
@@ -101,7 +94,7 @@ export default class TutorialLexi extends Phaser.Scene {
 
 			if (tiempo < 0) {
 				this.djsound.play()
-				
+
 				if (flagAhora == true) {
 					entraEnBucle = null;
 					this.scene.remove();
@@ -110,8 +103,8 @@ export default class TutorialLexi extends Phaser.Scene {
 					//connectionAhora.close();
 
 				} else if (flagAhora == false) {
-					entraEnBucle = null;
-					this.scene.remove();					
+					entraEnBucle = null; 
+					this.scene.remove();
 					this.game.scene.add("miFlechasOnline", new FlechasOnline, true, { flagAhora });
 					this.scene.start("miFlechasOnline"); //Inicializa tutorial de partida creada al hacer clic, elimina esta escena de menú
 					//connectionAhora.close();
@@ -173,7 +166,6 @@ export default class TutorialLexi extends Phaser.Scene {
 
 
 function crearFondo(miEscena) {
-
 	miEscena.fondo1 = miEscena.add.image(0, 0, 'Fondo1');
 	miEscena.fondo1.setOrigin(0, 0);
 	miEscena.fondo1.setScale(anchoJuego / miEscena.fondo1.width, altoJuego / miEscena.fondo1.height); //Imagen se escalará con el resto del juego 
@@ -183,8 +175,6 @@ function crearFondo(miEscena) {
 	miEscena.miTutorial.setOrigin(0, 0);
 	miEscena.miTutorial.setScale(anchoJuego / miEscena.miTutorial.width, altoJuego / miEscena.miTutorial.height);
 }
-
-
 
 function creaPersonajes(miEscena, flag) {
 	//Controles jugadores
@@ -207,9 +197,8 @@ function creaPersonajes(miEscena, flag) {
 
 	//Animaciones personajes
 	var escalaPersonajes = 0.35; //Usar esta variable para que sean del mismo tamaño
-
-	//Animación Lexi (J1)
 	crearAnimacionesLexi(miEscena.anims); //Crea todos los movimientos posibles del personaje
+	crearAnimacionesMat(miEscena.anims);
 
 	if (flag == true) {
 		Lexi = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'lexi_atlas');
@@ -217,13 +206,10 @@ function creaPersonajes(miEscena, flag) {
 		Lexi.play('inicioLexi');
 	}
 
-	//Animación Mat (J2)
-	crearAnimacionesMat(miEscena.anims);
 	if (flag == false) {
 		Mat = miEscena.add.sprite(anchoJuego * 3.5 / 4, altoJuego * 1.5 / 3, 'mat_atlas');
 		Mat.setScale(altoJuego * escalaPersonajes / Mat.height);
 		Mat.play('inicioMat');
-
 
 	}
 

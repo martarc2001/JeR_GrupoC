@@ -2,6 +2,7 @@ import { anchoJuego, altoJuego } from "../init.js";
 import { Flecha } from "./flecha.js";
 import PFinal from './PantallaFinal.js'
 import Desconexion from './Desconexion.js'
+import {flag} from './Lobby.js'
 
 var error = false;
 var entraEnBucle = true;
@@ -89,8 +90,10 @@ export default class FlechasOnline extends Phaser.Scene {
 	}
 
 
-	create({ flagAhora }) {
-		flagDespues = flagAhora;
+	create({ flag }) {
+		flagDespues = flag;
+		console.log(flag);
+		console.log(flagDespues);
 		console.log("flagAhora Create: " + flagDespues)
 		this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
 		var patata = this;

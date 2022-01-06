@@ -86,9 +86,9 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 			for (int j = 0; j < 2; j++) {
 				if (this.admin.salas.get(i).usuarios.get(j).getId().equals(session.getId())) {
 					for (WebSocketSession participant : this.admin.salas.get(i).usuarios) {
-						if (!participant.getId().equals(session.getId())) {
+						//if (!participant.getId().equals(session.getId())) {
 							participant.sendMessage(new TextMessage("Desconexion"));
-						}
+						//}
 					}
 				}
 			}
