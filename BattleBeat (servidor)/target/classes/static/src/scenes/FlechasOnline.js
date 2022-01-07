@@ -2,9 +2,9 @@ import { anchoJuego, altoJuego } from "../init.js";
 import { Flecha } from "./flecha.js";
 import PFinal from './PantallaFinal.js'
 import Desconexion from './Desconexion.js'
+import { connection } from './Lobby.js'
 
 var error = false;
-var entraEnBucle = true;
 var entraEnBucleDesconexion = true;
 
 var Lexi, Mat;
@@ -75,6 +75,7 @@ export default class FlechasOnline extends Phaser.Scene {
 	}
 
 	preload() {
+		/*
 		this.load.image("flecha", "/src/images/Flecha.png");
 		this.load.image("flecha3", "/src/images/flecha3.png");
 
@@ -86,18 +87,21 @@ export default class FlechasOnline extends Phaser.Scene {
 		//Precarga del audio
 		this.load.path = './sounds/';
 		this.load.audio('musicota', 'musicota.mp3');
-
+		*/
 	}
 
 
 	create({ flag }) {
-		error = false;
-		entraEnBucle = true;
-		entraEnBucleDesconexion = true;
-		flagDespues = flag;
-		this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
-		var that = this;
+		semilla = 0;
+		scoreJ1 = 0
+		scoreJ2 = 0
+		this.timer = 0;
 
+		error = false;
+		entraEnBucleDesconexion = true;
+
+		flagDespues = flag;
+		this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena		
 		crearWS(this);
 		crearPersonajesYEscenario(this);
 		crearObjetivosFlechas(this);
@@ -105,22 +109,32 @@ export default class FlechasOnline extends Phaser.Scene {
 		crearMensajesFeedback(this, flag);
 		crearScore(this, flag);
 		this.timedEvent = this.time.delayedCall(84000, onEvent, [], this);
-
-
-
 	}
+
 	//-----------------------------------------------------------------------------------------------------------------------------
+
 	update(time, delta) {
-		if (entraEnBucle == true) {
-			if (error == true) {
+		/*
+		if (connection.readyState === WebSocket.CLOSED) {
+			EscenaDesconexion(this);
+		}
+		
+		if (wspartida.readyState === WebSocket.CLOSED) {
+					EscenaDesconexion(this);
+		}
+		*/
+
+
+		if (entraEnBucleDesconexion == true) {
+			if ((error == true)||(connection.readyState == WebSocket.CLOSED)) {
+				entraEnBucleDesconexion = false;
 				EscenaDesconexion(this);
-				entraEnBucle = false;
+			} else {
+				this.timer++;
+				if (this.timer > 4850) { this.paraFlechas = true; }
+				if ((this.timer > 150) && (this.timer < 5000)) { sendData(); }
 			}
 		}
-
-		this.timer++;
-		if (this.timer > 4850) { this.paraFlechas = true; }
-		if ((this.timer > 150) && (this.timer < 5000)) { sendData(); }
 
 		this.scoreTextJ2.setText('Score: ' + scoreJ2);
 		activarMovimientoPersonajes(this, flagDespues)
@@ -173,12 +187,6 @@ export default class FlechasOnline extends Phaser.Scene {
 }
 
 
-
-
-
-
-
-
 //----------------------------------------WEBSOCKETS--------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------
 function sendData() {
@@ -193,27 +201,55 @@ function sendData() {
 		great: great1Visible,
 		perfect: perfect1Visible
 	}
-	wspartida.send(JSON.stringify(msg));
+	//wspartida.send(JSON.stringify(msg));
+	connection.send(JSON.stringify(msg));
 }
 
 //----------------------------------------------------------------------------------------------------------------
 function crearWS(miEscena) {
-	wspartida = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
+	//wspartida = new WebSocket('ws://' + window.location.hostname + ':8080/conexion');
+	/*
+		wspartida.onerror = function(e) {
+			console.log("WS error: " + e);
+			EscenaDesconexion(miEscena);
+		}
+	
+		wspartida.onmessage = function(msg) { //Lo que recibe del servidor
+			console.log("WS message: " + msg.data);
+	
+			if (msg.data == "Lexi") { }
+			else if (msg.data == "Mat") { }
+			else if (msg.data == "Conexion") { }
+			else if (msg.data == "Desconexion") { error = true; }
+			else {
+				var message = JSON.parse(msg.data);
+				J2_W = message.arriba;
+				J2_A = message.izquierda;
+				J2_S = message.abajo;
+				J2_D = message.derecha;
+				scoreJ2 = message.score;
+				miss2Visible = message.miss;
+				good2Visible = message.good;
+				great2Visible = message.great;
+				perfect2Visible = message.perfect;
+			}
+		}
+	*/
 
-	wspartida.onerror = function(e) {
+	connection.onerror = function(e) {
 		console.log("WS error: " + e);
 		EscenaDesconexion(miEscena);
 	}
 
-	wspartida.onmessage = function(msg) { //Lo que recibe del servidor
+
+	connection.onmessage = function(msg) { //Lo que recibe del servidor
 		console.log("WS message: " + msg.data);
 
-		if (msg.data == "Lexi") {
-		} else if (msg.data == "Mat") {
-		} else if (msg.data == "Conexion") {
-		} else if (msg.data == "Desconexion") {
-			error = true;
-		} else {
+		if (msg.data == "Lexi") { }
+		else if (msg.data == "Mat") { }
+		else if (msg.data == "Conexion") { }
+		else if (msg.data == "Desconexion") { error = true; }
+		else {
 			var message = JSON.parse(msg.data);
 			J2_W = message.arriba;
 			J2_A = message.izquierda;
@@ -232,11 +268,12 @@ function crearWS(miEscena) {
 //----------------------------------------------------------------------------------------------------------------
 function EscenaDesconexion(miEscena) {
 	error = false;
-	miEscena.cameras.main.fade(1000, 57, 47, 236);
+	miEscena.cameras.main.fade(1000, 57, 47, 236);	
 	miEscena.scene.add('Desconexion', new Desconexion);
 	miEscena.scene.launch('Desconexion');
-	miEscena.scene.remove();
+	miEscena.scene.remove();	
 	connection.close();
+	//wspartida.close();
 }
 
 //------------------------------------------------------------FLECHAS---------------------------------------------
@@ -424,8 +461,6 @@ function contadorOnline(array, miEscena, i) {
 //----------------------------------------------------------------------------------------------------------------
 function onEvent() {
 	this.musicota.stop();
-	//wspartida.close();
-	console.log(wspartida);
 
 	if (flagDespues == true) {
 		if (scoreJ1 > scoreJ2) {

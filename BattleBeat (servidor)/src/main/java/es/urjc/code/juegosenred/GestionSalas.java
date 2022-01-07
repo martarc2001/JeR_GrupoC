@@ -19,14 +19,14 @@ public class GestionSalas {
 		for (int i = 0; i < this.salas.size(); i++) {
 			if (this.salas.get(i).usuarios.size() < 2) {
 				this.salas.get(i).anadir(session);
-				System.out.println("Room: " + this.salas.get(i).id + "Size: " + this.salas.get(i).usuarios.size());
+				System.out.println("Sala: " + this.salas.get(i).id + " // Usuarios conectados: " + this.salas.get(i).usuarios.size());
 				return true;
 			}
 		}
 		Sala newSala = this.nuevaSala();
 		newSala.anadir(session);
 		this.salas.add(newSala);
-		System.out.println("New Room: " + newSala.id);
+		System.out.println("Sala: " + newSala.id + " // Usuarios conectados: " + newSala.usuarios.size());
 		return false;
 	}
 

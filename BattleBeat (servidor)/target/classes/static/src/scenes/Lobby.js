@@ -17,7 +17,7 @@ var tiempo;
 var textoCuentaAtras;
 var displayTutorial = false;
 
-export { flag }
+export { connection }
 
 export default class Lobby extends Phaser.Scene {
 	constructor() {
@@ -34,12 +34,20 @@ export default class Lobby extends Phaser.Scene {
 		this.load.image('filtroColor', '/src/images/Menu/Filtro Color.png');
 		this.load.image('botonVolver', './src/images/Menu/BOTÓN VOLVER.png')
 		this.load.image('miTutorialOnline', './src/images/Menu/TutorialOnline.png')
+		
+		this.load.image("flecha", "/src/images/Flecha.png");
+		this.load.image("flecha3", "/src/images/flecha3.png");
 
+		this.load.image("good", "/src/images/good1.png");
+		this.load.image("great", "/src/images/great1.png");
+		this.load.image("perfect", "/src/images/perfect1.png");
+		this.load.image("miss", "/src/images/miss.png");
 		//this.load.html('miCajaTexto', '/src/scenes/cajaTexto.html');
 
 		this.load.path = './sounds/';
 		this.load.audio('musicmenu', 'harmonica.mp3');
 		this.load.audio('djsound', 'DJscratch.mp3');
+		this.load.audio('musicota', 'musicota.mp3');
 
 		this.load.path = './assets/';
 		//Para crear animaciones de Lexi (J1)
@@ -99,7 +107,7 @@ export default class Lobby extends Phaser.Scene {
 
 
 		if (entraEnBucleDesconexion == true) {
-			if (error == true) {
+			if ((error == true)||(connection.readyState == WebSocket.CLOSED)) {
 				entraEnBucleDesconexion = false;
 				EscenaDesconexion(this);
 
@@ -147,7 +155,7 @@ function EscenaPartida(miEscena, flag) {
 	console.log(flag);
 	miEscena.game.scene.add("miFlechasOnline", new FlechasOnline, true, { flag });
 	miEscena.scene.start("miFlechasOnline");
-	
+		
 	//connection.close();
 
 }

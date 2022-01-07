@@ -65,6 +65,7 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 			for (int j = 0; j < 2; j++) {
 				if (this.admin.salas.get(i).usuarios.get(0).getId().equals(session.getId())) {
 					session.sendMessage(new TextMessage("Lexi"));
+					
 				} else if (this.admin.salas.get(i).usuarios.get(1).getId().equals(session.getId())) {
 					session.sendMessage(new TextMessage("Mat"));
 
