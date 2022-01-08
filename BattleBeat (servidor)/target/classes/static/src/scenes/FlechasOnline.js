@@ -174,10 +174,17 @@ export default class FlechasOnline extends Phaser.Scene {
 			if (flagDespues == false) { eliminaFlechaArrayPantallaMat(this.vectorFlechasJ1, this); }
 		}
 
+		/*
+				if (this.vectorFlechasJ2.length != 0) {
+					if (flagDespues == true) { eliminaFlechaArrayPantallaMat(this.vectorFlechasJ2, this); }
+					if (flagDespues == false) { eliminaFlechaArrayPantallaLexi(this.vectorFlechasJ2, this); }
+				}
+		*/
 		if (this.vectorFlechasJ2.length != 0) {
-			if (flagDespues == true) { eliminaFlechaArrayPantallaMat(this.vectorFlechasJ2, this); }
-			if (flagDespues == false) { eliminaFlechaArrayPantallaLexi(this.vectorFlechasJ2, this); }
+			if (flagDespues == true) { eliminaFlechaArrayPantallaOnline(this.vectorFlechasJ2); }
+			if (flagDespues == false) { eliminaFlechaArrayPantallaOnline(this.vectorFlechasJ2); }
 		}
+
 
 		//Ganar puntuacion 
 		for (var i = 0; i < this.vectorFlechasJ1.length; i++) { ganaPuntosOnline(i, this); }
@@ -307,6 +314,19 @@ function eliminaFlechaArrayPantallaMat(array, miEscena) {
 		array.splice(0, 1);
 	}
 }
+
+//----------------------------------------------------------------------------------------------------------------
+function eliminaFlechaArrayPantallaOnline(array) {
+	if (array[0].y < altoJuego / 7 + 25) {
+		if ((J2_W == 1) || (J2_A == 1) || (J2_S == 1) || (J2_D == 1)) {
+			if ((good2Visible == 1) || (great2Visible == 1) || (perfect2Visible == 1)) {
+				array[0].destroy();
+				array.splice(0, 1);
+			}
+		}
+	}
+}
+
 //----------------------------------------------------------------------------------------------------------------
 function eliminaFlechaArrayPulsada(array, i) {
 	array[i].destroy();
