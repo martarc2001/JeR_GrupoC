@@ -19,7 +19,8 @@ public class GestionSalas {
 		for (int i = 0; i < this.salas.size(); i++) {
 			if (this.salas.get(i).usuarios.size() < 2) {
 				this.salas.get(i).anadir(session);
-				System.out.println("Sala: " + this.salas.get(i).id + " // Usuarios conectados: " + this.salas.get(i).usuarios.size());
+				System.out.println("Sala: " + this.salas.get(i).id + " // Usuarios conectados: "
+						+ this.salas.get(i).usuarios.size());
 				return true;
 			}
 		}
@@ -42,5 +43,16 @@ public class GestionSalas {
 
 			}
 		}
+	}
+
+	public int salaMiJugador(WebSocketSession session) {
+		for (int i = 0; i < this.salas.size(); i++) {
+			for (int j=0; j<2;j++) {
+				if (this.salas.get(i).usuarios.get(j).getId().equals(session.getId())) {
+					return i;
+				} 
+			}
+		}
+		return -1;
 	}
 }

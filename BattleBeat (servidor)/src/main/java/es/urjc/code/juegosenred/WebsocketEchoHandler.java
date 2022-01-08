@@ -24,15 +24,19 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
+		/*
 		for (int i = 0; i < this.admin.salas.size(); i++) {
-			if ((this.admin.salas.get(i).usuarios.get(0).getId().equals(session.getId()))
-					|| (this.admin.salas.get(i).usuarios.get(1).getId().equals(session.getId()))) {
+			if ((this.admin.salas.get(i).usuarios.get(0).getId().equals(session.getId()))|| (this.admin.salas.get(i).usuarios.get(1).getId().equals(session.getId()))) {
 				idSala=i;
 				JsonNode node = mapper.readTree(message.getPayload());
 				sendOtherParticipants(session, node, i);
 			}
 		}
+		*/
+		idSala = admin.salaMiJugador(session);
+		JsonNode node = mapper.readTree(message.getPayload());
+		sendOtherParticipants(session, node, idSala);
+		
 	}
 
 	private void sendOtherParticipants(WebSocketSession session, JsonNode node, int idSala) throws IOException {
@@ -48,9 +52,11 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 		newNode.put("great", node.get("great").asText());
 		newNode.put("perfect", node.get("perfect").asText());
 
-		for (WebSocketSession participant : this.admin.salas.get(idSala).usuarios) {
+		for (WebSocketSession participant : admin.salas.get(idSala).usuarios) {
 			if (!participant.getId().equals(session.getId())) {
 				participant.sendMessage(new TextMessage(newNode.toString()));
+				//sesiones.get(participant.getId()).sendMessage(new TextMessage(newNode.toString()));
+
 			}
 		}
 	}
@@ -62,20 +68,23 @@ public class WebsocketEchoHandler extends TextWebSocketHandler {
 		admin.addUsuario(session);
 
 		for (int i = 0; i < this.admin.salas.size(); i++) {
-			for (int j = 0; j < 2; j++) {
+			//for (int j = 0; j < 2; j++) {
 				if (this.admin.salas.get(i).usuarios.get(0).getId().equals(session.getId())) {
 					session.sendMessage(new TextMessage("Lexi"));
+					System.out.println("Lexi dentro");
 					
 				} else if (this.admin.salas.get(i).usuarios.get(1).getId().equals(session.getId())) {
 					session.sendMessage(new TextMessage("Mat"));
+					System.out.println("Mat dentro");
 
 					for (WebSocketSession participant : this.admin.salas.get(i).usuarios) {
 						if (!participant.getId().equals(session.getId())) {
 							participant.sendMessage(new TextMessage("Conexion"));
 						}
 					}
+					
 				}
-			}
+			//}
 		}
 	}
 

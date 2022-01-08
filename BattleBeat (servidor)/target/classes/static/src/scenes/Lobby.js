@@ -134,6 +134,7 @@ function crearWS(miEscena) {
 		else if (msg.data == "Mat") { flag = false; juegosConectados = true; }
 		else if (msg.data == "Conexion") { juegosConectados = true; }
 		else if (msg.data == "Desconexion") { error = true; }
+		else{}
 	}
 }
 
@@ -145,7 +146,7 @@ function EscenaDesconexion(miEscena) {
 	miEscena.scene.add('Desconexion', new Desconexion);
 	miEscena.scene.launch('Desconexion');
 	miEscena.scene.remove();
-	connection.close();
+	//connection.close();
 }
 
 function EscenaPartida(miEscena, flag) {

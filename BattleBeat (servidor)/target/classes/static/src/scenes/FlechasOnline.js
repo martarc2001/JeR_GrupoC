@@ -6,6 +6,7 @@ import { connection } from './Lobby.js'
 
 var error = false;
 var entraEnBucleDesconexion = true;
+var tiempoPartida;
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
@@ -96,6 +97,7 @@ export default class FlechasOnline extends Phaser.Scene {
 		scoreJ1 = 0
 		scoreJ2 = 0
 		this.timer = 0;
+		tiempoPartida = 84000;
 
 		error = false;
 		entraEnBucleDesconexion = true;
@@ -108,6 +110,7 @@ export default class FlechasOnline extends Phaser.Scene {
 		controlesTeclado(this);
 		crearMensajesFeedback(this, flag);
 		crearScore(this, flag);
+		crearCuentaAtras(this);
 		this.timedEvent = this.time.delayedCall(84000, onEvent, [], this);
 	}
 
@@ -123,10 +126,11 @@ export default class FlechasOnline extends Phaser.Scene {
 					EscenaDesconexion(this);
 		}
 		*/
-
+		actualizarCuentaAtras(this, tiempoPartida);
+		tiempoPartida -= delta;
 
 		if (entraEnBucleDesconexion == true) {
-			if ((error == true)||(connection.readyState == WebSocket.CLOSED)) {
+			if ((error == true) || (connection.readyState == WebSocket.CLOSED)) {
 				entraEnBucleDesconexion = false;
 				EscenaDesconexion(this);
 			} else {
@@ -268,10 +272,10 @@ function crearWS(miEscena) {
 //----------------------------------------------------------------------------------------------------------------
 function EscenaDesconexion(miEscena) {
 	error = false;
-	miEscena.cameras.main.fade(1000, 57, 47, 236);	
+	miEscena.cameras.main.fade(1000, 57, 47, 236);
 	miEscena.scene.add('Desconexion', new Desconexion);
 	miEscena.scene.launch('Desconexion');
-	miEscena.scene.remove();	
+	miEscena.scene.remove();
 	connection.close();
 	//wspartida.close();
 }
@@ -580,16 +584,20 @@ function controlesTeclado(miEscena) {
 
 function crearScore(miEscena, flag) {
 	if (flag == true) {
-		miEscena.scoreTextJ1 = miEscena.add.text(anchoJuego / 20, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
+		miEscena.scoreTextJ1 = miEscena.add.text(anchoJuego / 20, altoJuego / 35, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact', stroke: '#392FEC', strokeThickness: 6 });
 		miEscena.scoreTextJ1.setFontSize(altoJuego / 20);
-		miEscena.scoreTextJ2 = miEscena.add.text(anchoJuego - anchoJuego / 6, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
+		miEscena.scoreTextJ1.setStroke('#392FEC', altoJuego / 125);
+		miEscena.scoreTextJ2 = miEscena.add.text(anchoJuego - anchoJuego / 6, altoJuego / 35, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact', stroke: '#392FEC', strokeThickness: 6 });
 		miEscena.scoreTextJ2.setFontSize(altoJuego / 20);
+		miEscena.scoreTextJ2.setStroke('#392FEC', altoJuego / 125);
 
 	} else if (flag == false) {
-		miEscena.scoreTextJ2 = miEscena.add.text(anchoJuego / 20, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
+		miEscena.scoreTextJ2 = miEscena.add.text(anchoJuego / 20, altoJuego / 35, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact', stroke: '#392FEC', strokeThickness: 6 });
 		miEscena.scoreTextJ2.setFontSize(altoJuego / 20);
-		miEscena.scoreTextJ1 = miEscena.add.text(anchoJuego - anchoJuego / 6, 16, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact' });
+		miEscena.scoreTextJ2.setStroke('#392FEC', altoJuego / 125);
+		miEscena.scoreTextJ1 = miEscena.add.text(anchoJuego - anchoJuego / 6, altoJuego / 35, 'Score: 0', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact', stroke: '#392FEC', strokeThickness: 6 });
 		miEscena.scoreTextJ1.setFontSize(altoJuego / 20);
+		miEscena.scoreTextJ1.setStroke('#392FEC', altoJuego / 125);
 	}
 }
 
@@ -814,6 +822,26 @@ function borradorFeedback(miEscena, miDelta) {
 	if (miss2Visible == 1)
 		miss2.visible = true;
 
+
+}
+
+function crearCuentaAtras(miEscena) {
+	miEscena.cuentaAtras = miEscena.add.text(anchoJuego / 2, altoJuego / 35, 'Tiempo restante', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact', stroke: '#392FEC', strokeThickness: 6 });
+	miEscena.cuentaAtras.setOrigin(0.5, 0);
+	miEscena.cuentaAtras.setFontSize(altoJuego / 10);
+	miEscena.cuentaAtras.setStroke('#392FEC', altoJuego / 125);
+
+}
+
+function actualizarCuentaAtras(miEscena, timer) {
+	var tiempoSegundos = parseInt(timer / 1000);
+	var min = parseInt(tiempoSegundos / 60);
+	var seg = parseInt(tiempoSegundos % 60);
+	if (seg < 10) {
+		miEscena.cuentaAtras.setText(min + ":0" + seg);
+	} else {
+		miEscena.cuentaAtras.setText(min + ":" + seg);
+	}
 
 }
 
