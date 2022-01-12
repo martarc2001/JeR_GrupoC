@@ -7,6 +7,9 @@ import { connection } from './Lobby.js'
 var error = false;
 var entraEnBucleDesconexion = true;
 var tiempoPartida;
+var enviarConexion;
+var recibirConexion;
+var contadorConexion;
 
 var Lexi, Mat;
 var LexiActivarIdle = false;
@@ -40,6 +43,9 @@ var J2_D;
 
 
 var semilla = 0;
+var x = 0;
+var y = 1;
+var z;
 
 var scoreJ1 = 0;
 var scoreJ2 = 0;
@@ -94,10 +100,15 @@ export default class FlechasOnline extends Phaser.Scene {
 
 	create({ flag }) {
 		semilla = 0;
+		x = 0
+		y = 1;
 		scoreJ1 = 0
 		scoreJ2 = 0
 		this.timer = 0;
 		tiempoPartida = 84000;
+		enviarConexion = true;
+		recibirConexion = false;
+		contadorConexion = 0;
 
 		error = false;
 		entraEnBucleDesconexion = true;
@@ -117,6 +128,31 @@ export default class FlechasOnline extends Phaser.Scene {
 	//-----------------------------------------------------------------------------------------------------------------------------
 
 	update(time, delta) {
+		
+		
+
+		if (contadorConexion > 500) {
+			if (enviarConexion == true) {
+				var msg = {
+					arriba: 3,
+					izquierda: 3,
+					abajo: 3,
+					derecha: 3,
+					score: scoreJ1,
+					miss: miss1Visible,
+					good: good1Visible,
+					great: great1Visible,
+					perfect: perfect1Visible
+				}
+				connection.send(JSON.stringify(msg));
+				console.log("Enviado " + contadorConexion);
+				enviarConexion = false;
+			}
+		} else {
+			contadorConexion+=delta;
+		}
+		
+
 		/*
 		if (connection.readyState === WebSocket.CLOSED) {
 			EscenaDesconexion(this);
@@ -126,68 +162,79 @@ export default class FlechasOnline extends Phaser.Scene {
 					EscenaDesconexion(this);
 		}
 		*/
-		actualizarCuentaAtras(this, tiempoPartida);
-		tiempoPartida -= delta;
 
-		if (entraEnBucleDesconexion == true) {
-			if ((error == true) || (connection.readyState == WebSocket.CLOSED)) {
-				entraEnBucleDesconexion = false;
-				EscenaDesconexion(this);
-			} else {
-				this.timer++;
-				if (this.timer > 4850) { this.paraFlechas = true; }
-				if ((this.timer > 150) && (this.timer < 5000)) { sendData(); }
-			}
-		}
+		if ((recibirConexion == true)&&(enviarConexion==false)) {
+			actualizarCuentaAtras(this, tiempoPartida);
+			tiempoPartida -= delta;
 
-		this.scoreTextJ2.setText('Score: ' + scoreJ2);
-		activarMovimientoPersonajes(this, flagDespues)
-		borradorFeedback(this, delta);
-
-		//----------------------------------------------------------------------------------------------------------------
-		//Crea las flechas de manera aleatoria cada cierto tiempo
-		this.tiempo++;
-		if (this.tiempo % 3 == 0) { semilla++; }
-		if (this.tiempo % 30 == 0) {
-			if (this.paraFlechas == false) {
-				this.cualFlecha = this.random(1, 5);
-				this.tiempo = 0;
-
-				if (flagDespues == true) {
-					this.vectorFlechasJ1.push(creaFlechaLexi(this));
-					this.vectorFlechasJ2.push(creaFlechaMat(this));
-				}
-				if (flagDespues == false) {
-					this.vectorFlechasJ2.push(creaFlechaLexi(this));
-					this.vectorFlechasJ1.push(creaFlechaMat(this));
+			if (entraEnBucleDesconexion == true) {
+				if ((error == true) || (connection.readyState == WebSocket.CLOSED)) {
+					entraEnBucleDesconexion = false;
+					EscenaDesconexion(this);
+				} else {
+					this.timer++;
+					if (this.timer > 4850) { this.paraFlechas = true; }
+					if ((this.timer > 150) && (this.timer < 5000)) { sendData(); }
 				}
 			}
-		}
 
-		//Las pone en movimiento
-		for (var i = 0; i < this.vectorFlechasJ1.length; i++) { this.vectorFlechasJ1[i].mueveFlecha(); }
-		for (var i = 0; i < this.vectorFlechasJ2.length; i++) { this.vectorFlechasJ2[i].mueveFlecha(); }
+			this.scoreTextJ2.setText('Score: ' + scoreJ2);
+			activarMovimientoPersonajes(this, flagDespues)
+			borradorFeedback(this, delta);
 
-		//Elimina las flechas que se salen de la pantalla
-		if (this.vectorFlechasJ1.length != 0) {
-			if (flagDespues == true) { eliminaFlechaArrayPantallaLexi(this.vectorFlechasJ1, this); }
-			if (flagDespues == false) { eliminaFlechaArrayPantallaMat(this.vectorFlechasJ1, this); }
-		}
+			//----------------------------------------------------------------------------------------------------------------
+			//Crea las flechas de manera aleatoria cada cierto tiempo
+			this.tiempo++;
+			if (this.tiempo % 3 == 0) {
+				semilla++;
+				/*
+				semilla=x+y;
+				x=x+y;
+				y=x+y;
+				*/
 
-		/*
-				if (this.vectorFlechasJ2.length != 0) {
-					if (flagDespues == true) { eliminaFlechaArrayPantallaMat(this.vectorFlechasJ2, this); }
-					if (flagDespues == false) { eliminaFlechaArrayPantallaLexi(this.vectorFlechasJ2, this); }
+			}
+			if (this.tiempo % 30 == 0) {
+				if (this.paraFlechas == false) {
+					this.cualFlecha = this.random(1, 5);
+					this.tiempo = 0;
+
+					if (flagDespues == true) {
+						this.vectorFlechasJ1.push(creaFlechaLexi(this));
+						this.vectorFlechasJ2.push(creaFlechaMat(this));
+					}
+					if (flagDespues == false) {
+						this.vectorFlechasJ2.push(creaFlechaLexi(this));
+						this.vectorFlechasJ1.push(creaFlechaMat(this));
+					}
 				}
-		*/
-		if (this.vectorFlechasJ2.length != 0) {
-			if (flagDespues == true) { eliminaFlechaArrayPantallaOnline(this.vectorFlechasJ2); }
-			if (flagDespues == false) { eliminaFlechaArrayPantallaOnline(this.vectorFlechasJ2); }
+			}
+
+			//Las pone en movimiento
+			for (var i = 0; i < this.vectorFlechasJ1.length; i++) { this.vectorFlechasJ1[i].mueveFlecha(); }
+			for (var i = 0; i < this.vectorFlechasJ2.length; i++) { this.vectorFlechasJ2[i].mueveFlecha(); }
+
+			//Elimina las flechas que se salen de la pantalla
+			if (this.vectorFlechasJ1.length != 0) {
+				if (flagDespues == true) { eliminaFlechaArrayPantallaLexi(this.vectorFlechasJ1, this); }
+				if (flagDespues == false) { eliminaFlechaArrayPantallaMat(this.vectorFlechasJ1, this); }
+			}
+
+			/*
+					if (this.vectorFlechasJ2.length != 0) {
+						if (flagDespues == true) { eliminaFlechaArrayPantallaMat(this.vectorFlechasJ2, this); }
+						if (flagDespues == false) { eliminaFlechaArrayPantallaLexi(this.vectorFlechasJ2, this); }
+					}
+			*/
+			if (this.vectorFlechasJ2.length != 0) {
+				if (flagDespues == true) { eliminaFlechaArrayPantallaOnline(this.vectorFlechasJ2); }
+				if (flagDespues == false) { eliminaFlechaArrayPantallaOnline(this.vectorFlechasJ2); }
+			}
+
+
+			//Ganar puntuacion 
+			for (var i = 0; i < this.vectorFlechasJ1.length; i++) { ganaPuntosOnline(i, this); }
 		}
-
-
-		//Ganar puntuacion 
-		for (var i = 0; i < this.vectorFlechasJ1.length; i++) { ganaPuntosOnline(i, this); }
 	}
 
 
@@ -245,8 +292,8 @@ function crearWS(miEscena) {
 				perfect2Visible = message.perfect;
 			}
 		}
-	*/
-
+	
+*/
 	connection.onerror = function(e) {
 		console.log("WS error: " + e);
 		EscenaDesconexion(miEscena);
@@ -271,6 +318,12 @@ function crearWS(miEscena) {
 			good2Visible = message.good;
 			great2Visible = message.great;
 			perfect2Visible = message.perfect;
+
+			if (J2_W == 3) {
+				console.log("Recibido");
+				recibirConexion = true;
+			}
+
 		}
 	}
 
@@ -846,7 +899,7 @@ function borradorFeedback(miEscena, miDelta) {
 }
 
 function crearCuentaAtras(miEscena) {
-	miEscena.cuentaAtras = miEscena.add.text(anchoJuego / 2, altoJuego / 35, 'Tiempo restante', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact', stroke: '#392FEC', strokeThickness: 6 });
+	miEscena.cuentaAtras = miEscena.add.text(anchoJuego / 2, altoJuego / 35, '1:24', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact', stroke: '#392FEC', strokeThickness: 6 });
 	miEscena.cuentaAtras.setOrigin(0.5, 0);
 	miEscena.cuentaAtras.setFontSize(altoJuego / 10);
 	miEscena.cuentaAtras.setStroke('#392FEC', altoJuego / 125);
