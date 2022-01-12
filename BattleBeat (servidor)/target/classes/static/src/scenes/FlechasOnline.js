@@ -130,7 +130,7 @@ export default class FlechasOnline extends Phaser.Scene {
 	update(time, delta) {
 		
 		
-
+/*
 		if (contadorConexion > 500) {
 			if (enviarConexion == true) {
 				var msg = {
@@ -152,7 +152,7 @@ export default class FlechasOnline extends Phaser.Scene {
 			contadorConexion+=delta;
 		}
 		
-
+*/
 		/*
 		if (connection.readyState === WebSocket.CLOSED) {
 			EscenaDesconexion(this);
@@ -163,7 +163,7 @@ export default class FlechasOnline extends Phaser.Scene {
 		}
 		*/
 
-		if ((recibirConexion == true)&&(enviarConexion==false)) {
+		//if ((recibirConexion == true)&&(enviarConexion==false)) {
 			actualizarCuentaAtras(this, tiempoPartida);
 			tiempoPartida -= delta;
 
@@ -235,7 +235,7 @@ export default class FlechasOnline extends Phaser.Scene {
 			//Ganar puntuacion 
 			for (var i = 0; i < this.vectorFlechasJ1.length; i++) { ganaPuntosOnline(i, this); }
 		}
-	}
+	//}
 
 
 	random(min, max) {
@@ -318,12 +318,12 @@ function crearWS(miEscena) {
 			good2Visible = message.good;
 			great2Visible = message.great;
 			perfect2Visible = message.perfect;
-
+/*
 			if (J2_W == 3) {
 				console.log("Recibido");
 				recibirConexion = true;
 			}
-
+*/
 		}
 	}
 
