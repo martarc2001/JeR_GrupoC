@@ -294,4 +294,32 @@ Hemos utilizado como plantilla el ejemplo rest 4 de Aula Virtual, donde *Item* e
 3º Abrir un buscador, y escribir localhost:8080 en el ordenador donde se haya abierto el servidor, y la IP del ordenador donde se abrió seguido de :8080 en otros ordenadores de la red local
 
 4º ¡Disfrutar de BattleBeat!
-    
+
+<br><br>
+
+## Fase 4: Websockets
+
+### Documentación Websockets:
+
+El usuario se comunicará con el servidor cuando entre a la opción de Partida Online a través del menú principal.
+Se creará una sesión para este jugador, que se usará para sistema de salas incorporado en el juego.
+
+El sistema de salas funciona de la siguiente manera:
+* Si no existe una sala libre, se creará una nueva, donde se indicará al jugador que está esperando al otro jugador para comenzar la partida.
+![Lobby](Imágenes%20archivo%20README/4-%20Websockets/Lobby.png)
+
+* Si ya hay una sala con un solo usuario esperando, se llevará a ambos jugadores a la pantalla de tutorial, donde podrán ver con qué personaje jugarán en la partida, y posteriormente, a la partida.
+![Tutorial Lexi](Imágenes%20archivo%20README/4-%20Websockets/Tutorial%20Lexi.png)
+![Tutorial Mat](Imágenes%20archivo%20README/4-%20Websockets/Tutorial%20Mat.png)
+
+Dentro de la propia partida, se enviarán constantemente entre ambos jugadores el estado de WASD (pulsado o no), la puntuación y los mensajes de feedback que salen por pantalla (visibles o no). Todos estos datos enviados serán interpretados en cambios visibles en la pantalla del jugador que lo recibe.
+
+En el caso de que haya una desconexión de un jugador o del servidor, el jugador que se encuentre en el lobby, tutorial o partida verá interrumpido el curso de estas con un mensaje informativo de la desconexión, que le permitirá regresar al menú principal.
+![Desconexión](Imágenes%20archivo%20README/4-%20Websockets/Desconexión.png)
+
+<br>
+
+### Diagrama
+
+![Diagrama](Imágenes%20archivo%20README/4-%20Websockets/Diagrama.png)
+
