@@ -20,6 +20,9 @@ Juegos en Red, 3º GDDV 2021-22 URJC Madrid-Quintana, Grupo C (Cuadra Crew)
 
 <br>
 
+<a href="https://youtu.be/R0Nj8buNFLw">Vídeo introductorio</a>
+
+<br>
 
 ## Documento de Diseño del Juego
 
