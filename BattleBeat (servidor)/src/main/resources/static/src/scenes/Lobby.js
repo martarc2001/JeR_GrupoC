@@ -65,7 +65,7 @@ export default class Lobby extends Phaser.Scene {
 		entraEnBucleConexion = true;
 		entraEnBucleDesconexion = true;
 		displayTutorial = false;
-		tiempo = 3000;
+		tiempo = 10000;
 		flag=null;
 
 		crearFondo(this);

@@ -1,7 +1,7 @@
 import { anchoJuego, altoJuego } from "../init.js";
 import { Flecha } from "./flecha.js";
 import PFinal from './PantallaFinal.js'
-
+var tiempoPartida;
 var Lexi, Mat;
 var LexiActivarIdle = false;
 var MatActivarIdle = false;
@@ -62,8 +62,9 @@ export default class Flechas extends Phaser.Scene {
 
 
     create() {
+	tiempoPartida=84000;
         this.cameras.main.fadeFrom(1000, 57, 47, 236); //Fade inicial de la escena
-
+crearCuentaAtras(this);
         //Fondo de la escena
         this.fondo2 = this.add.image(0, 0, 'Fondo2');
         this.fondo2.setOrigin(0, 0);
@@ -191,7 +192,7 @@ export default class Flechas extends Phaser.Scene {
     }
 
     update(time, delta) {
-       
+       actualizarCuentaAtras(this, tiempoPartida);
         this.timer++;
         if (this.timer > 4850) {
             this.paraFlechas = true;
@@ -577,6 +578,25 @@ function onEvent() {
 
 }
 
+function crearCuentaAtras(miEscena) {
+	miEscena.cuentaAtras = miEscena.add.text(anchoJuego / 2, altoJuego / 35, '1:24', { fontSize: '60px', fill: '#FFFFFF', fontFamily: 'Impact', stroke: '#392FEC', strokeThickness: 6 });
+	miEscena.cuentaAtras.setOrigin(0.5, 0);
+	miEscena.cuentaAtras.setFontSize(altoJuego / 10);
+	miEscena.cuentaAtras.setStroke('#392FEC', altoJuego / 125);
+
+}
+
+function actualizarCuentaAtras(miEscena, timer) {
+	var tiempoSegundos = parseInt(timer / 1000);
+	var min = parseInt(tiempoSegundos / 60);
+	var seg = parseInt(tiempoSegundos % 60);
+	if (seg < 10) {
+		miEscena.cuentaAtras.setText(min + ":0" + seg);
+	} else {
+		miEscena.cuentaAtras.setText(min + ":" + seg);
+	}
+
+}
 
 
 
